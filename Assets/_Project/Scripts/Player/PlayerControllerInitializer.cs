@@ -1,5 +1,7 @@
 ﻿using _Project.Scripts.Core;
+using _Project.Scripts.WarpSystem;
 using _Project.Scripts.Weapons;
+using UnityEngine;
 using Zenject;
 
 namespace _Project.Scripts.Player
@@ -9,20 +11,25 @@ namespace _Project.Scripts.Player
         private readonly IPlayerController _controller;
         private readonly Movement _movement;
         private readonly IWeapon _weapon;
+        private readonly BoundsManager _boundsManager;
 
         public PlayerControllerInitializer(
             IPlayerController controller,
             Movement movement,
-            IWeapon weapon)
+            IWeapon weapon,
+            BoundsManager boundsManager)
         {
             _controller = controller;
             _movement = movement;
             _weapon = weapon;
+            _boundsManager = boundsManager;
         }
 
         public void Initialize()
         {
             _controller.Initialize(_movement, _weapon);
+            MonoBehaviour controllerMonoBehaviour = (MonoBehaviour)_controller;
+            _boundsManager.RegisterObject(controllerMonoBehaviour.transform);
         }
     }
 }

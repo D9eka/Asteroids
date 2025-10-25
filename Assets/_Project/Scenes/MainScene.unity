@@ -594,6 +594,7 @@ GameObject:
   - component: {fileID: 1525026507}
   - component: {fileID: 1525026506}
   - component: {fileID: 1525026509}
+  - component: {fileID: 1525026510}
   - component: {fileID: 1525026505}
   m_Layer: 0
   m_Name: SceneContext
@@ -629,6 +630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d80f2ddc423242a3822fd1fea4c10b0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Installers.GameInstaller
+  _camera: {fileID: 519420031}
 --- !u!114 &1525026507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -645,6 +647,7 @@ MonoBehaviour:
   _monoInstallers:
   - {fileID: 1525026506}
   - {fileID: 1525026509}
+  - {fileID: 1525026510}
   - {fileID: 1525026505}
   _installerPrefabs: []
   _autoRun: 1
@@ -690,6 +693,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a830cd248934cdeb5796c974033f985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Installers.InputInstaller
+--- !u!114 &1525026510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1525026504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c0b2a39904f4759883342d8cec097bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Installers.BoundsInstaller
+  _boundsMargin: 1
 --- !u!1 &1905493877
 GameObject:
   m_ObjectHideFlags: 0
