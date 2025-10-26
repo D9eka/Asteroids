@@ -266,7 +266,7 @@ GameObject:
   m_Component:
   - component: {fileID: 569557115}
   - component: {fileID: 569557114}
-  - component: {fileID: 569557113}
+  - component: {fileID: 569557116}
   - component: {fileID: 569557112}
   - component: {fileID: 569557111}
   - component: {fileID: 569557110}
@@ -365,20 +365,6 @@ MonoBehaviour:
   _projectilePrefab: {fileID: 59639721922869075, guid: 35d5608be1f57694fb45fddabe24cb97, type: 3}
   _firePoint: {fileID: 1905493878}
   _fireRate: 0.25
---- !u!114 &569557113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 569557109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 457671c8942b434bb76c6ee96713e004, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Core.Movement
-  _thrustPower: 5
-  _rotationSpeed: 180
 --- !u!114 &569557114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,6 +394,21 @@ Transform:
   - {fileID: 1905493878}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &569557116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 569557109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6593cf04dc744ac1adbddb09f1c961a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Player.PlayerMovement
+  _maxVelocity: 10
+  _thrustForce: 5
+  _rotationSpeed: 200
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -596,6 +597,7 @@ GameObject:
   - component: {fileID: 1525026509}
   - component: {fileID: 1525026510}
   - component: {fileID: 1525026505}
+  - component: {fileID: 1525026511}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -616,7 +618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Installers.PlayerInstaller
   _playerController: {fileID: 569557114}
-  _movement: {fileID: 569557113}
+  _movement: {fileID: 569557116}
   _bulletGun: {fileID: 569557112}
 --- !u!114 &1525026506
 MonoBehaviour:
@@ -649,6 +651,7 @@ MonoBehaviour:
   - {fileID: 1525026509}
   - {fileID: 1525026510}
   - {fileID: 1525026505}
+  - {fileID: 1525026511}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -706,6 +709,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Installers.BoundsInstaller
   _boundsMargin: 1
+--- !u!114 &1525026511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1525026504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a10340500c1e474391461a38b8968a89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Installers.EnemyInstaller
+  _enemyConfig: {fileID: 11400000, guid: 6190ea4ae7db7f149a5fd8f0cf57e33b, type: 2}
+  _playerTransform: {fileID: 569557115}
 --- !u!1 &1905493877
 GameObject:
   m_ObjectHideFlags: 0

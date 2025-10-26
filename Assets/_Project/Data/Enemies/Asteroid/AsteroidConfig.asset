@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf72c8f6ae6d44d5a849c333a6b3ad6e, type: 3}
+  m_Name: AsteroidConfig
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Spawning.Config.EnemyTypeConfig
+  <Prefab>k__BackingField: {fileID: 4333207955263080471, guid: ac2b2bd4f28c1174ca11548409f18eb8, type: 3}
+  <SpawnProbability>k__BackingField: 0.9
+  <SpawnInterval>k__BackingField: 2.5
+  <DirectionProviderParams>k__BackingField: {fileID: 11400000, guid: 82a40822b129f84449436623a97b422b, type: 2}
+  <SpawnDistanceOutsideBounds>k__BackingField: 2
+  <PoolSize>k__BackingField: 15
