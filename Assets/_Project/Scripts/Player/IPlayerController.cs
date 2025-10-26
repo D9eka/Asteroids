@@ -6,7 +6,7 @@ namespace _Project.Scripts.Player
 {
     public interface IPlayerController : IDestroyable, IWarpable
     {
-        public void Initialize(Movement movement, IWeapon weapon);
+        public void Initialize(PlayerMovement movement, IWeapon weapon);
         public void SetInputs(float move, float rotate);
         public void Attack();
     }

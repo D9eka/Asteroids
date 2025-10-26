@@ -1,5 +1,4 @@
-﻿using _Project.Scripts.Core;
-using _Project.Scripts.WarpSystem;
+﻿using _Project.Scripts.WarpSystem;
 using _Project.Scripts.Weapons;
 using UnityEngine;
 using Zenject;
@@ -9,13 +8,13 @@ namespace _Project.Scripts.Player
     public class PlayerControllerInitializer : IInitializable
     {
         private readonly IPlayerController _controller;
-        private readonly Movement _movement;
+        private readonly PlayerMovement _movement;
         private readonly IWeapon _weapon;
         private readonly BoundsManager _boundsManager;
 
         public PlayerControllerInitializer(
             IPlayerController controller,
-            Movement movement,
+            PlayerMovement movement,
             IWeapon weapon,
             BoundsManager boundsManager)
         {

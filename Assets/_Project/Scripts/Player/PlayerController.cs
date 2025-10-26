@@ -1,12 +1,11 @@
-﻿using _Project.Scripts.Core;
-using _Project.Scripts.Weapons;
+﻿using _Project.Scripts.Weapons;
 using UnityEngine;
 
 namespace _Project.Scripts.Player
 {
     public class PlayerController : MonoBehaviour, IPlayerController
     {
-        private Movement _movement;
+        private PlayerMovement _movement;
         private IWeapon _weapon;
         private float _moveInput;
         private float _rotateInput;
@@ -17,7 +16,7 @@ namespace _Project.Scripts.Player
             _movement.Rotate(_rotateInput);
         }
 
-        public void Initialize(Movement movement, IWeapon weapon)
+        public void Initialize(PlayerMovement movement, IWeapon weapon)
         {
             _movement = movement;
             _weapon = weapon;
