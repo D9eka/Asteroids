@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using _Project.Scripts.Enemies;
 using UnityEngine;
 using Zenject;
 
 namespace _Project.Scripts.WarpSystem
 {
-    public class BoundsManager : ITickable
+    public class BoundsManager : IBoundsManager, ITickable
     {
         private readonly IBoundsWarp _boundsWarp;
         private readonly float _boundsMargin;
@@ -49,14 +50,21 @@ namespace _Project.Scripts.WarpSystem
                     }
                     else
                     {
-                        Object.Destroy(obj.gameObject);
+                        if (obj.TryGetComponent(out IEnemy enemy))
+                        {
+                            enemy.OnDespawned();
+                        }
+                        else
+                        {
+                            Object.Destroy(obj.gameObject);
+                        }
                         _objects.RemoveAt(i);
                     }
                 }
             }
         }
 
-        private bool IsOutOfBounds(Vector2 pos)
+        public bool IsOutOfBounds(Vector2 pos)
         {
             return pos.x < _boundsWarp.MinBounds.x - _boundsMargin || pos.x > _boundsWarp.MaxBounds.x + _boundsMargin ||
                    pos.y < _boundsWarp.MinBounds.y - _boundsMargin || pos.y > _boundsWarp.MaxBounds.y + _boundsMargin;

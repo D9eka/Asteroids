@@ -1,5 +1,4 @@
-﻿using System;
-using _Project.Scripts.Camera;
+﻿using _Project.Scripts.Camera;
 using UnityEngine;
 using Zenject;
 
