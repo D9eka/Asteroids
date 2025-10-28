@@ -1,28 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Project.Scripts.Collision;
 using _Project.Scripts.Enemies;
 using _Project.Scripts.Spawning.Config;
 using _Project.Scripts.Spawning.Core;
 using _Project.Scripts.Spawning.Movement;
 using _Project.Scripts.Spawning.Providers;
 using UnityEngine;
+using Zenject;
 
 namespace _Project.Scripts.Spawning.Factory
 {
     public class EnemyFactory : IEnemyFactory
     {
+        private readonly ICollisionService _collisionService;
         private readonly List<IEnemyProvider> _enemyProviders;
         private readonly EnemySpawnPointGenerator _spawnPointGenerator;
         private readonly EnemyMovementConfigurator _movementConfigurator;
         private readonly SpawnBoundaryTracker _spawnBoundaryTracker;
 
+        [Inject]
         public EnemyFactory(
+            ICollisionService collisionService,
             List<IEnemyProvider> enemyProviders,
             EnemySpawnPointGenerator spawnPointGenerator,
             EnemyMovementConfigurator movementConfigurator,
             SpawnBoundaryTracker spawnBoundaryTracker)
         {
+            _collisionService = collisionService;
             _enemyProviders = enemyProviders;
             _spawnPointGenerator = spawnPointGenerator;
             _movementConfigurator = movementConfigurator;
@@ -40,6 +46,7 @@ namespace _Project.Scripts.Spawning.Factory
             Vector2 spawnPos = _spawnPointGenerator.GetRandomPositionOutsideBounds(config.SpawnDistanceOutsideBounds);
 
             IEnemy enemy = provider.Spawn(spawnPos);
+            enemy.CollisionHandler.Initialize(_collisionService);
 
             if (enemy is MonoBehaviour mono)
                 _spawnBoundaryTracker.RegisterObject(mono.transform);

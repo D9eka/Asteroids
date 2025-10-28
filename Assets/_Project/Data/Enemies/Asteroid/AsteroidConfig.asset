@@ -15,6 +15,6 @@ MonoBehaviour:
   <Prefab>k__BackingField: {fileID: 4333207955263080471, guid: ac2b2bd4f28c1174ca11548409f18eb8, type: 3}
   <SpawnProbability>k__BackingField: 0.9
   <SpawnInterval>k__BackingField: 2.5
-  <DirectionProviderParams>k__BackingField: {fileID: 11400000, guid: 82a40822b129f84449436623a97b422b, type: 2}
+  <DirectionProviderConfig>k__BackingField: {fileID: 11400000, guid: 82a40822b129f84449436623a97b422b, type: 2}
   <SpawnDistanceOutsideBounds>k__BackingField: 2
   <PoolSize>k__BackingField: 15

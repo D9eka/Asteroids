@@ -3,14 +3,24 @@ using UnityEngine;
 
 namespace _Project.Scripts.Collision
 {
-    public class CollisionService : ICollisionService
+    public abstract class CollisionService : ICollisionService
     {
-        public void HandleCollision(GameObject source, GameObject target)
+        public void OnHit(GameObject origin, GameObject target)
         {
-            if (target.TryGetComponent<IDestroyable>(out var destructible))
-                destructible.DestroySelf();
+            if (target.activeInHierarchy && 
+                target.TryGetComponent<IDestroyable>(out var targetDestroyable) && CanDestroy(targetDestroyable))
+            {
+                targetDestroyable.DestroySelf();
+            }
 
-            Object.Destroy(source);
+            if (target.activeInHierarchy && 
+                origin.TryGetComponent<IDestroyable>(out var originDestroyable) && NeedToDestroySelf(originDestroyable))
+            {
+                originDestroyable.DestroySelf();
+            }
         }
+        public abstract bool CanDestroy(IDestroyable target);
+
+        public abstract bool NeedToDestroySelf(IDestroyable self);
     }
 }

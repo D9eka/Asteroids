@@ -1,9 +1,13 @@
-﻿using UnityEngine;
+﻿using _Project.Scripts.Core;
+using UnityEngine;
 
 namespace _Project.Scripts.Collision
 {
     public interface ICollisionService
     {
-        void HandleCollision(GameObject source, GameObject target);
+        public void OnHit(GameObject origin, GameObject target);
+        public bool CanDestroy(IDestroyable target);
+
+        public bool NeedToDestroySelf(IDestroyable self);
     }
 }

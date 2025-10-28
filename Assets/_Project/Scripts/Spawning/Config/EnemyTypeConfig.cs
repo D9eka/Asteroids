@@ -1,5 +1,4 @@
-﻿using System;
-using _Project.Scripts.Movement.DirectionProviders.Config;
+﻿using _Project.Scripts.Movement.DirectionProviders.Config;
 using UnityEngine;
 
 namespace _Project.Scripts.Spawning.Config
