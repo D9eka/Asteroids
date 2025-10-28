@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Player
+namespace _Project.Scripts.Player.Input
 {
     public class PlayerInputHandler : ITickable
     {
@@ -30,6 +30,11 @@ namespace _Project.Scripts.Player
 
             if (_input.IsFiring)
                 _playerController.Attack();
+
+            if (_input.NeedSwitchWeapon)
+            {
+                _playerController.SwitchWeapon();
+            }
         }
     }
 }

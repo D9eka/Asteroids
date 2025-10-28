@@ -7,13 +7,13 @@ namespace _Project.Scripts.Spawning.Providers
 {
     public class PooledEnemyProvider<T> : IPooledEnemyProvider where T : MonoBehaviour, IEnemy
     {
-        private readonly GenericEnemyPool<T> _pool;
+        private readonly GenericPool<T> _pool;
 
         public float Probability { get; }
         public float SpawnInterval { get; }
         public EnemyTypeConfig Config { get; }
 
-        public PooledEnemyProvider(GenericEnemyPool<T> pool, EnemyTypeConfig config)
+        public PooledEnemyProvider(GenericPool<T> pool, EnemyTypeConfig config)
         {
             _pool = pool;
             Config = config;

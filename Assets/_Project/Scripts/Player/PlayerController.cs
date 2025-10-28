@@ -1,14 +1,17 @@
-﻿using _Project.Scripts.Weapons;
+﻿using _Project.Scripts.Player.Movement;
+using _Project.Scripts.Player.Weapons;
 using UnityEngine;
 
 namespace _Project.Scripts.Player
 {
     public class PlayerController : MonoBehaviour, IPlayerController
     {
-        private PlayerMovement _movement;
-        private IWeapon _weapon;
+        private IPlayerMovement _movement;
+        private IWeaponHandler _weaponHandler;
         private float _moveInput;
         private float _rotateInput;
+        
+        public Transform Transform => transform;
 
         private void FixedUpdate()
         {
@@ -16,10 +19,10 @@ namespace _Project.Scripts.Player
             _movement.Rotate(_rotateInput);
         }
 
-        public void Initialize(PlayerMovement movement, IWeapon weapon)
+        public void Initialize(IPlayerMovement movement, IWeaponHandler weaponHandler)
         {
             _movement = movement;
-            _weapon = weapon;
+            _weaponHandler = weaponHandler;
         }
 
         public void SetInputs(float move, float rotate)
@@ -30,7 +33,12 @@ namespace _Project.Scripts.Player
 
         public void Attack()
         {
-            _weapon?.Shoot();
+            _weaponHandler.CurrentWeapon?.Shoot();
+        }
+
+        public void SwitchWeapon()
+        {
+            _weaponHandler.SwitchWeapon();
         }
 
         public void DestroySelf()

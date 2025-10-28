@@ -1,5 +1,4 @@
 ﻿using _Project.Scripts.Input;
-using _Project.Scripts.Player;
 using Zenject;
 
 namespace _Project.Scripts.Installers

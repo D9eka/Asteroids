@@ -1,10 +1,9 @@
-﻿using _Project.Scripts.Enemies;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 namespace _Project.Scripts.Spawning.Pooling
 {
-    public class GenericEnemyPool<T> : MonoMemoryPool<Vector3, T> where T : Component, IEnemy
+    public class GenericPool<T> : MonoMemoryPool<Vector3, T> where T : Component, IPoolable
     {
         protected override void Reinitialize(Vector3 position, T item)
         {

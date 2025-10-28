@@ -1,10 +1,9 @@
-﻿using _Project.Scripts.Movement;
-using _Project.Scripts.Movement.Core;
+﻿using _Project.Scripts.Movement.Core;
 using UnityEngine;
 
-namespace _Project.Scripts.Player
+namespace _Project.Scripts.Player.Movement
 {
-    public class PlayerMovement : MovementBase
+    public class PlayerMovement : MovementBase, IPlayerMovement
     {
         [Header("Player Movement Settings")]
         [SerializeField] private float _thrustForce = 5f;

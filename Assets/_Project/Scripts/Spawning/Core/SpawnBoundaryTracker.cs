@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using _Project.Scripts.Enemies;
 using _Project.Scripts.WarpSystem;
 using UnityEngine;
 using Zenject;
+using IPoolable = _Project.Scripts.Spawning.Pooling.IPoolable;
 
 namespace _Project.Scripts.Spawning.Core
 {
@@ -70,9 +70,9 @@ namespace _Project.Scripts.Spawning.Core
 
         private void DestroyObject(Transform obj)
         {
-            if (obj.TryGetComponent(out IEnemy enemy))
+            if (obj.TryGetComponent(out IPoolable poolable))
             {
-                enemy.OnDespawned();
+                poolable.OnDespawned();
             }
             else
             {

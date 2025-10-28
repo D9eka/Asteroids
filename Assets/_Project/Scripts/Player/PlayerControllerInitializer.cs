@@ -1,6 +1,8 @@
-﻿using _Project.Scripts.WarpSystem;
-using _Project.Scripts.Weapons;
-using UnityEngine;
+﻿using _Project.Scripts.Collision;
+using _Project.Scripts.Core;
+using _Project.Scripts.Player.Movement;
+using _Project.Scripts.Player.Weapons;
+using _Project.Scripts.WarpSystem;
 using Zenject;
 
 namespace _Project.Scripts.Player
@@ -8,27 +10,36 @@ namespace _Project.Scripts.Player
     public class PlayerControllerInitializer : IInitializable
     {
         private readonly IPlayerController _controller;
-        private readonly PlayerMovement _movement;
-        private readonly IWeapon _weapon;
+        private readonly IPlayerMovement _movement;
+        private readonly IWeaponHandler _weaponHandler;
         private readonly BoundsManager _boundsManager;
+        private readonly ICollisionService _collisionService;
+        private readonly ICollisionHandler _collisionHandler;
 
         public PlayerControllerInitializer(
             IPlayerController controller,
-            PlayerMovement movement,
-            IWeapon weapon,
-            BoundsManager boundsManager)
+            IPlayerMovement movement,
+            IWeaponHandler weaponHandler,
+            BoundsManager boundsManager,
+            [Inject(Id = "PlayerCollisionService")] ICollisionService collisionService,
+            [Inject(Id = "PlayerCollisionHandler")] ICollisionHandler collisionHandler)
         {
             _controller = controller;
             _movement = movement;
-            _weapon = weapon;
+            _weaponHandler = weaponHandler;
             _boundsManager = boundsManager;
+            _collisionService = collisionService;
+            _collisionHandler = collisionHandler;
         }
 
         public void Initialize()
         {
-            _controller.Initialize(_movement, _weapon);
-            MonoBehaviour controllerMonoBehaviour = (MonoBehaviour)_controller;
-            _boundsManager.RegisterObject(controllerMonoBehaviour.transform);
+            _collisionHandler.Initialize(_collisionService);
+            _controller.Initialize(_movement, _weaponHandler);
+            if (_controller is ITransformProvider transformProvider)
+            {
+                _boundsManager.RegisterObject(transformProvider.Transform);
+            }
         }
     }
 }

@@ -10,8 +10,12 @@ namespace _Project.Scripts.Installers
         
         public override void InstallBindings()
         {
-            Container.Bind<ICollisionService>().To<CollisionService>().AsSingle();
             Container.Bind<UnityEngine.Camera>().FromInstance(_camera).AsSingle();
+            
+            Container.Bind<ICollisionService>()
+                .WithId("PlayerCollisionService")
+                .To<PlayerCollisionService>()
+                .AsCached();
         }
     }
 }

@@ -1,13 +1,15 @@
 ﻿using _Project.Scripts.Core;
+using _Project.Scripts.Player.Movement;
+using _Project.Scripts.Player.Weapons;
 using _Project.Scripts.WarpSystem;
-using _Project.Scripts.Weapons;
 
 namespace _Project.Scripts.Player
 {
-    public interface IPlayerController : IDestroyable, IWarpable
+    public interface IPlayerController : ITransformProvider, IDestroyable, IWarpable
     {
-        public void Initialize(PlayerMovement movement, IWeapon weapon);
+        public void Initialize(IPlayerMovement movement, IWeaponHandler weaponHandler);
         public void SetInputs(float move, float rotate);
         public void Attack();
+        public void SwitchWeapon();
     }
 }

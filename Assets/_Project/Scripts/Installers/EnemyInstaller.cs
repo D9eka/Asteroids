@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using _Project.Scripts.Collision;
 using _Project.Scripts.Enemies;
-using _Project.Scripts.Spawning;
 using _Project.Scripts.Spawning.Config;
 using _Project.Scripts.Spawning.Core;
 using _Project.Scripts.Spawning.Factory;
@@ -25,7 +25,7 @@ namespace _Project.Scripts.Installers
 
             var providers = CreateProviders();
             Container.Bind<List<IEnemyProvider>>().FromInstance(providers).AsSingle();
-            Container.Bind<IEnemyFactory>().To<EnemyFactory>().AsSingle();
+            Container.Bind<IEnemyFactory>().To<EnemyFactory>().AsSingle().WithArguments(new EnemyCollisionService());
             Container.BindInterfacesAndSelfTo<EnemySpawner>().AsSingle().NonLazy();
         }
 
@@ -55,12 +55,12 @@ namespace _Project.Scripts.Installers
         private IEnemyProvider CreateProvider<T>(EnemyTypeConfig config)
             where T : MonoBehaviour, IEnemy
         {
-            Container.BindMemoryPool<T, GenericEnemyPool<T>>()
+            Container.BindMemoryPool<T, GenericPool<T>>()
                 .WithInitialSize(config.PoolSize)
                 .FromComponentInNewPrefab(config.Prefab)
                 .UnderTransformGroup($"{typeof(T).Name}s");
 
-            var pool = Container.Resolve<GenericEnemyPool<T>>();
+            var pool = Container.Resolve<GenericPool<T>>();
 
             return new PooledEnemyProvider<T>(pool, config);
         }
