@@ -1,26 +1,29 @@
-﻿using _Project.Scripts.Core;
+﻿using _Project.Scripts.Damage;
+using _Project.Scripts.Weapons.Projectile;
 using UnityEngine;
 
 namespace _Project.Scripts.Collision
 {
     public abstract class CollisionService : ICollisionService
     {
-        public void OnHit(GameObject origin, GameObject target)
+        public virtual void OnHit(GameObject origin, GameObject target)
         {
-            if (target.activeInHierarchy && 
-                target.TryGetComponent<IDestroyable>(out var targetDestroyable) && CanDestroy(targetDestroyable))
-            {
-                targetDestroyable.DestroySelf();
-            }
+            var originDamageSource = origin.GetComponent<IDamageSource>();
+            var targetDestroyable = target.GetComponent<IDamageable>();
 
-            if (target.activeInHierarchy && 
-                origin.TryGetComponent<IDestroyable>(out var originDestroyable) && NeedToDestroySelf(originDestroyable))
+            if (originDamageSource == null || targetDestroyable == null) return;
+            if (!CanDestroy(targetDestroyable)) return;
+            
+            DamageInfo damageInfo = originDamageSource.GetDamageInfo();
+            targetDestroyable.TakeDamage(damageInfo);
+            
+            if (origin.TryGetComponent(out IDamageable originDamageable) && ShouldTakeDamageOnHit(originDamageable))
             {
-                originDestroyable.DestroySelf();
+                originDamageable.TakeDamage(new DamageInfo(DamageType.Collide, target));
             }
         }
-        public abstract bool CanDestroy(IDestroyable target);
 
-        public abstract bool NeedToDestroySelf(IDestroyable self);
+        public abstract bool CanDestroy(IDamageable target);
+        public abstract bool ShouldTakeDamageOnHit(IDamageable self);
     }
 }

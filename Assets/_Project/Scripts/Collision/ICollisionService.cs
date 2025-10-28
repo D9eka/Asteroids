@@ -1,4 +1,5 @@
 ﻿using _Project.Scripts.Core;
+using _Project.Scripts.Damage;
 using UnityEngine;
 
 namespace _Project.Scripts.Collision
@@ -6,8 +7,7 @@ namespace _Project.Scripts.Collision
     public interface ICollisionService
     {
         public void OnHit(GameObject origin, GameObject target);
-        public bool CanDestroy(IDestroyable target);
-
-        public bool NeedToDestroySelf(IDestroyable self);
+        public bool CanDestroy(IDamageable target);
+        public bool ShouldTakeDamageOnHit(IDamageable self);
     }
 }

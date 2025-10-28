@@ -1,4 +1,5 @@
 ﻿using _Project.Scripts.Collision;
+using _Project.Scripts.Damage;
 using UnityEngine;
 
 namespace _Project.Scripts.Enemies
@@ -10,10 +11,20 @@ namespace _Project.Scripts.Enemies
 
         public void OnSpawned() => gameObject.SetActive(true);
         public void OnDespawned() => gameObject.SetActive(false);
-        public void DestroySelf()
+
+        public void TakeDamage(DamageInfo damageInfo)
         {
-            //TODO: spawn asteroids fragments
+            if (damageInfo.Type == DamageType.Bullet)
+            {
+                //TODO: spawn asteroids fragments
+                Debug.Log("BOOM");
+            }
             OnDespawned();
+        }
+
+        public DamageInfo GetDamageInfo()
+        {
+            return new DamageInfo(DamageType.Collide, gameObject);
         }
     }
 }

@@ -40,7 +40,7 @@ namespace _Project.Scripts.Installers
 
         private void BindProjectiles()
         {
-            Container.BindMemoryPool<Projectile, ProjectTilePool<Projectile>>()
+            Container.BindMemoryPool<Projectile, ProjectilePool<Projectile>>()
                 .WithInitialSize(20)
                 .FromComponentInNewPrefab(_playerProjectilePrefab)
                 .UnderTransformGroup("Projectiles");

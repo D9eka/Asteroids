@@ -5,30 +5,27 @@ namespace _Project.Scripts.Weapons.Services.Raycast
 {
     public class RaycastService : IRaycastService
     {
-        private ICollisionService _collisionService;
         private GameObject _owner;
         
-        public void Initialize(ICollisionService collisionService, GameObject owner)
+        public void Initialize(GameObject owner)
         {
-            _collisionService = collisionService;
             _owner = owner;
         }
         
-        public bool TryRaycast(Vector2 origin, Vector2 direction, float maxDistance, out Vector2 hitPoint)
+        public bool TryRaycast(Vector2 origin, Vector2 direction, float maxDistance, out RaycastHit2D hit)
         {
             RaycastHit2D[] hits = Physics2D.RaycastAll(origin, direction, maxDistance);
-            foreach (var hit in hits)
+            foreach (var hit2D in hits)
             {
-                if (hit.collider != null && 
-                    hit.collider.gameObject.activeInHierarchy && hit.collider.gameObject != _owner)
+                if (hit2D.collider != null && 
+                    hit2D.collider.gameObject.activeInHierarchy && hit2D.collider.gameObject != _owner)
                 {
-                    _collisionService.OnHit(_owner, hit.collider.gameObject);
-                    hitPoint = hit.point;
+                    hit = hit2D;
                     return true;
                 }
             }
-            hitPoint = origin + direction * maxDistance;
-            Debug.DrawRay(origin, direction * maxDistance, Color.cyan);
+            
+            hit = default;
             return false;
         }
     }

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdf04f0e191643dcbaa17d3e05096f90, type: 3}
   m_Name: LaserConfig
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Weapons.Laser.LaserConfig
+  <DamageType>k__BackingField: 1
   <FireRate>k__BackingField: 0.3
   <LaserDuration>k__BackingField: 0.5
   <RechargeRate>k__BackingField: 1

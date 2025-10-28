@@ -1,17 +1,19 @@
 ﻿using System;
 using _Project.Scripts.Collision;
 using _Project.Scripts.Core;
+using _Project.Scripts.Damage;
 using UnityEngine;
 using Zenject;
 
 namespace _Project.Scripts.Weapons.Projectile
 {
     [RequireComponent(typeof(Rigidbody2D), typeof(CollisionHandler), typeof(SpriteRenderer))]
-    public class Projectile : MonoBehaviour, IProjectile, IDestroyable
+    public class Projectile : MonoBehaviour, IProjectile, IDamageable
     {
         private float _speed;
         private float _lifeTime;
         private float _timeAlive;
+        private DamageType _damageType;
         
         private Rigidbody2D _rb;
         private CollisionHandler _collisionHandler;
@@ -28,14 +30,15 @@ namespace _Project.Scripts.Weapons.Projectile
         {
             _timeAlive += Time.deltaTime;
             if (_timeAlive >= _lifeTime)
-                DestroySelf();
+                OnDespawned();
         }
 
-        public void Initialize(ProjectileData data, ICollisionService collisionService)
+        public void Initialize(ProjectileData data, DamageType damageType, ICollisionService collisionService)
         {
             _speed = data.Speed;
             _lifeTime = data.LifeTime;
             _spriteRenderer.sprite = data.Sprite;
+            _damageType = damageType;
             _collisionHandler.Initialize(collisionService);
             
             _rb.linearVelocity = transform.up * _speed;
@@ -46,9 +49,14 @@ namespace _Project.Scripts.Weapons.Projectile
         public void OnSpawned() => gameObject.SetActive(true);
         public void OnDespawned() => gameObject.SetActive(false);
 
-        public void DestroySelf()
+        public void TakeDamage(DamageInfo damageInfo)
         {
             OnDespawned();
+        }
+
+        public DamageInfo GetDamageInfo()
+        {
+            return new DamageInfo(_damageType, gameObject);
         }
     }
 }

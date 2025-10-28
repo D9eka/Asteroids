@@ -47,8 +47,8 @@ namespace _Project.Scripts.Player.Weapons
                 }
                 if (weapon is LaserGun laserGun)
                 {
-                    _raycastService.Initialize(_collisionService, laserGun.gameObject);
-                    laserGun.Initialize(_laserGunConfig, _laserGunLineRenderer, _raycastService);
+                    _raycastService.Initialize(laserGun.gameObject);
+                    laserGun.Initialize(_laserGunConfig, _laserGunLineRenderer, _raycastService, _collisionService);
                 }
             }
         }

@@ -1,4 +1,5 @@
-﻿using _Project.Scripts.Player.Movement;
+﻿using _Project.Scripts.Damage;
+using _Project.Scripts.Player.Movement;
 using _Project.Scripts.Player.Weapons;
 using UnityEngine;
 
@@ -41,9 +42,14 @@ namespace _Project.Scripts.Player
             _weaponHandler.SwitchWeapon();
         }
 
-        public void DestroySelf()
+        public void TakeDamage(DamageInfo damageInfo)
         {
             Destroy(gameObject);
+        }
+
+        public DamageInfo GetDamageInfo()
+        {
+            return new DamageInfo(DamageType.Collide, gameObject);
         }
     }
 }
