@@ -6,8 +6,6 @@ namespace _Project.Scripts.Movement.Core
 {
     public class Movement : MovementBase
     {
-        [SerializeField] private float _speed = 5f;
-
         private IDirectionProvider _directionProvider;
         private IRotationProvider _rotationProvider;
 
@@ -16,7 +14,7 @@ namespace _Project.Scripts.Movement.Core
             if (_directionProvider == null) return;
 
             Vector2 dir = _directionProvider.GetDirection(transform);
-            ApplyVelocity(dir * _speed);
+            ApplyVelocity(dir * Velocity);
 
             if (_rotationProvider == null) return;
             

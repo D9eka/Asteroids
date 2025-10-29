@@ -5,8 +5,7 @@ namespace _Project.Scripts.Movement.Core
     [RequireComponent(typeof(Rigidbody2D))]
     public abstract class MovementBase : MonoBehaviour, IMovable
     {
-        [Header("Base Movement Settings")]
-        [SerializeField] protected float _maxVelocity = 10f;
+        public float Velocity { get; private set; } = Mathf.Infinity;
 
         protected Rigidbody2D Rigidbody;
 
@@ -23,7 +22,7 @@ namespace _Project.Scripts.Movement.Core
 
         public void SetVelocity(float velocity)
         {
-            _maxVelocity = velocity;
+            Velocity = velocity;
         }
 
         protected void ApplyVelocity(Vector2 velocity)
@@ -45,8 +44,8 @@ namespace _Project.Scripts.Movement.Core
 
         private void LimitSpeed()
         {
-            if (Rigidbody.linearVelocity.magnitude > _maxVelocity)
-                Rigidbody.linearVelocity = Rigidbody.linearVelocity.normalized * _maxVelocity;
+            if (Rigidbody.linearVelocity.magnitude > Velocity)
+                Rigidbody.linearVelocity = Rigidbody.linearVelocity.normalized * Velocity;
         }
     }
 }
