@@ -1,7 +1,6 @@
 ﻿using _Project.Scripts.Collision;
 using _Project.Scripts.Damage;
-using _Project.Scripts.Spawning.Pooling;
-using UnityEngine;
+using _Project.Scripts.Spawning.Common.Pooling;
 
 namespace _Project.Scripts.Weapons.Projectile
 {

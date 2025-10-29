@@ -1,9 +1,6 @@
-﻿using System;
-using _Project.Scripts.Collision;
-using _Project.Scripts.Core;
+﻿using _Project.Scripts.Collision;
 using _Project.Scripts.Damage;
 using UnityEngine;
-using Zenject;
 
 namespace _Project.Scripts.Weapons.Projectile
 {

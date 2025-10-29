@@ -25,7 +25,7 @@ namespace _Project.Scripts.Weapons.Types.BulletGun
 
         public void Shoot()
         {
-            if (!CanShoot) return;
+            if (!CanShoot || _firePoint == null) return;
             _projectileFactory.Create(_firePoint.position, _firePoint.rotation,
                 _config.ProjectileData, _config.DamageType, _collisionService);
             _cooldown = _config.FireRate;
