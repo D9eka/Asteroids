@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d51d52947be1405fa5299204819999db, type: 3}
   m_Name: IntermittentTargetMovementParameters
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Spawning.Config.MovementParams.IntermittentTargetMovementParameters
-  <MinSpeed>k__BackingField: 3
-  <MaxSpeed>k__BackingField: 5
+  <MinSpeed>k__BackingField: 1
+  <MaxSpeed>k__BackingField: 2
   <DirectionProviderType>k__BackingField: 1
   <UpdateInterval>k__BackingField: 2
   <MoveToTargetChance>k__BackingField: 0.75

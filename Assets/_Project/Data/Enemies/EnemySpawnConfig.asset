@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: EnemySpawnConfig
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Spawning.Config.EnemySpawnConfig
   <Enemies>k__BackingField:
-  - {fileID: 11400000, guid: 317cb11964804ea4db698a6e172ecc98, type: 2}
-  - {fileID: 11400000, guid: bbe8fda54f7942848be838a2098afd94, type: 2}
+  - {fileID: 11400000, guid: aa771b416602c3747adb5b4ee09630e7, type: 2}
+  - {fileID: 11400000, guid: 5ddc986f41bc8e2449e6c75c6b8e2f66, type: 2}
