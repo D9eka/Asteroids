@@ -21,13 +21,6 @@ namespace _Project.Scripts.Spawning.Enemies.Providers
             Config = config;
         }
 
-        public IEnemy Spawn(Vector2 position)
-        {
-            var enemy = _pool.Spawn(position);
-            enemy.Transform.position = position;
-            return enemy;
-        }
-
         TEnemy IPooledEnemyProvider<TEnemy, TConfig>.Spawn(Vector2 position)
         {
             return _pool.Spawn(position);

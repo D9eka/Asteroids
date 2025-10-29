@@ -7,7 +7,5 @@ namespace _Project.Scripts.Spawning.Enemies.Providers
     {
         public float Probability { get; }
         public float SpawnInterval { get; } 
-
-        public IEnemy Spawn(Vector2 position);
     }
 }

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3339bcebc06041b7a14dd2818c3870e7, type: 3}
   m_Name: LinearMovementParameters
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Spawning.Config.MovementParams.LinearMovementParameters
-  <MinSpeed>k__BackingField: 10
-  <MaxSpeed>k__BackingField: 15
+  <MinSpeed>k__BackingField: 2
+  <MaxSpeed>k__BackingField: 5
   <DirectionProviderType>k__BackingField: 0

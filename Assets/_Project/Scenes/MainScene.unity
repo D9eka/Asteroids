@@ -749,6 +749,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Installers.EnemyInstaller
   _enemyConfig: {fileID: 11400000, guid: 6190ea4ae7db7f149a5fd8f0cf57e33b, type: 2}
   _playerTransform: {fileID: 569557115}
+  _asteroidFragmentPrefab: {fileID: 3022016801730663401, guid: 7e515b6dc7fd73f418fd0b1ad2dcae4a, type: 3}
 --- !u!114 &1525026512
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 
 namespace _Project.Scripts.Spawning.Enemies.Movement
 {
-    public class EnemyMovementConfigurator
+    public class EnemyMovementConfigurator : IEnemyMovementConfigurator
     {
         private readonly ICameraBoundsUpdater _cameraBoundsUpdater;
         private readonly Transform _playerTransform;
@@ -44,7 +44,7 @@ namespace _Project.Scripts.Spawning.Enemies.Movement
             enemy.Movement.SetRotationProvider(rotationProvider);
         }
 
-        private IDirectionProvider CreateDirectionProvider(DirectionProviderConfig parameters, Vector2 direction)
+        public IDirectionProvider CreateDirectionProvider(DirectionProviderConfig parameters, Vector2 direction)
         {
             return parameters switch
             {
@@ -54,8 +54,8 @@ namespace _Project.Scripts.Spawning.Enemies.Movement
                 _ => throw new NotSupportedException($"Unsupported movement parameters type: {parameters.GetType().Name}")
             };
         }
-        
-        private IRotationProvider CreateRotationProvider(RotationProviderConfig parameters, Transform self)
+
+        public IRotationProvider CreateRotationProvider(RotationProviderConfig parameters, Transform self)
         {
             return parameters switch
             {
@@ -63,8 +63,7 @@ namespace _Project.Scripts.Spawning.Enemies.Movement
                     self.gameObject.GetComponent<Rigidbody2D>()),
                 TargetBasedRotationProviderConfig rotationParameters => new TargetDirectionRotationProvider(self,
                     _playerTransform, rotationParameters.RotationSpeed),
-                _ => throw new NotSupportedException(
-                    $"Unsupported movement parameters type: {parameters.GetType().Name}")
+                _ => throw new NotSupportedException($"Unsupported movement parameters type: {parameters.GetType().Name}")
             };
         }
 

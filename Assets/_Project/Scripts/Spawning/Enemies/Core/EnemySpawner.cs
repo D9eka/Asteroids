@@ -17,7 +17,7 @@ namespace _Project.Scripts.Spawning.Enemies.Core
             _providers = providers;
 
             foreach (var provider in _providers)
-                _timers[provider] = 0f; // начнём с нуля, чтобы первый спавн был случайным
+                _timers[provider] = 0f;
         }
 
         public void Tick()

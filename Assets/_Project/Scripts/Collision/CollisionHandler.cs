@@ -9,6 +9,8 @@ namespace _Project.Scripts.Collision
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            if (_collisionService == null) return;
+            
             _collisionService.OnHit(gameObject, other.gameObject);
         }
 

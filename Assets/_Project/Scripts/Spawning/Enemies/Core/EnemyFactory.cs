@@ -16,16 +16,15 @@ namespace _Project.Scripts.Spawning.Enemies.Core
     {
         private readonly List<IEnemyProvider> _enemyProviders;
         private readonly SpawnPointGenerator _spawnPointGenerator;
-        private readonly EnemyMovementConfigurator _movementConfigurator;
+        private readonly IEnemyMovementConfigurator _movementConfigurator;
         private readonly SpawnBoundaryTracker _spawnBoundaryTracker;
         private readonly List<IEnemyInitializerBase> _initializers;
 
         [Inject]
         public EnemyFactory(
-            ICollisionService collisionService,
             List<IEnemyProvider> enemyProviders,
             SpawnPointGenerator spawnPointGenerator,
-            EnemyMovementConfigurator movementConfigurator,
+            IEnemyMovementConfigurator movementConfigurator,
             SpawnBoundaryTracker spawnBoundaryTracker,
             List<IEnemyInitializerBase> initializers)
         {
