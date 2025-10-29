@@ -8,6 +8,8 @@ namespace _Project.Scripts.Enemies
     {
         [field: SerializeField] public CollisionHandler CollisionHandler { get; private set; }
         [field: SerializeField] public Movement.Core.Movement Movement { get; private set; }
+        
+        public Transform Transform => transform;
 
         public void OnSpawned() => gameObject.SetActive(true);
         public void OnDespawned() => gameObject.SetActive(false);

@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using _Project.Scripts.Collision;
 using _Project.Scripts.Enemies;
-using _Project.Scripts.Spawning.Config;
-using _Project.Scripts.Spawning.Core;
-using _Project.Scripts.Spawning.Factory;
-using _Project.Scripts.Spawning.Movement;
-using _Project.Scripts.Spawning.Pooling;
-using _Project.Scripts.Spawning.Providers;
+using _Project.Scripts.Spawning.Common.Core;
+using _Project.Scripts.Spawning.Enemies.Config;
+using _Project.Scripts.Spawning.Enemies.Core;
+using _Project.Scripts.Spawning.Enemies.Initialization;
+using _Project.Scripts.Spawning.Enemies.Movement;
+using _Project.Scripts.Spawning.Enemies.Providers;
 using UnityEngine;
 using Zenject;
 
@@ -19,50 +20,77 @@ namespace _Project.Scripts.Installers
 
         public override void InstallBindings()
         {
+            Container.Bind<ICollisionService>().To<EnemyCollisionService>().AsSingle();
+
             Container.BindInterfacesAndSelfTo<SpawnBoundaryTracker>().AsSingle();
-            Container.Bind<EnemySpawnPointGenerator>().AsSingle();
+            Container.Bind<SpawnPointGenerator>().AsSingle();
             Container.Bind<EnemyMovementConfigurator>().AsSingle().WithArguments(_playerTransform);
+            
+            BindUfo();
+            BindAsteroid();
 
             var providers = CreateProviders();
             Container.Bind<List<IEnemyProvider>>().FromInstance(providers).AsSingle();
-            Container.Bind<IEnemyFactory>().To<EnemyFactory>().AsSingle().WithArguments(new EnemyCollisionService());
+
+            Container.Bind<IEnemyFactory>().To<EnemyFactory>().AsSingle();
             Container.BindInterfacesAndSelfTo<EnemySpawner>().AsSingle().NonLazy();
+        }
+        
+        private void BindUfo()
+        {
+            Container.Bind<IEnemyProviderFactory>()
+                .To<EnemyProviderFactory<Ufo, UfoTypeConfig>>()
+                .AsSingle();
+
+            Container.Bind<IEnemyInitializer<Ufo, UfoTypeConfig>>()
+                .To<UfoInitializer>()
+                .AsSingle();
+
+            Container.Bind<IEnemyInitializerBase>()
+                .To<EnemyInitializerAdapter<Ufo, UfoTypeConfig>>()
+                .AsSingle();
+        }
+
+        private void BindAsteroid()
+        {
+            Container.Bind<IEnemyProviderFactory>()
+                .To<EnemyProviderFactory<Asteroid, EnemyTypeConfig>>()
+                .AsSingle();
+
+            Container.Bind<IEnemyInitializer<IEnemy, EnemyTypeConfig>>()
+                .To<EnemyInitializer>()
+                .AsSingle();
+
+            Container.Bind<IEnemyInitializerBase>()
+                .To<EnemyInitializerAdapter<IEnemy, EnemyTypeConfig>>()
+                .AsSingle();
         }
 
         private List<IEnemyProvider> CreateProviders()
         {
             var providers = new List<IEnemyProvider>();
+            var factories = Container.ResolveAll<IEnemyProviderFactory>();
+
+            var factoryMap = new Dictionary<Type, IEnemyProviderFactory>();
+            foreach (var factory in factories)
+                factoryMap[factory.ConfigType] = factory;
 
             foreach (var config in _enemyConfig.Enemies)
             {
-                if (!config.Prefab.TryGetComponent(out IEnemy enemy))
-                    continue;
+                var configType = config.GetType();
 
-                switch (enemy)
+                if (factoryMap.TryGetValue(configType, out var factory))
                 {
-                    case Asteroid:
-                        providers.Add(CreateProvider<Asteroid>(config));
-                        break;
-                    case Ufo:
-                        providers.Add(CreateProvider<Ufo>(config));
-                        break;
+                    var provider = factory.Create(config);
+                    providers.Add(provider);
+                }
+                else
+                {
+                    Debug.LogWarning($"No provider factory found for config type {configType.Name}");
                 }
             }
 
             return providers;
-        }
-
-        private IEnemyProvider CreateProvider<T>(EnemyTypeConfig config)
-            where T : MonoBehaviour, IEnemy
-        {
-            Container.BindMemoryPool<T, GenericPool<T>>()
-                .WithInitialSize(config.PoolSize)
-                .FromComponentInNewPrefab(config.Prefab)
-                .UnderTransformGroup($"{typeof(T).Name}s");
-
-            var pool = Container.Resolve<GenericPool<T>>();
-
-            return new PooledEnemyProvider<T>(pool, config);
         }
     }
 }

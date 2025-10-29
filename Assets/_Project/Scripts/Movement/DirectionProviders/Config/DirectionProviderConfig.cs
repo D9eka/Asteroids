@@ -6,10 +6,10 @@ namespace _Project.Scripts.Movement.DirectionProviders.Config
     public class DirectionProviderConfig : ScriptableObject
     {
         [Header("Speed")]
-        [field: SerializeField] public float MinSpeed { get; set; }
-        [field: SerializeField] public float MaxSpeed { get; set; }
+        [field: SerializeField] public float MinSpeed { get; private set; }
+        [field: SerializeField] public float MaxSpeed { get; private set; }
         
         [Header("ProviderType")]
-        [field: SerializeField] public DirectionProviderType DirectionProviderType { get; set; }
+        [field: SerializeField] public DirectionProviderType DirectionProviderType { get; protected set; }
     }
 }
