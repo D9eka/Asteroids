@@ -34,6 +34,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1701354823136358278}
   - {fileID: 3610474911202167197}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -51,6 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Enemies.Ufo
   <CollisionHandler>k__BackingField: {fileID: 6420356292477153062}
   <Movement>k__BackingField: {fileID: 2980452885365267006}
+  <BulletGun>k__BackingField: {fileID: 8291279037066572702}
 --- !u!114 &6420356292477153062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,3 +232,76 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &9111732206246004737
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6328515334721024391}
+    m_Modifications:
+    - target: {fileID: 3105589920486604700, guid: 9cc2284faeb1cbb4a941211e2349cff1, type: 3}
+      propertyPath: m_Name
+      value: BulletGun
+      objectReference: {fileID: 0}
+    - target: {fileID: 7633334294109693831, guid: 9cc2284faeb1cbb4a941211e2349cff1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7633334294109693831, guid: 9cc2284faeb1cbb4a941211e2349cff1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7633334294109693831, guid: 9cc2284faeb1cbb4a941211e2349cff1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7633334294109693831, guid: 9cc2284faeb1cbb4a941211e2349cff1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7633334294109693831, guid: 9cc2284faeb1cbb4a941211e2349cff1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7633334294109693831, guid: 9cc2284faeb1cbb4a941211e2349cff1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7633334294109693831, guid: 9cc2284faeb1cbb4a941211e2349cff1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7633334294109693831, guid: 9cc2284faeb1cbb4a941211e2349cff1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7633334294109693831, guid: 9cc2284faeb1cbb4a941211e2349cff1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7633334294109693831, guid: 9cc2284faeb1cbb4a941211e2349cff1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9cc2284faeb1cbb4a941211e2349cff1, type: 3}
+--- !u!4 &1701354823136358278 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7633334294109693831, guid: 9cc2284faeb1cbb4a941211e2349cff1, type: 3}
+  m_PrefabInstance: {fileID: 9111732206246004737}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8291279037066572702 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 964872514230123423, guid: 9cc2284faeb1cbb4a941211e2349cff1, type: 3}
+  m_PrefabInstance: {fileID: 9111732206246004737}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 576aa7699c204ed18ddfaa4e37ca60f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Weapons.BulletGun
