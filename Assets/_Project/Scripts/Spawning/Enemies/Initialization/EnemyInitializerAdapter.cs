@@ -1,4 +1,5 @@
 ﻿using _Project.Scripts.Enemies;
+using _Project.Scripts.Enemies.Config;
 using _Project.Scripts.Spawning.Enemies.Config;
 using Zenject;
 
@@ -16,10 +17,17 @@ namespace _Project.Scripts.Spawning.Enemies.Initialization
             _inner = inner;
         }
 
-        public void Initialize(IEnemy enemy, EnemyTypeConfig config)
+        public void Initialize(IEnemy enemy, EnemyTypeSpawnConfig spawnConfig)
         {
-            if (enemy is TEnemy e && config is TConfig c)
+            if (enemy is TEnemy e && spawnConfig.Config is TConfig c)
+            {
                 _inner.Initialize(e, c);
+            }
+            else
+            {
+                UnityEngine.Debug.LogWarning(
+                    $"Cannot initialize {enemy.GetType().Name} with config {spawnConfig.GetType().Name}");
+            }
         }
 
         public bool CanInitialize(IEnemy enemy) => enemy is TEnemy;

@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace _Project.Scripts.Spawning.Enemies.Config
 {
-    [CreateAssetMenu(menuName = "Configs/EnemySpawnConfig", fileName = "EnemySpawnConfig")]
+    [CreateAssetMenu(menuName = "Configs/Spawn/Enemy/EnemySpawnConfig", fileName = "EnemySpawnConfig")]
     public class EnemySpawnConfig : ScriptableObject
     {
-        [field:SerializeField] public List<EnemyTypeConfig> Enemies { get; private set; }
+        [field:SerializeField] public List<EnemyTypeSpawnConfig> Enemies { get; private set; }
     }
 }

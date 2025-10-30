@@ -8,9 +8,14 @@ namespace _Project.Scripts.Score
 {
     public class ScoreService : IScoreService
     {
+        private readonly IReadOnlyDictionary<EnemyType, int> _config;
         
         private int _totalScore;
 
+        public ScoreService(ScoreConfig config)
+        {
+            _config = config.ScoreByConfig;
+        }
 
         public void AddScore(GameObject killer, IEnemy enemy)
         {
@@ -24,6 +29,8 @@ namespace _Project.Scripts.Score
         private int CalculatePoints(GameObject killer, IEnemy enemy)
         {
             if (!killer.TryGetComponent<IPlayerController>(out _)) return 0;
+
+            return _config[enemy.Type];
         }
     }
 }

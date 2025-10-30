@@ -5,7 +5,7 @@ namespace _Project.Scripts.Spawning.Enemies.Initialization
 {
     public interface IEnemyInitializerBase
     {
-        public void Initialize(IEnemy enemy, EnemyTypeConfig config);
-        public bool CanInitialize(IEnemy enemy);
+        void Initialize(IEnemy enemy, EnemyTypeSpawnConfig spawnConfig);
+        bool CanInitialize(IEnemy enemy);
     }
 }

@@ -1,4 +1,5 @@
-﻿using _Project.Scripts.Collision;
+﻿using System;
+using _Project.Scripts.Collision;
 using _Project.Scripts.Damage;
 using _Project.Scripts.Spawning.Enemies.Config;
 using _Project.Scripts.Spawning.Enemies.Core;
@@ -8,6 +9,8 @@ namespace _Project.Scripts.Enemies
 {
     public class AsteroidFragment : MonoBehaviour, IEnemy
     {
+        public event Action<GameObject, IEnemy> OnKilled;
+        
         [field: SerializeField] public CollisionHandler CollisionHandler { get; private set; }
         [field: SerializeField] public Movement.Core.Movement Movement { get; private set; }
         
@@ -15,6 +18,12 @@ namespace _Project.Scripts.Enemies
         private AsteroidFragmentTypeSpawnConfig _spawnConfig;
         
         public Transform Transform => transform;
+        public EnemyType Type { get; private set; }
+
+        public void SetType(EnemyType type)
+        {
+            Type = type;
+        }
 
         public void OnSpawned() => gameObject.SetActive(true);
         public void OnDespawned() => gameObject.SetActive(false);

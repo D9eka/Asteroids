@@ -1,4 +1,5 @@
 ﻿using _Project.Scripts.Enemies;
+using _Project.Scripts.Enemies.Config;
 using _Project.Scripts.Spawning.Enemies.Config;
 
 namespace _Project.Scripts.Spawning.Enemies.Initialization

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using _Project.Scripts.Collision;
 using _Project.Scripts.Enemies;
 using _Project.Scripts.Spawning.Common.Core;
 using _Project.Scripts.Spawning.Enemies.Config;
 using _Project.Scripts.Spawning.Enemies.Initialization;
 using _Project.Scripts.Spawning.Enemies.Movement;
 using _Project.Scripts.Spawning.Enemies.Providers;
+using UnityEngine;
 using Zenject;
 
 namespace _Project.Scripts.Spawning.Enemies.Core
@@ -37,35 +37,34 @@ namespace _Project.Scripts.Spawning.Enemies.Core
 
         public IEnemy Spawn()
         {
-            var provider = ChooseRandomProvider();
-            var (enemy, config) = SpawnFromProvider(provider);
-
+            IEnemyProvider provider = ChooseRandomProvider();
+            (IEnemy enemy, EnemyTypeSpawnConfig config) = SpawnFromProvider(provider);
             SetupEnemy(enemy, config);
             return enemy;
         }
 
-        private (IEnemy enemy, EnemyTypeConfig config) SpawnFromProvider(IEnemyProvider provider)
+        private (IEnemy enemy, EnemyTypeSpawnConfig config) SpawnFromProvider(IEnemyProvider provider)
         {
-            if (provider is not IPooledEnemyProvider<IEnemy, EnemyTypeConfig> pooledProvider)
+            if (provider is not IPooledEnemyProvider<IEnemy, EnemyTypeSpawnConfig> pooledProvider)
                 throw new InvalidOperationException("Provider must be pooled");
 
-            var config = pooledProvider.Config;
-            var spawnPos = _spawnPointGenerator.GetRandomPositionOutsideBounds(config.SpawnDistanceOutsideBounds);
-            var enemy = pooledProvider.Spawn(spawnPos);
+            EnemyTypeSpawnConfig spawnConfig = pooledProvider.Config;
+            Vector2 spawnPos = _spawnPointGenerator.GetRandomPositionOutsideBounds(spawnConfig.SpawnDistanceOutsideBounds);
+            IEnemy enemy = pooledProvider.Spawn(spawnPos);
 
-            return (enemy, config);
+            return (enemy, spawnConfig);
         }
 
-        private void SetupEnemy(IEnemy enemy, EnemyTypeConfig config)
+        private void SetupEnemy(IEnemy enemy, EnemyTypeSpawnConfig spawnConfig)
         {
             _spawnBoundaryTracker.RegisterObject(enemy.Transform);
-            _movementConfigurator.Configure(enemy, enemy.Transform.position, config);
+            _movementConfigurator.Configure(enemy, enemy.Transform.position, spawnConfig.Config);
 
-            foreach (var initializer in _initializers)
+            foreach (IEnemyInitializerBase initializer in _initializers)
             {
                 if (initializer.CanInitialize(enemy))
                 {
-                    initializer.Initialize(enemy, config);
+                    initializer.Initialize(enemy, spawnConfig);
                     break;
                 }
             }
@@ -77,7 +76,7 @@ namespace _Project.Scripts.Spawning.Enemies.Core
             float roll = UnityEngine.Random.value * totalWeight;
             float cumulative = 0;
 
-            foreach (var provider in _enemyProviders)
+            foreach (IEnemyProvider provider in _enemyProviders)
             {
                 cumulative += provider.Probability;
                 if (roll <= cumulative)

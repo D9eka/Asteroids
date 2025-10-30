@@ -1,4 +1,5 @@
-﻿using _Project.Scripts.Collision;
+﻿using System;
+using _Project.Scripts.Collision;
 using _Project.Scripts.Damage;
 using _Project.Scripts.Weapons.Types.BulletGun;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace _Project.Scripts.Enemies
         [field: SerializeField] public BulletGun BulletGun { get; private set; }
         
         public Transform Transform => transform;
+        public EnemyType Type { get; private set; }
 
         private void Update()
         {
@@ -21,6 +23,11 @@ namespace _Project.Scripts.Enemies
             {
                 BulletGun.Shoot();
             }
+        }
+
+        public void SetType(EnemyType type)
+        {
+            Type = type;
         }
 
         public void OnSpawned() => gameObject.SetActive(true);

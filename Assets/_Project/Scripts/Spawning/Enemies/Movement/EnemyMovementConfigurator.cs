@@ -1,6 +1,7 @@
 ﻿using System;
 using _Project.Scripts.Camera;
 using _Project.Scripts.Enemies;
+using _Project.Scripts.Enemies.Config;
 using _Project.Scripts.Movement.DirectionProviders;
 using _Project.Scripts.Movement.DirectionProviders.Config;
 using _Project.Scripts.Movement.RotationProviders;

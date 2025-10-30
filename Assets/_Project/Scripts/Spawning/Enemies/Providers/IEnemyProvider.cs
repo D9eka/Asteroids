@@ -1,7 +1,4 @@
-﻿using _Project.Scripts.Enemies;
-using UnityEngine;
-
-namespace _Project.Scripts.Spawning.Enemies.Providers
+﻿namespace _Project.Scripts.Spawning.Enemies.Providers
 {
     public interface IEnemyProvider
     {

@@ -1,5 +1,6 @@
 ﻿using _Project.Scripts.Collision;
 using _Project.Scripts.Enemies;
+using _Project.Scripts.Enemies.Config;
 using _Project.Scripts.Spawning.Enemies.Config;
 using Zenject;
 
@@ -17,6 +18,7 @@ namespace _Project.Scripts.Spawning.Enemies.Initialization
         
         public void Initialize(IEnemy enemy, EnemyTypeConfig config)
         {
+            enemy.SetType(config.Type);
             enemy.CollisionHandler.Initialize(_collisionService);
         }
     }

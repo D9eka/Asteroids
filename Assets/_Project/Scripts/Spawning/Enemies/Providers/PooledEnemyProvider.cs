@@ -1,22 +1,22 @@
 ﻿using _Project.Scripts.Enemies;
 using _Project.Scripts.Spawning.Common.Pooling;
 using _Project.Scripts.Spawning.Enemies.Config;
+using _Project.Scripts.Spawning.Enemies.Pooling;
 using UnityEngine;
 
 namespace _Project.Scripts.Spawning.Enemies.Providers
 {
     public class PooledEnemyProvider<TEnemy, TConfig> : IPooledEnemyProvider<TEnemy, TConfig>
         where TEnemy : MonoBehaviour, IEnemy
-        where TConfig : EnemyTypeConfig
+        where TConfig : EnemyTypeSpawnConfig
     {
         private readonly IEnemyLifecycleManager _enemyLifecycleManager;
         private readonly GenericPool<TEnemy> _pool;
-
+        
         public TConfig Config { get; private set; }
         public float Probability => Config.SpawnProbability;
         public float SpawnInterval => Config.SpawnInterval;
 
-        public PooledEnemyProvider(GenericPool<TEnemy> pool, TConfig config)
         public PooledEnemyProvider(IEnemyLifecycleManager enemyLifecycleManager, GenericPool<TEnemy> pool, TConfig config)
         {
             _enemyLifecycleManager = enemyLifecycleManager;

@@ -1,7 +1,8 @@
-﻿using _Project.Scripts.Collision;
+﻿using System;
+using _Project.Scripts.Collision;
 using _Project.Scripts.Damage;
+using _Project.Scripts.Enemies.Config;
 using _Project.Scripts.Spawning.Enemies.Config;
-using _Project.Scripts.Spawning.Enemies.Core;
 using _Project.Scripts.Spawning.Enemies.Fragments;
 using UnityEngine;
 
@@ -13,19 +14,24 @@ namespace _Project.Scripts.Enemies
 
         [field: SerializeField] public CollisionHandler CollisionHandler { get; private set; }
         [field: SerializeField] public Movement.Core.Movement Movement { get; private set; }
-        
         private IAsteroidFragmentFactory _fragmentsFactory;
-        private AsteroidTypeConfig _config;
+        private AsteroidFragmentTypeSpawnConfig _fragmentSpawnConfig;
         
         public Transform Transform => transform;
+        public EnemyType Type { get; private set; }
+        
+        public void SetType(EnemyType type)
+        {
+            Type = type;
+        }
 
         public void OnSpawned() => gameObject.SetActive(true);
         public void OnDespawned() => gameObject.SetActive(false);
 
-        public void Initialize(IAsteroidFragmentFactory fragmentsFactory, AsteroidTypeConfig config)
+        public void Initialize(IAsteroidFragmentFactory fragmentsFactory, AsteroidTypeConfig asteroidTypeConfig)
         {
             _fragmentsFactory = fragmentsFactory;
-            _config = config;
+            _fragmentSpawnConfig = asteroidTypeConfig.AsteroidFragmentSpawnConfig;
         }
 
         public void TakeDamage(DamageInfo damageInfo)
@@ -35,12 +41,11 @@ namespace _Project.Scripts.Enemies
                 SpawnFragments();
                 OnKilled?.Invoke(damageInfo.Instigator, this);
             }
-            OnDespawned();
         }
 
         private void SpawnFragments()
         {
-            _fragmentsFactory.SpawnFragments(transform.position, Movement.Velocity, _config);
+            _fragmentsFactory.SpawnFragments(transform.position, Movement.Velocity, _fragmentSpawnConfig);
         }
 
         public DamageInfo GetDamageInfo()

@@ -1,5 +1,6 @@
 ﻿using _Project.Scripts.Collision;
 using _Project.Scripts.Enemies;
+using _Project.Scripts.Enemies.Config;
 using _Project.Scripts.Spawning.Enemies.Config;
 using _Project.Scripts.Weapons.Core;
 using _Project.Scripts.Weapons.Projectile;

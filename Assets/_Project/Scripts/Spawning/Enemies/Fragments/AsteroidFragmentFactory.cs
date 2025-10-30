@@ -31,33 +31,34 @@ namespace _Project.Scripts.Spawning.Enemies.Fragments
             _boundaryTracker = boundaryTracker;
         }
 
-        public void SpawnFragments(Vector2 center, float asteroidSpeed, AsteroidTypeConfig config)
+        public void SpawnFragments(Vector2 center, float asteroidSpeed, AsteroidFragmentTypeSpawnConfig spawnConfig)
         {
-            int count = Random.Range(config.MinFragments, config.MaxFragments + 1);
+            int count = Random.Range(spawnConfig.MinFragments, spawnConfig.MaxFragments + 1);
             for (int i = 0; i < count; i++)
             {
-                SpawnFragment(center, asteroidSpeed, config);
+                SpawnFragment(center, asteroidSpeed, spawnConfig);
             }
         }
 
-        private void SpawnFragment(Vector2 center, float asteroidSpeed, AsteroidTypeConfig config)
+        private void SpawnFragment(Vector2 center, float asteroidSpeed, AsteroidFragmentTypeSpawnConfig spawnConfig)
         {
             var offset = Random.insideUnitCircle * 0.5f;
             var pos = center + new Vector2(offset.x, offset.y);
 
             var direction = (pos - center).normalized;
             if (direction == Vector2.zero) direction = Random.insideUnitSphere.normalized;
-            var speed = asteroidSpeed * config.FragmentSpeedMultiplier;
+            var speed = asteroidSpeed * spawnConfig.FragmentSpeedMultiplier;
 
             var fragment = _pool.Spawn(pos);
+            fragment.SetType(spawnConfig.Config.Type);
             fragment.CollisionHandler.Initialize(_collisionService);
 
             IDirectionProvider directionProvider =
-                _movementConfigurator.CreateDirectionProvider(config.DirectionProviderConfig, direction);
+                _movementConfigurator.CreateDirectionProvider(spawnConfig.Config.DirectionProviderConfig, direction);
             fragment.Movement.SetDirectionProvider(directionProvider);
             
             IRotationProvider rotationProvider = 
-                _movementConfigurator.CreateRotationProvider(config.RotationProviderConfig, fragment.Transform);
+                _movementConfigurator.CreateRotationProvider(spawnConfig.Config.RotationProviderConfig, fragment.Transform);
             fragment.Movement.SetRotationProvider(rotationProvider);
             fragment.Movement.SetVelocity(speed);
 
