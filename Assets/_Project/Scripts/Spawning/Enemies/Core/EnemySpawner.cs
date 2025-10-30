@@ -1,15 +1,18 @@
 ﻿using System.Collections.Generic;
+using _Project.Scripts.Pause;
 using _Project.Scripts.Spawning.Enemies.Providers;
 using UnityEngine;
 using Zenject;
 
 namespace _Project.Scripts.Spawning.Enemies.Core
 {
-    public class EnemySpawner : ITickable
+    public class EnemySpawner : ITickable, ITickableSystem
     {
         private readonly IEnemyFactory _factory;
         private readonly List<IEnemyProvider> _providers;
         private readonly Dictionary<IEnemyProvider, float> _timers = new();
+
+        private bool _isEnabled = true;
 
         public EnemySpawner(IEnemyFactory factory, List<IEnemyProvider> providers)
         {
@@ -22,6 +25,8 @@ namespace _Project.Scripts.Spawning.Enemies.Core
 
         public void Tick()
         {
+            if (!_isEnabled) return;
+            
             foreach (var provider in _providers)
             {
                 _timers[provider] -= Time.deltaTime;
@@ -34,6 +39,16 @@ namespace _Project.Scripts.Spawning.Enemies.Core
                     _timers[provider] = provider.SpawnInterval;
                 }
             }
+        }
+
+        public void Enable()
+        {
+            _isEnabled = true;
+        }
+
+        public void Disable()
+        {
+            _isEnabled = false;
         }
     }
 }

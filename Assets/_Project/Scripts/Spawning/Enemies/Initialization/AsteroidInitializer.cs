@@ -1,6 +1,7 @@
 ﻿using _Project.Scripts.Collision;
 using _Project.Scripts.Enemies;
 using _Project.Scripts.Enemies.Config;
+using _Project.Scripts.Pause;
 using _Project.Scripts.Spawning.Common.Core;
 using _Project.Scripts.Spawning.Enemies.Fragments;
 using _Project.Scripts.Spawning.Enemies.Movement;
@@ -14,8 +15,9 @@ namespace _Project.Scripts.Spawning.Enemies.Initialization
 
         [Inject]
         public AsteroidInitializer(ICollisionService collisionService, IEnemyMovementConfigurator movementConfigurator, 
-            SpawnBoundaryTracker spawnBoundaryTracker, IAsteroidFragmentFactory fragmentsFactory)
-            : base(collisionService, movementConfigurator, spawnBoundaryTracker)
+            SpawnBoundaryTracker spawnBoundaryTracker, IPauseSystem pauseSystem, 
+            IAsteroidFragmentFactory fragmentsFactory)
+            : base(collisionService, movementConfigurator, spawnBoundaryTracker, pauseSystem)
         {
             _fragmentsFactory = fragmentsFactory;
         }

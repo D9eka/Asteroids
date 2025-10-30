@@ -13,13 +13,15 @@ namespace _Project.Scripts.Enemies
         [field: SerializeField] public CollisionHandler CollisionHandler { get; private set; }
         [field: SerializeField] public Movement.Core.Movement Movement { get; private set; }
         [field: SerializeField] public BulletGun BulletGun { get; private set; }
+
+        private bool _isPaused; 
         
         public Transform Transform => transform;
         public EnemyType Type { get; private set; }
 
         private void Update()
         {
-            if (BulletGun.CanShoot)
+            if (!_isPaused && BulletGun.CanShoot)
             {
                 BulletGun.Shoot();
             }
@@ -41,6 +43,18 @@ namespace _Project.Scripts.Enemies
         public DamageInfo GetDamageInfo()
         {
             return new DamageInfo(DamageType.Collide, gameObject);
+        }
+
+        public void Pause()
+        {
+            _isPaused = true;
+            Movement.Pause();
+        }
+
+        public void Resume()
+        {
+            _isPaused  = false;
+            Movement.Resume();
         }
     }
 }

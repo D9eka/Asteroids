@@ -1,6 +1,7 @@
 ﻿using _Project.Scripts.Collision;
 using _Project.Scripts.Enemies;
 using _Project.Scripts.Enemies.Config;
+using _Project.Scripts.Pause;
 using _Project.Scripts.Spawning.Common.Core;
 using _Project.Scripts.Spawning.Enemies.Movement;
 using Zenject;
@@ -11,26 +12,30 @@ namespace _Project.Scripts.Spawning.Enemies.Initialization
         where TEnemy : IEnemy
         where TConfig : EnemyTypeConfig
     {
-        private readonly ICollisionService _collisionService;
-        private readonly IEnemyMovementConfigurator _movementConfigurator;
-        private readonly SpawnBoundaryTracker _spawnBoundaryTracker;
+        protected readonly ICollisionService CollisionService;
+        protected readonly IEnemyMovementConfigurator MovementConfigurator;
+        protected readonly SpawnBoundaryTracker SpawnBoundaryTracker;
+        protected readonly IPauseSystem PauseSystem;
 
         [Inject]
         public EnemyInitializer(ICollisionService collisionService,
             IEnemyMovementConfigurator movementConfigurator,
-            SpawnBoundaryTracker spawnBoundaryTracker)
+            SpawnBoundaryTracker spawnBoundaryTracker,
+            IPauseSystem pauseSystem)
         {
-            _collisionService = collisionService;
-            _movementConfigurator = movementConfigurator;
-            _spawnBoundaryTracker = spawnBoundaryTracker;
+            CollisionService = collisionService;
+            MovementConfigurator = movementConfigurator;
+            SpawnBoundaryTracker = spawnBoundaryTracker;
+            PauseSystem = pauseSystem;
         }
 
         public virtual void Initialize(TEnemy enemy, TConfig config)
         {
             enemy.SetType(config.Type);
-            enemy.CollisionHandler.Initialize(_collisionService);
-            _spawnBoundaryTracker.RegisterObject(enemy.Transform);
-            _movementConfigurator.Configure(enemy, enemy.Transform.position, config);
+            enemy.CollisionHandler.Initialize(CollisionService);
+            SpawnBoundaryTracker.RegisterObject(enemy.Transform);
+            MovementConfigurator.Configure(enemy, enemy.Transform.position, config);
+            PauseSystem.Register(enemy);
         }
     }
 }

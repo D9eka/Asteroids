@@ -55,5 +55,16 @@ namespace _Project.Scripts.Weapons.Projectile
         {
             return _damageInfo;
         }
+
+        public void Pause()
+        {
+            _rb.linearVelocity = Vector2.zero;
+            _rb.angularVelocity = 0f;
+        }
+
+        public void Resume()
+        {
+            _rb.linearVelocity = transform.up * _speed;
+        }
     }
 }

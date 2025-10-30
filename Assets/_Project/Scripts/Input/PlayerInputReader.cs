@@ -13,11 +13,21 @@ namespace _Project.Scripts.Input
         public bool IsFiring { get; private set; }
         
         public bool NeedSwitchWeapon {get; set;}
+        
+        public void Enable()
+        {
+            _inputActions.Player.Enable();
+        }
+
+        public void Disable()
+        {
+            _inputActions.Player.Disable();
+        }
 
         public void Initialize()
         {
             _inputActions = new PlayerInputActions();
-            _inputActions.Player.Enable();
+            Enable();
 
             _inputActions.Player.Move.performed += OnMove;
             _inputActions.Player.Move.canceled += OnMove;

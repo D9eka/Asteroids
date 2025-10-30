@@ -37,5 +37,15 @@ namespace _Project.Scripts.Enemies
         {
             return new DamageInfo(DamageType.Collide, gameObject);
         }
+
+        public void Pause()
+        {
+            Movement.Pause();
+        }
+
+        public void Resume()
+        {
+            Movement.Resume();
+        }
     }
 }

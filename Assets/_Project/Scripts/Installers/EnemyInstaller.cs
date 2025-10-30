@@ -3,6 +3,7 @@ using System.Linq;
 using _Project.Scripts.Collision;
 using _Project.Scripts.Enemies;
 using _Project.Scripts.Enemies.Config;
+using _Project.Scripts.Pause;
 using _Project.Scripts.Spawning.Common.Core;
 using _Project.Scripts.Spawning.Common.Pooling;
 using _Project.Scripts.Spawning.Enemies.Config;
@@ -31,7 +32,10 @@ namespace _Project.Scripts.Installers
             Container.BindInterfacesAndSelfTo<EnemyLifecycleManager>().AsSingle();
             Container.BindInterfacesAndSelfTo<SpawnBoundaryTracker>().AsSingle();
             Container.Bind<SpawnPointGenerator>().AsSingle();
-            Container.Bind<IEnemyMovementConfigurator>().To<EnemyMovementConfigurator>().AsSingle().WithArguments(_playerTransform);
+            Container.Bind<IEnemyMovementConfigurator>()
+                .To<EnemyMovementConfigurator>()
+                .AsSingle()
+                .WithArguments(_playerTransform);
             
             BindUfo();
             BindAsteroid();
@@ -41,6 +45,7 @@ namespace _Project.Scripts.Installers
 
             Container.BindInterfacesAndSelfTo<EnemyFactory>().AsSingle();
             Container.BindInterfacesAndSelfTo<EnemySpawner>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<PauseSystem>().AsSingle();
         }
         
         private void BindUfo()
