@@ -1,6 +1,8 @@
-﻿namespace _Project.Scripts.Weapons.Core
+﻿using _Project.Scripts.Damage;
+
+namespace _Project.Scripts.Weapons.Core
 {
-    public interface IWeapon
+    public interface IWeapon : IDamageSource
     {
         public bool CanShoot { get; }
         public void Shoot();

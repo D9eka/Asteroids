@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace _Project.Scripts.Weapons.Types.BulletGun
 {
-    public class BulletGun : MonoBehaviour, IWeapon, IDamageSource
+    public class BulletGun : MonoBehaviour, IWeapon
     {
         [SerializeField] private Transform _firePoint;
         
