@@ -12,12 +12,14 @@ namespace _Project.Scripts.Spawning.Enemies.Providers
         where TConfig : EnemyTypeConfig
     {
         private readonly DiContainer _container;
+        private readonly IEnemyLifecycleManager _lifecycleManager;
 
         public Type ConfigType => typeof(TConfig);
 
-        public EnemyProviderFactory(DiContainer container)
+        public EnemyProviderFactory(DiContainer container, IEnemyLifecycleManager lifecycleManager, EnemyType enemyType)
         {
             _container = container;
+            _lifecycleManager = lifecycleManager;
         }
 
         public IEnemyProvider Create(EnemyTypeConfig config)
@@ -30,7 +32,7 @@ namespace _Project.Scripts.Spawning.Enemies.Providers
                 .UnderTransformGroup($"{typeof(TEnemy).Name}s");
 
             var pool = _container.Resolve<GenericPool<TEnemy>>();
-            return new PooledEnemyProvider<TEnemy, TConfig>(pool, typedConfig);
+            return new PooledEnemyProvider<TEnemy, EnemyTypeSpawnConfig>(_lifecycleManager, pool, spawnConfig);
         }
     }
 }

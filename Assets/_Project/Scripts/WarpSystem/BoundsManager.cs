@@ -1,19 +1,25 @@
 ﻿using System.Collections.Generic;
 using _Project.Scripts.Enemies;
+using _Project.Scripts.Spawning.Common.Pooling;
 using UnityEngine;
 using Zenject;
+using IPoolable = _Project.Scripts.Spawning.Common.Pooling.IPoolable;
 
 namespace _Project.Scripts.WarpSystem
 {
     public class BoundsManager : IBoundsManager, ITickable
     {
+        private readonly IPoolableLifecycleManager<IPoolable> _lifecycleManager;
         private readonly IBoundsWarp _boundsWarp;
         private readonly float _boundsMargin;
         private readonly List<Transform> _objects = new List<Transform>();
 
         [Inject]
-        public BoundsManager(IBoundsWarp boundsWarp, [Inject(Id = "BoundsMargin")] float boundsMargin)
+        public BoundsManager(IPoolableLifecycleManager<IPoolable> lifecycleManager,
+            IBoundsWarp boundsWarp, 
+            [Inject(Id = "BoundsMargin")] float boundsMargin)
         {
+            _lifecycleManager = lifecycleManager;
             _boundsWarp = boundsWarp;
             _boundsMargin = boundsMargin;
         }
@@ -50,9 +56,9 @@ namespace _Project.Scripts.WarpSystem
                     }
                     else
                     {
-                        if (obj.TryGetComponent(out IEnemy enemy))
+                        if (obj.TryGetComponent(out IPoolable enemy))
                         {
-                            enemy.OnDespawned();
+                            _lifecycleManager.Despawn(enemy);
                         }
                         else
                         {

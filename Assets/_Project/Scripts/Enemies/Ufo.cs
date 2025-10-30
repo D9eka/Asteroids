@@ -7,6 +7,8 @@ namespace _Project.Scripts.Enemies
 {
     public class Ufo : MonoBehaviour, IEnemy
     {
+        public event Action<GameObject, IEnemy> OnKilled;
+        
         [field: SerializeField] public CollisionHandler CollisionHandler { get; private set; }
         [field: SerializeField] public Movement.Core.Movement Movement { get; private set; }
         [field: SerializeField] public BulletGun BulletGun { get; private set; }
@@ -26,7 +28,7 @@ namespace _Project.Scripts.Enemies
 
         public void TakeDamage(DamageInfo damageInfo)
         {
-            OnDespawned();
+            OnKilled?.Invoke(damageInfo.Instigator, this);
         }
 
         public DamageInfo GetDamageInfo()

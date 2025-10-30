@@ -9,6 +9,8 @@ namespace _Project.Scripts.Enemies
 {
     public class Asteroid : MonoBehaviour, IEnemy
     {
+        public event Action<GameObject, IEnemy> OnKilled;
+
         [field: SerializeField] public CollisionHandler CollisionHandler { get; private set; }
         [field: SerializeField] public Movement.Core.Movement Movement { get; private set; }
         
@@ -31,7 +33,7 @@ namespace _Project.Scripts.Enemies
             if (damageInfo.Type == DamageType.Bullet)
             {
                 SpawnFragments();
-                Debug.Log("BOOM");
+                OnKilled?.Invoke(damageInfo.Instigator, this);
             }
             OnDespawned();
         }

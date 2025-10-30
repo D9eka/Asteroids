@@ -9,6 +9,7 @@ namespace _Project.Scripts.Spawning.Enemies.Providers
         where TEnemy : MonoBehaviour, IEnemy
         where TConfig : EnemyTypeConfig
     {
+        private readonly IEnemyLifecycleManager _enemyLifecycleManager;
         private readonly GenericPool<TEnemy> _pool;
 
         public TConfig Config { get; private set; }
@@ -16,14 +17,18 @@ namespace _Project.Scripts.Spawning.Enemies.Providers
         public float SpawnInterval => Config.SpawnInterval;
 
         public PooledEnemyProvider(GenericPool<TEnemy> pool, TConfig config)
+        public PooledEnemyProvider(IEnemyLifecycleManager enemyLifecycleManager, GenericPool<TEnemy> pool, TConfig config)
         {
+            _enemyLifecycleManager = enemyLifecycleManager;
             _pool = pool;
             Config = config;
         }
 
         TEnemy IPooledEnemyProvider<TEnemy, TConfig>.Spawn(Vector2 position)
         {
-            return _pool.Spawn(position);
+            TEnemy enemy = _pool.Spawn(position);
+            _enemyLifecycleManager.Register(enemy, _pool);
+            return enemy;
         }
     }
 }

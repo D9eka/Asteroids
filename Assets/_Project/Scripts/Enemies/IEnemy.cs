@@ -7,6 +7,7 @@ namespace _Project.Scripts.Enemies
 {
     public interface IEnemy : ITransformProvider, IDamageable, IDamageSource, IPoolable
     {
+        public event Action<GameObject, IEnemy> OnKilled;
         CollisionHandler CollisionHandler { get; }
         Movement.Core.Movement Movement { get; }
     }

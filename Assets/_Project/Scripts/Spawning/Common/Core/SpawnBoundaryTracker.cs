@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using _Project.Scripts.Spawning.Common.Pooling;
 using _Project.Scripts.WarpSystem;
 using UnityEngine;
 using Zenject;
@@ -9,13 +10,15 @@ namespace _Project.Scripts.Spawning.Common.Core
     public class SpawnBoundaryTracker : IFixedTickable
     {
         private const float MAX_REGISTRATION_TIME_SECONDS = 5f;
-        
+
+        private readonly IPoolableLifecycleManager<IPoolable> _lifecycleManager;
         private readonly IBoundsManager _boundsManager;
         private readonly Dictionary<Transform, float> _objects = new Dictionary<Transform, float>();
 
         [Inject]
-        public SpawnBoundaryTracker(IBoundsManager boundsManager)
+        public SpawnBoundaryTracker(IPoolableLifecycleManager<IPoolable> lifecycleManager, IBoundsManager boundsManager)
         {
+            _lifecycleManager = lifecycleManager;
             _boundsManager = boundsManager;
         }
 
@@ -72,7 +75,7 @@ namespace _Project.Scripts.Spawning.Common.Core
         {
             if (obj.TryGetComponent(out IPoolable poolable))
             {
-                poolable.OnDespawned();
+                _lifecycleManager.Despawn(poolable);
             }
             else
             {

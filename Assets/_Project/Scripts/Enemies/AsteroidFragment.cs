@@ -12,7 +12,7 @@ namespace _Project.Scripts.Enemies
         [field: SerializeField] public Movement.Core.Movement Movement { get; private set; }
         
         private IEnemyFactory _fragmentsFactory;
-        private AsteroidTypeConfig _config;
+        private AsteroidFragmentTypeSpawnConfig _spawnConfig;
         
         public Transform Transform => transform;
 
@@ -21,7 +21,7 @@ namespace _Project.Scripts.Enemies
 
         public void TakeDamage(DamageInfo damageInfo)
         {
-            OnDespawned();
+            OnKilled?.Invoke(damageInfo.Instigator, this);
         }
 
         public DamageInfo GetDamageInfo()
