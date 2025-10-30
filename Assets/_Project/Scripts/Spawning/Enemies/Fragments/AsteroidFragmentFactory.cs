@@ -14,7 +14,6 @@ namespace _Project.Scripts.Spawning.Enemies.Fragments
 {
     public class AsteroidFragmentFactory : IAsteroidFragmentFactory
     {
-        private readonly ICollisionService _collisionService;
         private readonly GenericPool<AsteroidFragment> _pool;
         private readonly IEnemyMovementConfigurator _movementConfigurator;
         private readonly SpawnBoundaryTracker _boundaryTracker;
@@ -28,32 +27,33 @@ namespace _Project.Scripts.Spawning.Enemies.Fragments
             SpawnBoundaryTracker boundaryTracker,
             DefaultEnemyInitializer initializer)
         {
-            _collisionService = collisionService;
             _pool = pool;
             _movementConfigurator = movementConfigurator;
             _boundaryTracker = boundaryTracker;
             _initializer = initializer;
         }
 
-        public void SpawnFragments(Vector2 center, float asteroidSpeed, AsteroidFragmentTypeSpawnConfig spawnConfig)
+        public void SpawnFragments(Vector2 center, Vector2 hitDirection, float asteroidSpeed, 
+            AsteroidFragmentTypeSpawnConfig spawnConfig)
         {
             int count = Random.Range(spawnConfig.MinFragments, spawnConfig.MaxFragments + 1);
             for (int i = 0; i < count; i++)
             {
-                SpawnFragment(center, asteroidSpeed, spawnConfig);
+                SpawnFragment(center, hitDirection, asteroidSpeed, spawnConfig);
             }
         }
 
-        private void SpawnFragment(Vector2 center, float asteroidSpeed, AsteroidFragmentTypeSpawnConfig spawnConfig)
+        private void SpawnFragment(Vector2 center, Vector2 hitDirection, float asteroidSpeed, 
+            AsteroidFragmentTypeSpawnConfig spawnConfig)
         {
-            var offset = Random.insideUnitCircle * 0.5f;
-            var pos = center + new Vector2(offset.x, offset.y);
-
-            var direction = (pos - center).normalized;
+            Vector2 randomOffset = Random.insideUnitCircle;
+            Vector2 direction = (hitDirection + randomOffset).normalized;
+    
             if (direction == Vector2.zero) direction = Random.insideUnitSphere.normalized;
-            var speed = asteroidSpeed * spawnConfig.FragmentSpeedMultiplier;
+            float speed = asteroidSpeed * spawnConfig.FragmentSpeedMultiplier;
 
-            var fragment = _pool.Spawn(pos);
+            Vector2 pos = center + randomOffset * spawnConfig.FragmentPositionOffsetModefier;
+            AsteroidFragment fragment = _pool.Spawn(pos);
             _initializer.Initialize(fragment, spawnConfig.Config);
 
             IDirectionProvider directionProvider =

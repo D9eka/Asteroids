@@ -38,14 +38,15 @@ namespace _Project.Scripts.Enemies
         {
             if (damageInfo.Type == DamageType.Bullet)
             {
-                SpawnFragments();
+                SpawnFragments(damageInfo.Instigator);
                 OnKilled?.Invoke(damageInfo.Instigator, this);
             }
         }
 
-        private void SpawnFragments()
+        private void SpawnFragments(GameObject damageInstigator)
         {
-            _fragmentsFactory.SpawnFragments(transform.position, Movement.Velocity, _fragmentSpawnConfig);
+            Vector2 hitDirection = (transform.position - damageInstigator.transform.position).normalized;
+            _fragmentsFactory.SpawnFragments(transform.position, hitDirection, Movement.Velocity, _fragmentSpawnConfig);
         }
 
         public DamageInfo GetDamageInfo()
