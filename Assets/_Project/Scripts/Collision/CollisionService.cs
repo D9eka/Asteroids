@@ -1,5 +1,4 @@
 ﻿using _Project.Scripts.Damage;
-using _Project.Scripts.Weapons.Projectile;
 using UnityEngine;
 
 namespace _Project.Scripts.Collision

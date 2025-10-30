@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bead3f864344d409cdd852958844be7, type: 3}
+  m_Name: AsteroidFragmentTypeConfig
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Enemies.Config.EnemyTypeConfig
+  <Prefab>k__BackingField: {fileID: 3022016801730663401, guid: 7e515b6dc7fd73f418fd0b1ad2dcae4a, type: 3}
+  <Type>k__BackingField: 2
+  <Score>k__BackingField: 20
+  <DirectionProviderConfig>k__BackingField: {fileID: 11400000, guid: 99728c0ecb9a49d40a5204684d0492c7, type: 2}
+  <RotationProviderConfig>k__BackingField: {fileID: 11400000, guid: 22603b7230b161345980b0620f049318, type: 2}

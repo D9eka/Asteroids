@@ -6,7 +6,6 @@ using _Project.Scripts.Movement.DirectionProviders;
 using _Project.Scripts.Movement.DirectionProviders.Config;
 using _Project.Scripts.Movement.RotationProviders;
 using _Project.Scripts.Movement.RotationProviders.Config;
-using _Project.Scripts.Spawning.Enemies.Config;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

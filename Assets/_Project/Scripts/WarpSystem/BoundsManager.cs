@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using _Project.Scripts.Enemies;
 using _Project.Scripts.Spawning.Common.Pooling;
 using UnityEngine;
 using Zenject;

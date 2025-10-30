@@ -1,7 +1,4 @@
-﻿using _Project.Scripts.Enemies;
-using _Project.Scripts.Enemies.Config;
-using _Project.Scripts.Movement.DirectionProviders.Config;
-using _Project.Scripts.Movement.RotationProviders.Config;
+﻿using _Project.Scripts.Enemies.Config;
 using UnityEngine;
 
 namespace _Project.Scripts.Spawning.Enemies.Config

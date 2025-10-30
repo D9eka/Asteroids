@@ -2,7 +2,7 @@
 
 namespace _Project.Scripts.Movement.DirectionProviders.Config
 {
-    [CreateAssetMenu(menuName = "Configs/DirectionProviderConfig", fileName = "DirectionProviderConfig")]
+    [CreateAssetMenu(menuName = "Configs/Movement/Direction/DirectionProviderConfig", fileName = "DirectionProviderConfig")]
     public class DirectionProviderConfig : ScriptableObject
     {
         [Header("Velocity")]

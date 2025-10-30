@@ -2,7 +2,7 @@
 
 namespace _Project.Scripts.Movement.RotationProviders.Config
 {
-    [CreateAssetMenu(menuName = "Configs/TargetBasedRotationProviderConfig", 
+    [CreateAssetMenu(menuName = "Configs/Movement/Rotation/TargetBasedRotationProviderConfig", 
         fileName = "TargetBasedRotationProviderConfig")]
     public class TargetBasedRotationProviderConfig : RotationProviderConfig
     {

@@ -1,7 +1,4 @@
-﻿using _Project.Scripts.Collision;
-using _Project.Scripts.Player;
-using _Project.Scripts.Player.Weapons;
-using _Project.Scripts.Weapons;
+﻿using _Project.Scripts.Player.Weapons;
 using _Project.Scripts.Weapons.Core;
 using _Project.Scripts.Weapons.Projectile;
 using _Project.Scripts.Weapons.Services.Raycast;

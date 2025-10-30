@@ -9,14 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2df52a7a3c340058f4a447ab0fe6dd6, type: 3}
+  m_Script: {fileID: 11500000, guid: 8614a57398344dd186d19bb7c17ce08b, type: 3}
   m_Name: UfoTypeConfig
-  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Spawning.Config.UfoTypeConfig
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Enemies.Config.UfoTypeConfig
   <Prefab>k__BackingField: {fileID: 3168299500087637745, guid: 084c90c50e504b94ea60cbd8acdd4ac3, type: 3}
-  <SpawnProbability>k__BackingField: 0.5
-  <SpawnInterval>k__BackingField: 20
+  <Type>k__BackingField: 3
+  <Score>k__BackingField: 80
   <DirectionProviderConfig>k__BackingField: {fileID: 11400000, guid: dfb25e39626317148b7f5197fff24ace, type: 2}
   <RotationProviderConfig>k__BackingField: {fileID: 11400000, guid: 033ff51209945434fb619823ee119b64, type: 2}
-  <SpawnDistanceOutsideBounds>k__BackingField: 2
-  <PoolSize>k__BackingField: 3
   <BulletGunConfig>k__BackingField: {fileID: 11400000, guid: 3535280851d4a44479a0c1b7b577cdf0, type: 2}

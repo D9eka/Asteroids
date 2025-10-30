@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using _Project.Scripts.Enemies;
 using _Project.Scripts.Player;
-using _Project.Scripts.Spawning.Enemies.Config;
 using UnityEngine;
 
 namespace _Project.Scripts.Score

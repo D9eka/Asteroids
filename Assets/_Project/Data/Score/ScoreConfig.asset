@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1dba5fe5574308bd75e9b6464e6cc6, type: 3}
+  m_Name: ScoreConfig
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Score.ScoreConfig
+  _entries:
+  - {fileID: 11400000, guid: c523ec5e6a8d27c47b60beae2d8ce366, type: 2}
+  - {fileID: 11400000, guid: 5ddc986f41bc8e2449e6c75c6b8e2f66, type: 2}
+  - {fileID: 11400000, guid: a86e8963633c62647b24142ecf541a27, type: 2}

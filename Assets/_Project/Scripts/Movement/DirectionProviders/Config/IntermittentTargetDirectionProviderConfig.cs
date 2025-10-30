@@ -2,7 +2,7 @@
 
 namespace _Project.Scripts.Movement.DirectionProviders.Config
 {
-    [CreateAssetMenu(menuName = "Configs/IntermittentTargetDirectionProviderConfig", fileName = "IntermittentTargetDirectionProviderConfig")]
+    [CreateAssetMenu(menuName = "Configs/Movement/Direction/IntermittentTargetDirectionProviderConfig", fileName = "IntermittentTargetDirectionProviderConfig")]
     public class IntermittentTargetDirectionProviderConfig : DirectionProviderConfig
     {
         [field: SerializeField] public float UpdateInterval { get; private set; }

@@ -1,6 +1,5 @@
 ﻿using _Project.Scripts.Enemies;
 using _Project.Scripts.Enemies.Config;
-using _Project.Scripts.Spawning.Enemies.Config;
 using _Project.Scripts.Spawning.Enemies.Fragments;
 using Zenject;
 

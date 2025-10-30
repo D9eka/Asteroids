@@ -1,5 +1,4 @@
-﻿using _Project.Scripts.Enemies;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace _Project.Scripts.Spawning.Enemies.Config
 {
