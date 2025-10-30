@@ -1,4 +1,5 @@
-﻿using _Project.Scripts.Damage;
+﻿using System;
+using _Project.Scripts.Damage;
 using _Project.Scripts.Player.Movement;
 using _Project.Scripts.Player.Weapons;
 using UnityEngine;
@@ -7,6 +8,8 @@ namespace _Project.Scripts.Player
 {
     public class PlayerController : MonoBehaviour, IPlayerController
     {
+        public event Action OnKilled;
+        
         private IPlayerMovement _movement;
         private IWeaponHandler _weaponHandler;
         private float _moveInput;
@@ -44,7 +47,7 @@ namespace _Project.Scripts.Player
 
         public void TakeDamage(DamageInfo damageInfo)
         {
-            Destroy(gameObject);
+            OnKilled?.Invoke();
         }
 
         public DamageInfo GetDamageInfo()

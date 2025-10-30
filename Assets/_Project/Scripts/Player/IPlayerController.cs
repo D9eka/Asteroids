@@ -1,4 +1,5 @@
-﻿using _Project.Scripts.Core;
+﻿using System;
+using _Project.Scripts.Core;
 using _Project.Scripts.Damage;
 using _Project.Scripts.Player.Movement;
 using _Project.Scripts.Player.Weapons;
@@ -8,6 +9,8 @@ namespace _Project.Scripts.Player
 {
     public interface IPlayerController : ITransformProvider, IDamageable, IDamageSource, IWarpable
     {
+        public event Action OnKilled;
+        
         public void Initialize(IPlayerMovement movement, IWeaponHandler weaponHandler);
         public void SetInputs(float move, float rotate);
         public void Attack();

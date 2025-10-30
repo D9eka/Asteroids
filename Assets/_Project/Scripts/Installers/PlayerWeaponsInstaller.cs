@@ -25,7 +25,7 @@ namespace _Project.Scripts.Installers
             BindProjectiles();
             BindBulletGun();
             BindLaserGun();
-
+            
             Container.Bind<IWeapon[]>().WithId("PlayerWeapons")
                 .FromInstance(new IWeapon[]{ _bulletGun, _laserGun })
                 .AsCached();
@@ -53,12 +53,12 @@ namespace _Project.Scripts.Installers
                 .FromInstance(_bulletGunConfig)
                 .AsCached()
                 .WhenInjectedInto<PlayerWeaponsInitializer>();
-            
+
             Container.Bind<IWeapon>()
+                .WithId("PlayerBulletGun")
                 .To<BulletGun>()
                 .FromInstance(_bulletGun)
-                .AsCached()
-                .WhenInjectedInto<PlayerWeaponsInitializer>();
+                .AsCached();
         }
 
         private void BindLaserGun()
@@ -76,10 +76,15 @@ namespace _Project.Scripts.Installers
                 .AsSingle()
                 .WhenInjectedInto<PlayerWeaponsInitializer>();
             Container.Bind<IWeapon>()
+                .WithId("PlayerLaserGun")
                 .To<LaserGun>()
                 .FromInstance(_laserGun)
-                .AsCached()
-                .WhenInjectedInto<PlayerWeaponsInitializer>();
+                .AsCached();
+            Container.Bind<ILaserGun>()
+                .WithId("PlayerLaserGun")
+                .To<LaserGun>()
+                .FromInstance(_laserGun)
+                .AsCached();
         }
     }
 }

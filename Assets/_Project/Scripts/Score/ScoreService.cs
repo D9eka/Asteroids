@@ -32,12 +32,17 @@ namespace _Project.Scripts.Score
         }
 
         public void AddScore(GameObject killer, IEnemy enemy)
-        {
+         {
             if (!CanAddScoreToKiller(killer)) return;
             
             int points = CalculatePoints(enemy);
             TotalScore += points;
             Debug.Log($"[{killer.name}] killed [{enemy.Transform.name}] +{points} pts (Total: {TotalScore})");
+        }
+
+        public void ResetScore()
+        {
+            TotalScore = 0;
         }
 
         private int CalculatePoints(IEnemy enemy)

@@ -8,6 +8,8 @@ namespace _Project.Scripts.Score
     {
         public event Action<int> OnScoreAdded;
         
-        void AddScore(GameObject killer, IEnemy enemy);
+        public void AddScore(GameObject killer, IEnemy enemy);
+
+        public void ResetScore();
     }
 }
