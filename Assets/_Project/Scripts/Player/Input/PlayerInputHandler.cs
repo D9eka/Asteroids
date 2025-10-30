@@ -34,6 +34,7 @@ namespace _Project.Scripts.Player.Input
             if (_input.NeedSwitchWeapon)
             {
                 _playerController.SwitchWeapon();
+                _input.NeedSwitchWeapon = false;
             }
         }
     }

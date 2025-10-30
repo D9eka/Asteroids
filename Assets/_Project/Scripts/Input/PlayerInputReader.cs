@@ -12,7 +12,7 @@ namespace _Project.Scripts.Input
         public Vector2 Move { get; private set; }
         public bool IsFiring { get; private set; }
         
-        public bool NeedSwitchWeapon {get; private set;}
+        public bool NeedSwitchWeapon {get; set;}
 
         public void Initialize()
         {
@@ -25,8 +25,7 @@ namespace _Project.Scripts.Input
             _inputActions.Player.Fire.started += OnFireStarted;
             _inputActions.Player.Fire.canceled += OnFireCanceled;
 
-            _inputActions.Player.SwitchWeapon.started += OnSwitchWeaponStarted;
-            _inputActions.Player.SwitchWeapon.canceled += OnChangeWeaponCanceled;
+            _inputActions.Player.SwitchWeapon.performed += OnSwitchWeaponStarted;
         }
 
         public void Dispose()

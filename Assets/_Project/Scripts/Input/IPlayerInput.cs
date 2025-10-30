@@ -6,6 +6,6 @@ namespace _Project.Scripts.Input
     {
         Vector2 Move { get; }
         bool IsFiring { get; }
-        bool NeedSwitchWeapon { get; }
+        bool NeedSwitchWeapon { get; set; }
     }
 }
