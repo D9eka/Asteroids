@@ -1,30 +1,34 @@
 ﻿using _Project.Scripts.Collision;
 using _Project.Scripts.Enemies;
 using _Project.Scripts.Enemies.Config;
+using _Project.Scripts.Spawning.Common.Core;
+using _Project.Scripts.Spawning.Enemies.Movement;
 using _Project.Scripts.Weapons.Core;
 using _Project.Scripts.Weapons.Projectile;
 using Zenject;
 
 namespace _Project.Scripts.Spawning.Enemies.Initialization
 {
-    public class UfoInitializer : IEnemyInitializer<Ufo, UfoTypeConfig>
+    public class UfoInitializer : EnemyInitializer<Ufo, UfoTypeConfig>
     {
         private readonly IProjectileFactory _projectileFactory;
         private readonly ICollisionService _collisionService;
         private readonly IWeaponUpdater _weaponUpdater;
 
         [Inject]
-        public UfoInitializer(IProjectileFactory projectileFactory, ICollisionService collisionService, IWeaponUpdater weaponUpdater)
+        public UfoInitializer(ICollisionService collisionService, IEnemyMovementConfigurator movementConfigurator,
+            SpawnBoundaryTracker spawnBoundaryTracker, IProjectileFactory projectileFactory, 
+            IWeaponUpdater weaponUpdater)
+            : base(collisionService, movementConfigurator, spawnBoundaryTracker)
         {
             _projectileFactory = projectileFactory;
-            _collisionService = collisionService;
             _weaponUpdater = weaponUpdater;
         }
 
-        public void Initialize(Ufo ufo, UfoTypeConfig config)
+        public override void Initialize(Ufo ufo, UfoTypeConfig config)
         {
-            ufo.CollisionHandler.Initialize(_collisionService);
-            ufo.BulletGun.Initialize(_collisionService, config.BulletGunConfig, _projectileFactory);
+            base.Initialize(ufo, config);
+            ufo.BulletGun.Initialize(ufo.gameObject, _collisionService, config.BulletGunConfig, _projectileFactory);
             _weaponUpdater.AddWeapon(ufo.BulletGun);
         }
     }

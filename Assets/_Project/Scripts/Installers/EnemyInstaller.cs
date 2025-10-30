@@ -39,7 +39,7 @@ namespace _Project.Scripts.Installers
             var providers = CreateProviders();
             Container.Bind<List<IEnemyProvider>>().FromInstance(providers).AsSingle();
 
-            Container.Bind<IEnemyFactory>().To<EnemyFactory>().AsSingle();
+            Container.BindInterfacesAndSelfTo<EnemyFactory>().AsSingle();
             Container.BindInterfacesAndSelfTo<EnemySpawner>().AsSingle().NonLazy();
         }
         
@@ -51,16 +51,25 @@ namespace _Project.Scripts.Installers
                 .AsSingle()
                 .WithArguments(EnemyType.Ufo);
 
-            Container.Bind<IEnemyInitializer<Ufo, UfoTypeConfig>>()
-                .To<UfoInitializer>()
-                .AsSingle();
-
-            Container.Bind<IEnemyInitializerBase>()
-                .To<EnemyInitializerAdapter<Ufo, UfoTypeConfig>>()
-                .AsSingle();
+            Container.BindInterfacesAndSelfTo<UfoInitializer>().AsSingle();
+            Container.BindInterfacesAndSelfTo<EnemyInitializerAdapter<Ufo, UfoTypeConfig>>().AsSingle();
         }
 
         private void BindAsteroid()
+        {
+            BindAsteroidFragment();
+            
+            Container.Bind<IEnemyProviderFactory>()
+                .WithId(EnemyType.Asteroid)
+                .To<EnemyProviderFactory<Asteroid, AsteroidTypeConfig>>()
+                .AsSingle()
+                .WithArguments(EnemyType.Asteroid);
+
+            Container.BindInterfacesAndSelfTo<AsteroidInitializer>().AsSingle();
+            Container.BindInterfacesAndSelfTo<EnemyInitializerAdapter<Asteroid, AsteroidTypeConfig>>().AsSingle();
+        }
+
+        private void BindAsteroidFragment()
         {
             EnemyTypeSpawnConfig asteroidSpawnConfig = _enemySpawnConfig.Enemies
                 .FirstOrDefault(e => e.Config is AsteroidTypeConfig);
@@ -74,21 +83,8 @@ namespace _Project.Scripts.Installers
                 .FromComponentInNewPrefab(asteroidFragmentSpawnConfig.Config.Prefab)
                 .UnderTransformGroup($"{typeof(AsteroidFragment).Name}s");
             
-            Container.Bind<IAsteroidFragmentFactory>().To<AsteroidFragmentFactory>().AsSingle();
-            
-            Container.Bind<IEnemyProviderFactory>()
-                .WithId(EnemyType.Asteroid)
-                .To<EnemyProviderFactory<Asteroid, AsteroidTypeConfig>>()
-                .AsSingle()
-                .WithArguments(EnemyType.Asteroid);
-
-            Container.Bind<IEnemyInitializer<Asteroid, AsteroidTypeConfig>>()
-                .To<AsteroidInitializer>()
-                .AsSingle();
-
-            Container.Bind<IEnemyInitializerBase>()
-                .To<EnemyInitializerAdapter<Asteroid, AsteroidTypeConfig>>()
-                .AsSingle();
+            Container.BindInterfacesAndSelfTo<DefaultEnemyInitializer>().AsSingle();
+            Container.BindInterfacesAndSelfTo<AsteroidFragmentFactory>().AsSingle();
         }
 
         private List<IEnemyProvider> CreateProviders()

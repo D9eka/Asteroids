@@ -696,6 +696,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1081101795}
   - component: {fileID: 1081101797}
+  - component: {fileID: 1081101798}
   - component: {fileID: 1081101796}
   m_Layer: 5
   m_Name: Score
@@ -822,6 +823,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1081101794}
   m_CullTransparentMesh: 1
+--- !u!114 &1081101798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081101794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c1ef3add30e40509e83e20d1f2e9d73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Score.ScoreView
+  _scoreText: {fileID: 1081101796}
 --- !u!1 &1108703250
 GameObject:
   m_ObjectHideFlags: 0
@@ -1098,6 +1112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Installers.ScoreInstaller
   _scoreConfig: {fileID: 11400000, guid: 32b55e0377d37c348accf9c3eba9563f, type: 2}
+  _scoreView: {fileID: 1081101798}
 --- !u!4 &1612072688 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7633334294109693831, guid: 9cc2284faeb1cbb4a941211e2349cff1, type: 3}

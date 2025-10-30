@@ -6,6 +6,6 @@ namespace _Project.Scripts.Weapons.Projectile
 {
     public interface IProjectile : IDamageSource, IPoolable
     {
-        public void Initialize(ProjectileData data, DamageType damageType, ICollisionService collisionService);
+        public void Initialize(ProjectileData data, DamageInfo damageInfo, ICollisionService collisionService);
     }
 }

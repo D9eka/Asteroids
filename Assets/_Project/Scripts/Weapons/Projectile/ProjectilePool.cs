@@ -5,11 +5,11 @@ using Zenject;
 
 namespace _Project.Scripts.Weapons.Projectile
 {
-    public class ProjectilePool<T> : MonoMemoryPool<Vector3, Quaternion, ProjectileData, DamageType, ICollisionService, T>
+    public class ProjectilePool<T> : MonoMemoryPool<Vector3, Quaternion, ProjectileData, DamageInfo, ICollisionService, T>
         where T : Component, IProjectile
     {
         protected override void Reinitialize(Vector3 position, Quaternion rotation, ProjectileData data, 
-            DamageType damageType, ICollisionService collisionService, T item)
+            DamageInfo damageInfo, ICollisionService collisionService, T item)
         {
             if (item == null || data == null || collisionService == null)
             {
@@ -19,7 +19,7 @@ namespace _Project.Scripts.Weapons.Projectile
 
             item.transform.position = position;
             item.transform.rotation = rotation;
-            item.Initialize(data, damageType, collisionService);
+            item.Initialize(data, damageInfo, collisionService);
         }
 
         protected override void OnDespawned(T item)

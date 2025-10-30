@@ -5,6 +5,7 @@ using _Project.Scripts.Movement.RotationProviders;
 using _Project.Scripts.Spawning.Common.Core;
 using _Project.Scripts.Spawning.Common.Pooling;
 using _Project.Scripts.Spawning.Enemies.Config;
+using _Project.Scripts.Spawning.Enemies.Initialization;
 using _Project.Scripts.Spawning.Enemies.Movement;
 using UnityEngine;
 using Zenject;
@@ -17,18 +18,21 @@ namespace _Project.Scripts.Spawning.Enemies.Fragments
         private readonly GenericPool<AsteroidFragment> _pool;
         private readonly IEnemyMovementConfigurator _movementConfigurator;
         private readonly SpawnBoundaryTracker _boundaryTracker;
+        private readonly DefaultEnemyInitializer _initializer;
 
         [Inject]
         public AsteroidFragmentFactory(
             ICollisionService collisionService,
             GenericPool<AsteroidFragment> pool,
             IEnemyMovementConfigurator movementConfigurator,
-            SpawnBoundaryTracker boundaryTracker)
+            SpawnBoundaryTracker boundaryTracker,
+            DefaultEnemyInitializer initializer)
         {
             _collisionService = collisionService;
             _pool = pool;
             _movementConfigurator = movementConfigurator;
             _boundaryTracker = boundaryTracker;
+            _initializer = initializer;
         }
 
         public void SpawnFragments(Vector2 center, float asteroidSpeed, AsteroidFragmentTypeSpawnConfig spawnConfig)
@@ -50,8 +54,7 @@ namespace _Project.Scripts.Spawning.Enemies.Fragments
             var speed = asteroidSpeed * spawnConfig.FragmentSpeedMultiplier;
 
             var fragment = _pool.Spawn(pos);
-            fragment.SetType(spawnConfig.Config.Type);
-            fragment.CollisionHandler.Initialize(_collisionService);
+            _initializer.Initialize(fragment, spawnConfig.Config);
 
             IDirectionProvider directionProvider =
                 _movementConfigurator.CreateDirectionProvider(spawnConfig.Config.DirectionProviderConfig, direction);

@@ -15,6 +15,7 @@ namespace _Project.Scripts.Weapons.Types.Laser
         private ILineRenderer _lineRenderer;
         private IRaycastService _raycastService;
         private ICollisionService _collisionService;
+        private DamageInfo _damageInfo;
         private int _currentCharges;
         private float _shootCooldown;
         private float _chargesCooldown;
@@ -23,13 +24,15 @@ namespace _Project.Scripts.Weapons.Types.Laser
 
         public bool CanShoot => _currentCharges > 0 && _shootCooldown <= 0 && !_isShooting;
         
-        public void Initialize(LaserGunConfig config, ILineRenderer lineRenderer, 
+        public void Initialize(GameObject damageInstigator, LaserGunConfig config, ILineRenderer lineRenderer, 
             IRaycastService raycastService, ICollisionService collisionService)
         {
             _config = config;
             _lineRenderer = lineRenderer;
             _raycastService = raycastService;
             _collisionService = collisionService;
+            
+            _damageInfo = new DamageInfo(_config.DamageType, damageInstigator);
             _currentCharges = _config.MaxCharges;
             _lineRenderer.Disable();
         }
@@ -88,7 +91,7 @@ namespace _Project.Scripts.Weapons.Types.Laser
 
         public DamageInfo GetDamageInfo()
         {
-            return new DamageInfo(_config.DamageType, gameObject);
+            return _damageInfo;
         }
     }
 }

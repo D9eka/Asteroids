@@ -16,22 +16,16 @@ namespace _Project.Scripts.Spawning.Enemies.Core
     {
         private readonly List<IEnemyProvider> _enemyProviders;
         private readonly SpawnPointGenerator _spawnPointGenerator;
-        private readonly IEnemyMovementConfigurator _movementConfigurator;
-        private readonly SpawnBoundaryTracker _spawnBoundaryTracker;
         private readonly List<IEnemyInitializerBase> _initializers;
 
         [Inject]
         public EnemyFactory(
             List<IEnemyProvider> enemyProviders,
             SpawnPointGenerator spawnPointGenerator,
-            IEnemyMovementConfigurator movementConfigurator,
-            SpawnBoundaryTracker spawnBoundaryTracker,
             List<IEnemyInitializerBase> initializers)
         {
             _enemyProviders = enemyProviders;
             _spawnPointGenerator = spawnPointGenerator;
-            _movementConfigurator = movementConfigurator;
-            _spawnBoundaryTracker = spawnBoundaryTracker;
             _initializers = initializers;
         }
 
@@ -57,9 +51,6 @@ namespace _Project.Scripts.Spawning.Enemies.Core
 
         private void SetupEnemy(IEnemy enemy, EnemyTypeSpawnConfig spawnConfig)
         {
-            _spawnBoundaryTracker.RegisterObject(enemy.Transform);
-            _movementConfigurator.Configure(enemy, enemy.Transform.position, spawnConfig.Config);
-
             foreach (IEnemyInitializerBase initializer in _initializers)
             {
                 if (initializer.CanInitialize(enemy))

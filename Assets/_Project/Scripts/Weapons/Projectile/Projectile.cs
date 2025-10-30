@@ -10,7 +10,7 @@ namespace _Project.Scripts.Weapons.Projectile
         private float _speed;
         private float _lifeTime;
         private float _timeAlive;
-        private DamageType _damageType;
+        private DamageInfo _damageInfo;
         
         private Rigidbody2D _rb;
         private CollisionHandler _collisionHandler;
@@ -30,12 +30,12 @@ namespace _Project.Scripts.Weapons.Projectile
                 OnDespawned();
         }
 
-        public void Initialize(ProjectileData data, DamageType damageType, ICollisionService collisionService)
+        public void Initialize(ProjectileData data, DamageInfo damageInfo, ICollisionService collisionService)
         {
             _speed = data.Speed;
             _lifeTime = data.LifeTime;
             _spriteRenderer.sprite = data.Sprite;
-            _damageType = damageType;
+            _damageInfo = damageInfo;
             _collisionHandler.Initialize(collisionService);
             
             _rb.linearVelocity = transform.up * _speed;
@@ -53,7 +53,7 @@ namespace _Project.Scripts.Weapons.Projectile
 
         public DamageInfo GetDamageInfo()
         {
-            return new DamageInfo(_damageType, gameObject);
+            return _damageInfo;
         }
     }
 }
