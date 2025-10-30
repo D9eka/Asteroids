@@ -1,15 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using _Project.Scripts.Enemies;
 using _Project.Scripts.Player;
+using _Project.Scripts.Weapons.Projectile;
 using UnityEngine;
 
 namespace _Project.Scripts.Score
 {
     public class ScoreService : IScoreService
     {
+        public event Action<int> OnScoreAdded;
+        
         private readonly IReadOnlyDictionary<EnemyType, int> _config;
         
         private int _totalScore;
+
+        public int TotalScore
+        {
+            get => _totalScore;
+            set
+            {
+                if (value == _totalScore) return;
+                _totalScore = value;
+                OnScoreAdded?.Invoke(value);
+            }
+        }
 
         public ScoreService(ScoreConfig config)
         {
@@ -18,18 +33,23 @@ namespace _Project.Scripts.Score
 
         public void AddScore(GameObject killer, IEnemy enemy)
         {
-            if (!killer.TryGetComponent<IPlayerController>(out _)) return;
+            if (!CanAddScoreToKiller(killer)) return;
             
-            int points = CalculatePoints(killer, enemy);
-            _totalScore += points;
-            Debug.Log($"[{killer.name}] killed [{enemy.Transform.name}] +{points} pts (Total: {_totalScore})");
+            int points = CalculatePoints(enemy);
+            TotalScore += points;
+            Debug.Log($"[{killer.name}] killed [{enemy.Transform.name}] +{points} pts (Total: {TotalScore})");
         }
 
-        private int CalculatePoints(GameObject killer, IEnemy enemy)
+        private int CalculatePoints(IEnemy enemy)
         {
-            if (!killer.TryGetComponent<IPlayerController>(out _)) return 0;
-
             return _config[enemy.Type];
+        }
+
+        private bool CanAddScoreToKiller(GameObject killer)
+        {
+            return killer.TryGetComponent<IPlayerController>(out _) ||
+                   (killer.TryGetComponent(out Projectile projectile) &&
+                    projectile.TryGetComponent<IPlayerController>(out _));
         }
     }
 }

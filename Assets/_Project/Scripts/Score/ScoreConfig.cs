@@ -23,7 +23,7 @@ namespace _Project.Scripts.Score
 
         private void BuildCache()
         {
-            _cache = new Dictionary<EnemyType, int>();
+            _cache = new Dictionary<EnemyType, int> { { EnemyType.None, 0 } };
             foreach (var entry in _entries)
             {
                 _cache[entry.Type] = entry.Score;
