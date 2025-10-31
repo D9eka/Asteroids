@@ -5,9 +5,16 @@ namespace _Project.Scripts.Player.Movement
 {
     public class PlayerMovement : MovementBase, IPlayerMovement
     {
-        [Header("Player Movement Settings")]
-        [SerializeField] private float _thrustForce = 5f;
-        [SerializeField] private float _rotationSpeed = 200f;
+        private float _thrustForce;
+        private float _rotationSpeed;
+
+        public void Initialize(PlayerMovementData data)
+        {
+            _thrustForce = data.ThrustForce;
+            _rotationSpeed = data.RotationSpeed;
+            
+            SetVelocity(_thrustForce);
+        }
 
         public void Move(float input)
         {

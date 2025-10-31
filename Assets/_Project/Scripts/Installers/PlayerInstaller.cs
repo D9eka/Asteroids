@@ -11,6 +11,7 @@ namespace _Project.Scripts.Installers
     {
         [SerializeField] private PlayerController _playerController;
         [SerializeField] private PlayerMovement _movement;
+        [SerializeField] private PlayerMovementData _movementData;
 
         public override void InstallBindings()
         {
@@ -19,6 +20,7 @@ namespace _Project.Scripts.Installers
                 .WithId("PlayerCollisionHandler")
                 .FromInstance(_playerController.GetComponent<CollisionHandler>())
                 .AsCached();
+            Container.Bind<PlayerMovementData>().FromInstance(_movementData).AsSingle();
             
             Container.BindInterfacesAndSelfTo<PlayerMovement>().FromInstance(_movement).AsSingle();
 
