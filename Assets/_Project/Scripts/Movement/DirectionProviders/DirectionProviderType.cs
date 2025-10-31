@@ -3,6 +3,6 @@
     public enum DirectionProviderType
     {
         Linear,
-        IntermittentTarget
+        Target
     }
 }

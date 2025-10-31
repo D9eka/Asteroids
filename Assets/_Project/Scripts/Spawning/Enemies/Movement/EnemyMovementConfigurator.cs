@@ -49,8 +49,8 @@ namespace _Project.Scripts.Spawning.Enemies.Movement
             return parameters switch
             {
                 LinearDirectionProviderConfig => new LinearDirectionProvider(direction),
-                IntermittentTargetDirectionProviderConfig movementParameters => new IntermittentTargetDirectionProvider(
-                    direction, _playerTransform, movementParameters.UpdateInterval, movementParameters.MoveToTargetChance),
+                TargetDirectionProviderConfig movementParameters => new TargetDirectionProvider(
+                    direction, _playerTransform, movementParameters.UpdateInterval),
                 _ => throw new NotSupportedException($"Unsupported movement parameters type: {parameters.GetType().Name}")
             };
         }
