@@ -1,10 +1,10 @@
 ﻿using System.Text;
-using _Project.Scripts.UI;
-using _Project.Scripts.Weapons.Types.Laser;
+using Asteroids.Scripts.UI;
+using Asteroids.Scripts.Weapons.Types.Laser;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Player
+namespace Asteroids.Scripts.Player
 {
     public class PlayerParamsService : ITickable
     {

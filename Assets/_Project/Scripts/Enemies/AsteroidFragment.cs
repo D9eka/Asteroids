@@ -1,11 +1,11 @@
 ﻿using System;
-using _Project.Scripts.Collision;
-using _Project.Scripts.Damage;
-using _Project.Scripts.Spawning.Enemies.Config;
-using _Project.Scripts.Spawning.Enemies.Core;
+using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Damage;
+using Asteroids.Scripts.Spawning.Enemies.Config;
+using Asteroids.Scripts.Spawning.Enemies.Core;
 using UnityEngine;
 
-namespace _Project.Scripts.Enemies
+namespace Asteroids.Scripts.Enemies
 {
     public class AsteroidFragment : MonoBehaviour, IEnemy
     {

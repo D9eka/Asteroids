@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
 
-namespace _Project.Scripts.Input
+namespace Asteroids.Scripts.Input
 {
     public class PlayerInputReader : IPlayerInput, IInitializable, IDisposable
     {

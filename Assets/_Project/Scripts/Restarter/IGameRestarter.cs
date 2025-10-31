@@ -1,4 +1,4 @@
-﻿namespace _Project.Scripts.Restarter
+﻿namespace Asteroids.Scripts.Restarter
 {
     public interface IGameRestarter
     {

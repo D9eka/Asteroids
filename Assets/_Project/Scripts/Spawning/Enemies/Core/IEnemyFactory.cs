@@ -1,7 +1,7 @@
-﻿using _Project.Scripts.Enemies;
-using _Project.Scripts.Spawning.Enemies.Providers;
+﻿using Asteroids.Scripts.Enemies;
+using Asteroids.Scripts.Spawning.Enemies.Providers;
 
-namespace _Project.Scripts.Spawning.Enemies.Core
+namespace Asteroids.Scripts.Spawning.Enemies.Core
 {
     public interface IEnemyFactory
     {

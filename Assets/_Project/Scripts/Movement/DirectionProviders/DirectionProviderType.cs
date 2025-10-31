@@ -1,4 +1,4 @@
-﻿namespace _Project.Scripts.Movement.DirectionProviders
+﻿namespace Asteroids.Scripts.Movement.DirectionProviders
 {
     public enum DirectionProviderType
     {

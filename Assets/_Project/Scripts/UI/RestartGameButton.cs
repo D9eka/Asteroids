@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace _Project.Scripts.UI
+namespace Asteroids.Scripts.UI
 {
     public class RestartGameButton : MonoBehaviour, IRestartGameButton
     {

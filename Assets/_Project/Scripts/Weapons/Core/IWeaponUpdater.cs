@@ -1,4 +1,4 @@
-﻿namespace _Project.Scripts.Weapons.Core
+﻿namespace Asteroids.Scripts.Weapons.Core
 {
     public interface IWeaponUpdater
     {

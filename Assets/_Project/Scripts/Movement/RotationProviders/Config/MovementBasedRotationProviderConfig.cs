@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _Project.Scripts.Movement.RotationProviders.Config
+namespace Asteroids.Scripts.Movement.RotationProviders.Config
 {
     [CreateAssetMenu(menuName = "Configs/Movement/Rotation/MovementBasedRotationProviderConfig", 
         fileName = "MovementBasedRotationProviderConfig")]

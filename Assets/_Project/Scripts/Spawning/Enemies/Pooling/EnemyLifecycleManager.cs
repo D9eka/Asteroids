@@ -1,18 +1,19 @@
-﻿using _Project.Scripts.Enemies;
-using _Project.Scripts.Score;
-using _Project.Scripts.Spawning.Common.Pooling;
+﻿using Asteroids.Scripts.Enemies;
+using Asteroids.Scripts.Score;
+using Asteroids.Scripts.Spawning.Common.Pooling;
 using UnityEngine;
 using Zenject;
-using IPoolable = _Project.Scripts.Spawning.Common.Pooling.IPoolable;
+using IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
+using Pooling_IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
 
-namespace _Project.Scripts.Spawning.Enemies.Pooling
+namespace Asteroids.Scripts.Spawning.Enemies.Pooling
 {
     public class EnemyLifecycleManager : IEnemyLifecycleManager
     {
-        private readonly IPoolableLifecycleManager<IPoolable> _poolLifecycle;
+        private readonly IPoolableLifecycleManager<Pooling_IPoolable> _poolLifecycle;
         private readonly IScoreService _scoreService;
 
-        public EnemyLifecycleManager(IPoolableLifecycleManager<IPoolable> poolLifecycle, IScoreService scoreService)
+        public EnemyLifecycleManager(IPoolableLifecycleManager<Pooling_IPoolable> poolLifecycle, IScoreService scoreService)
         {
             _poolLifecycle = poolLifecycle;
             _poolLifecycle.OnDespawned += OnPoolableDespawned;
@@ -32,7 +33,7 @@ namespace _Project.Scripts.Spawning.Enemies.Pooling
             _poolLifecycle.Despawn(enemy);
         }
 
-        private void OnPoolableDespawned(IPoolable poolable)
+        private void OnPoolableDespawned(Pooling_IPoolable poolable)
         {
             if (poolable is IEnemy enemy)
             {

@@ -1,10 +1,10 @@
 ﻿using System;
-using _Project.Scripts.Damage;
-using _Project.Scripts.Player.Movement;
-using _Project.Scripts.Player.Weapons;
+using Asteroids.Scripts.Damage;
+using Asteroids.Scripts.Player.Movement;
+using Asteroids.Scripts.Player.Weapons;
 using UnityEngine;
 
-namespace _Project.Scripts.Player
+namespace Asteroids.Scripts.Player
 {
     public class PlayerController : MonoBehaviour, IPlayerController
     {

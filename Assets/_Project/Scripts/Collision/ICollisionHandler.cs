@@ -1,4 +1,4 @@
-﻿namespace _Project.Scripts.Collision
+﻿namespace Asteroids.Scripts.Collision
 {
     public interface ICollisionHandler
     {

@@ -1,4 +1,4 @@
-﻿namespace _Project.Scripts.Damage
+﻿namespace Asteroids.Scripts.Damage
 {
     public interface IDamageable
     {

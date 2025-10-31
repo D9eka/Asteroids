@@ -1,9 +1,9 @@
-﻿using _Project.Scripts.Collision;
-using _Project.Scripts.Damage;
+﻿using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Damage;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Weapons.Projectile
+namespace Asteroids.Scripts.Weapons.Projectile
 {
     public class ProjectilePool<T> : MonoMemoryPool<Vector3, Quaternion, ProjectileData, DamageInfo, ICollisionService, T>
         where T : Component, IProjectile

@@ -1,8 +1,8 @@
-﻿using _Project.Scripts.Input;
+﻿using Asteroids.Scripts.Input;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Player.Movement
+namespace Asteroids.Scripts.Player.Movement
 {
     public class PlayerMovementAnimation : MonoBehaviour
     {

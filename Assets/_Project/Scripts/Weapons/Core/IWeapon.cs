@@ -1,6 +1,6 @@
-﻿using _Project.Scripts.Damage;
+﻿using Asteroids.Scripts.Damage;
 
-namespace _Project.Scripts.Weapons.Core
+namespace Asteroids.Scripts.Weapons.Core
 {
     public interface IWeapon : IDamageSource
     {

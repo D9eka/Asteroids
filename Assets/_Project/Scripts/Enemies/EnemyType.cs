@@ -1,4 +1,4 @@
-﻿namespace _Project.Scripts.Enemies
+﻿namespace Asteroids.Scripts.Enemies
 {
     public enum EnemyType
     {

@@ -1,13 +1,13 @@
-﻿using _Project.Scripts.Collision;
-using _Project.Scripts.Enemies;
-using _Project.Scripts.Enemies.Config;
-using _Project.Scripts.Pause;
-using _Project.Scripts.Spawning.Common.Core;
-using _Project.Scripts.Spawning.Enemies.Fragments;
-using _Project.Scripts.Spawning.Enemies.Movement;
+﻿using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Enemies;
+using Asteroids.Scripts.Enemies.Config;
+using Asteroids.Scripts.Pause;
+using Asteroids.Scripts.Spawning.Common.Core;
+using Asteroids.Scripts.Spawning.Enemies.Fragments;
+using Asteroids.Scripts.Spawning.Enemies.Movement;
 using Zenject;
 
-namespace _Project.Scripts.Spawning.Enemies.Initialization
+namespace Asteroids.Scripts.Spawning.Enemies.Initialization
 {
     public class AsteroidInitializer : EnemyInitializer<Asteroid, AsteroidTypeConfig>
     {

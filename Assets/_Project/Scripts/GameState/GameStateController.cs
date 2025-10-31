@@ -1,18 +1,19 @@
-﻿using _Project.Scripts.Pause;
-using _Project.Scripts.Player;
-using _Project.Scripts.Restarter;
-using _Project.Scripts.Spawning.Common.Pooling;
-using _Project.Scripts.UI;
+﻿using Asteroids.Scripts.Pause;
+using Asteroids.Scripts.Player;
+using Asteroids.Scripts.Restarter;
+using Asteroids.Scripts.Spawning.Common.Pooling;
+using Asteroids.Scripts.UI;
 using Zenject;
-using IPoolable = _Project.Scripts.Spawning.Common.Pooling.IPoolable;
+using IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
+using Pooling_IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
 
-namespace _Project.Scripts.GameState
+namespace Asteroids.Scripts.GameState
 {
     public class GameStateController : IGameStateController
     {
         private readonly IPlayerController _playerController;
         private readonly IPauseSystem _pauseSystem;
-        private readonly IPoolableLifecycleManager<IPoolable> _lifecycleManager;
+        private readonly IPoolableLifecycleManager<Pooling_IPoolable> _lifecycleManager;
         private readonly IGameRestarter _gameRestarter;
         private readonly IRestartGameButton _restartButton;
 
@@ -20,7 +21,7 @@ namespace _Project.Scripts.GameState
         public GameStateController(
             IPlayerController playerController,
             IPauseSystem pauseSystem,
-            IPoolableLifecycleManager<IPoolable> lifecycleManager,
+            IPoolableLifecycleManager<Pooling_IPoolable> lifecycleManager,
             IGameRestarter gameRestarter,
             IRestartGameButton restartButton)
         {

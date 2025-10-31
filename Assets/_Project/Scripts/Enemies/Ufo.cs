@@ -1,10 +1,10 @@
 ﻿using System;
-using _Project.Scripts.Collision;
-using _Project.Scripts.Damage;
-using _Project.Scripts.Weapons.Types.BulletGun;
+using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Damage;
+using Asteroids.Scripts.Weapons.Types.BulletGun;
 using UnityEngine;
 
-namespace _Project.Scripts.Enemies
+namespace Asteroids.Scripts.Enemies
 {
     public class Ufo : MonoBehaviour, IEnemy
     {

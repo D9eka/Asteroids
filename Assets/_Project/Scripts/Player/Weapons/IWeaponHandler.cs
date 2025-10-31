@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using _Project.Scripts.Weapons.Core;
+using Asteroids.Scripts.Weapons.Core;
 
-namespace _Project.Scripts.Player.Weapons
+namespace Asteroids.Scripts.Player.Weapons
 {
     public interface IWeaponHandler
     {

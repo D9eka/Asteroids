@@ -1,7 +1,7 @@
 ﻿using System;
 using Zenject;
 
-namespace _Project.Scripts.Spawning.Common.Pooling
+namespace Asteroids.Scripts.Spawning.Common.Pooling
 {
     public interface IPoolableLifecycleManager<T> where T : class, IPoolable
     {

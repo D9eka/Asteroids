@@ -1,8 +1,8 @@
-﻿using _Project.Scripts.Pause;
-using _Project.Scripts.Spawning.Enemies.Core;
+﻿using Asteroids.Scripts.Spawning.Enemies.Core;
+using Asteroids.Scripts.Pause;
 using UnityEngine;
 
-namespace _Project.Scripts.Input
+namespace Asteroids.Scripts.Input
 {
     public interface IPlayerInput : ITickableSystem
     {

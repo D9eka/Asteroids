@@ -1,7 +1,7 @@
-﻿using _Project.Scripts.Damage;
+﻿using Asteroids.Scripts.Damage;
 using UnityEngine;
 
-namespace _Project.Scripts.Weapons.Core
+namespace Asteroids.Scripts.Weapons.Core
 {
     [CreateAssetMenu(fileName = "WeaponConfig", menuName = "Weapons/WeaponConfig")]
     public class WeaponConfig : ScriptableObject

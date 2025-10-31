@@ -1,7 +1,7 @@
-﻿using _Project.Scripts.Enemies;
+﻿using Asteroids.Scripts.Enemies;
 using Zenject;
 
-namespace _Project.Scripts.Spawning.Enemies.Pooling
+namespace Asteroids.Scripts.Spawning.Enemies.Pooling
 {
     public interface IEnemyLifecycleManager
     {

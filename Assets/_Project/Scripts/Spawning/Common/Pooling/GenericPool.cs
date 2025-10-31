@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Spawning.Common.Pooling
+namespace Asteroids.Scripts.Spawning.Common.Pooling
 {
     public class GenericPool<T> : MonoMemoryPool<Vector3, T> where T : Component, IPoolable
     {

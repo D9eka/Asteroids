@@ -1,7 +1,7 @@
-﻿using _Project.Scripts.Movement.Core;
+﻿using Asteroids.Scripts.Movement.Core;
 using UnityEngine;
 
-namespace _Project.Scripts.Player.Movement
+namespace Asteroids.Scripts.Player.Movement
 {
     public class PlayerMovement : MovementBase, IPlayerMovement
     {

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using _Project.Scripts.Input;
-using _Project.Scripts.Spawning.Enemies.Core;
+using Asteroids.Scripts.Input;
+using Asteroids.Scripts.Spawning.Enemies.Core;
 using Zenject;
 
-namespace _Project.Scripts.Pause
+namespace Asteroids.Scripts.Pause
 {
     public class PauseSystem : IPauseSystem, IInitializable
     {

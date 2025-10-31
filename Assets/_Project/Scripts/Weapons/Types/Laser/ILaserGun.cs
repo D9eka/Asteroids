@@ -1,6 +1,6 @@
-﻿using _Project.Scripts.Weapons.Core;
+﻿using Asteroids.Scripts.Weapons.Core;
 
-namespace _Project.Scripts.Weapons.Types.Laser
+namespace Asteroids.Scripts.Weapons.Types.Laser
 {
     public interface ILaserGun : IWeapon
     {

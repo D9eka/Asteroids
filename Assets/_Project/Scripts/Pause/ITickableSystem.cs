@@ -1,4 +1,4 @@
-﻿namespace _Project.Scripts.Pause
+﻿namespace Asteroids.Scripts.Pause
 {
     public interface ITickableSystem
     {

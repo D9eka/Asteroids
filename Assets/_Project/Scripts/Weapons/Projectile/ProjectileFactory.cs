@@ -1,22 +1,23 @@
-﻿using _Project.Scripts.Collision;
-using _Project.Scripts.Damage;
-using _Project.Scripts.Pause;
-using _Project.Scripts.Spawning.Common.Pooling;
+﻿using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Damage;
+using Asteroids.Scripts.Pause;
+using Asteroids.Scripts.Spawning.Common.Pooling;
 using UnityEngine;
 using Zenject;
-using IPoolable = _Project.Scripts.Spawning.Common.Pooling.IPoolable;
+using IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
+using Pooling_IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
 
-namespace _Project.Scripts.Weapons.Projectile
+namespace Asteroids.Scripts.Weapons.Projectile
 {
     public class ProjectileFactory : IProjectileFactory
     {
         private readonly ProjectilePool<Projectile> _pool;
         private readonly IPauseSystem _pauseSystem;
-        private readonly IPoolableLifecycleManager<IPoolable> _lifecycleManager;
+        private readonly IPoolableLifecycleManager<Pooling_IPoolable> _lifecycleManager;
 
         [Inject]
         public ProjectileFactory(ProjectilePool<Projectile> pool, IPauseSystem pauseSystem,
-            IPoolableLifecycleManager<IPoolable> lifecycleManager)
+            IPoolableLifecycleManager<Pooling_IPoolable> lifecycleManager)
         {
             _pool = pool;
             _pauseSystem = pauseSystem;

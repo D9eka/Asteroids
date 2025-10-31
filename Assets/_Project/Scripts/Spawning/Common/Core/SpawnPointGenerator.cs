@@ -1,7 +1,7 @@
-﻿using _Project.Scripts.Camera;
+﻿using Asteroids.Scripts.Camera;
 using UnityEngine;
 
-namespace _Project.Scripts.Spawning.Common.Core
+namespace Asteroids.Scripts.Spawning.Common.Core
 {
     public class SpawnPointGenerator
     {

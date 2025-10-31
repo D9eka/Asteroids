@@ -1,6 +1,6 @@
 ﻿using Zenject;
 
-namespace _Project.Scripts.Player
+namespace Asteroids.Scripts.Player
 {
     public class PlayerDeathHandler : IInitializable
     {

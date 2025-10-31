@@ -1,14 +1,14 @@
-﻿using _Project.Scripts.Collision;
-using _Project.Scripts.Weapons.Core;
-using _Project.Scripts.Weapons.Projectile;
-using _Project.Scripts.Weapons.Services.Raycast;
-using _Project.Scripts.Weapons.Types.BulletGun;
-using _Project.Scripts.Weapons.Types.Laser;
-using _Project.Scripts.Weapons.Types.Laser.LineRenderer;
+﻿using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Weapons.Core;
+using Asteroids.Scripts.Weapons.Projectile;
+using Asteroids.Scripts.Weapons.Services.Raycast;
+using Asteroids.Scripts.Weapons.Types.BulletGun;
+using Asteroids.Scripts.Weapons.Types.Laser;
+using Asteroids.Scripts.Weapons.Types.Laser.LineRenderer;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Player.Weapons
+namespace Asteroids.Scripts.Player.Weapons
 {
     public class PlayerWeaponsInitializer : IInitializable
     {

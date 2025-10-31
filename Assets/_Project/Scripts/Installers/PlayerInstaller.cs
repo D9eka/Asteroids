@@ -1,11 +1,11 @@
-﻿using _Project.Scripts.Collision;
-using _Project.Scripts.Player;
-using _Project.Scripts.Player.Input;
-using _Project.Scripts.Player.Movement;
+﻿using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Player;
+using Asteroids.Scripts.Player.Input;
+using Asteroids.Scripts.Player.Movement;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Installers
+namespace Asteroids.Scripts.Installers
 {
     public class PlayerInstaller : MonoInstaller
     {

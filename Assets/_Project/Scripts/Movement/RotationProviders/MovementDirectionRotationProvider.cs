@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _Project.Scripts.Movement.RotationProviders
+namespace Asteroids.Scripts.Movement.RotationProviders
 {
     public class MovementDirectionRotationProvider : IRotationProvider
     {

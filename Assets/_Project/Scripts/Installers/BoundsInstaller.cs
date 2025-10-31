@@ -1,9 +1,9 @@
-﻿using _Project.Scripts.Camera;
-using _Project.Scripts.WarpSystem;
+﻿using Asteroids.Scripts.Camera;
+using Asteroids.Scripts.WarpSystem;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Installers
+namespace Asteroids.Scripts.Installers
 {
     public class BoundsInstaller : MonoInstaller
     {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _Project.Scripts.Movement.DirectionProviders.Config
+namespace Asteroids.Scripts.Movement.DirectionProviders.Config
 {
     [CreateAssetMenu(menuName = "Configs/Movement/Direction/LinearDirectionProviderConfig", fileName = "LinearDirectionProviderConfig")]
     public class LinearDirectionProviderConfig : DirectionProviderConfig

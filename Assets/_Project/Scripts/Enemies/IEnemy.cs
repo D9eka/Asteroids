@@ -1,12 +1,12 @@
 ﻿using System;
-using _Project.Scripts.Collision;
-using _Project.Scripts.Core;
-using _Project.Scripts.Damage;
-using _Project.Scripts.Pause;
-using _Project.Scripts.Spawning.Common.Pooling;
+using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Core;
+using Asteroids.Scripts.Damage;
+using Asteroids.Scripts.Pause;
+using Asteroids.Scripts.Spawning.Common.Pooling;
 using UnityEngine;
 
-namespace _Project.Scripts.Enemies
+namespace Asteroids.Scripts.Enemies
 {
     public interface IEnemy : ITransformProvider, IDamageable, IDamageSource, IPoolable, IPausable
     {

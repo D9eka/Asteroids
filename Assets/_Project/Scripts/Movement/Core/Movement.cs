@@ -1,8 +1,8 @@
-﻿using _Project.Scripts.Movement.DirectionProviders;
-using _Project.Scripts.Movement.RotationProviders;
+﻿using Asteroids.Scripts.Movement.DirectionProviders;
+using Asteroids.Scripts.Movement.RotationProviders;
 using UnityEngine;
 
-namespace _Project.Scripts.Movement.Core
+namespace Asteroids.Scripts.Movement.Core
 {
     public class Movement : MovementBase
     {

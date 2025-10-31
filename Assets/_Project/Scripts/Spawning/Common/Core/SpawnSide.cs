@@ -1,4 +1,4 @@
-﻿namespace _Project.Scripts.Spawning.Common.Core
+﻿namespace Asteroids.Scripts.Spawning.Common.Core
 {
     public enum SpawnSide
     {

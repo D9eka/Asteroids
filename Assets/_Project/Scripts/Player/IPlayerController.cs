@@ -1,11 +1,11 @@
 ﻿using System;
-using _Project.Scripts.Core;
-using _Project.Scripts.Damage;
-using _Project.Scripts.Player.Movement;
-using _Project.Scripts.Player.Weapons;
-using _Project.Scripts.WarpSystem;
+using Asteroids.Scripts.Core;
+using Asteroids.Scripts.Damage;
+using Asteroids.Scripts.Player.Movement;
+using Asteroids.Scripts.Player.Weapons;
+using Asteroids.Scripts.WarpSystem;
 
-namespace _Project.Scripts.Player
+namespace Asteroids.Scripts.Player
 {
     public interface IPlayerController : ITransformProvider, IDamageable, IDamageSource, IWarpable
     {

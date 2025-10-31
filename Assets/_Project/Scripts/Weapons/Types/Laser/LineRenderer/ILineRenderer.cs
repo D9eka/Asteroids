@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _Project.Scripts.Weapons.Types.Laser.LineRenderer
+namespace Asteroids.Scripts.Weapons.Types.Laser.LineRenderer
 {
     public interface ILineRenderer
     {

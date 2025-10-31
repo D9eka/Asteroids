@@ -1,8 +1,8 @@
-﻿using _Project.Scripts.Damage;
-using _Project.Scripts.Enemies;
-using _Project.Scripts.Weapons.Projectile;
+﻿using Asteroids.Scripts.Damage;
+using Asteroids.Scripts.Enemies;
+using Asteroids.Scripts.Weapons.Projectile;
 
-namespace _Project.Scripts.Collision
+namespace Asteroids.Scripts.Collision
 {
     public class PlayerCollisionService : CollisionService
     {

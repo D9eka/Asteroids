@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Zenject;
 
-namespace _Project.Scripts.Weapons.Core
+namespace Asteroids.Scripts.Weapons.Core
 {
     public class WeaponUpdater : IWeaponUpdater, ITickable
     {

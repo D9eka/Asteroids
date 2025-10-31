@@ -1,4 +1,4 @@
-﻿namespace _Project.Scripts.GameState
+﻿namespace Asteroids.Scripts.GameState
 {
     public interface IGameStateController
     {

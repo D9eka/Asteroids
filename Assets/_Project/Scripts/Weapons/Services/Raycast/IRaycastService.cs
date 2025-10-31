@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _Project.Scripts.Weapons.Services.Raycast
+namespace Asteroids.Scripts.Weapons.Services.Raycast
 {
     public interface IRaycastService
     {

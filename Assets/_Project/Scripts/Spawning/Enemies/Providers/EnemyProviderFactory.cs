@@ -1,13 +1,13 @@
 ﻿using System;
-using _Project.Scripts.Enemies;
-using _Project.Scripts.Enemies.Config;
-using _Project.Scripts.Spawning.Common.Pooling;
-using _Project.Scripts.Spawning.Enemies.Config;
-using _Project.Scripts.Spawning.Enemies.Pooling;
+using Asteroids.Scripts.Enemies;
+using Asteroids.Scripts.Enemies.Config;
+using Asteroids.Scripts.Spawning.Common.Pooling;
+using Asteroids.Scripts.Spawning.Enemies.Config;
+using Asteroids.Scripts.Spawning.Enemies.Pooling;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Spawning.Enemies.Providers
+namespace Asteroids.Scripts.Spawning.Enemies.Providers
 {
     public class EnemyProviderFactory<TEnemy, TConfig> : IEnemyProviderFactory
         where TEnemy : MonoBehaviour, IEnemy

@@ -1,4 +1,4 @@
-﻿namespace _Project.Scripts.WarpSystem
+﻿namespace Asteroids.Scripts.WarpSystem
 {
     public interface IWarpable
     {

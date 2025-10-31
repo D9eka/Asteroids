@@ -1,7 +1,7 @@
-﻿using _Project.Scripts.Damage;
+﻿using Asteroids.Scripts.Damage;
 using UnityEngine;
 
-namespace _Project.Scripts.Collision
+namespace Asteroids.Scripts.Collision
 {
     public abstract class CollisionService : ICollisionService
     {

@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Score
+namespace Asteroids.Scripts.Score
 {
     public class ScoreView : MonoBehaviour
     {

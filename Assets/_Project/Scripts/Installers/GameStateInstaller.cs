@@ -1,11 +1,12 @@
-﻿using _Project.Scripts.GameState;
-using _Project.Scripts.Player;
-using _Project.Scripts.Restarter;
-using _Project.Scripts.UI;
+﻿using Asteroids.Scripts.GameState;
+using Asteroids.Scripts.Pause;
+using Asteroids.Scripts.Player;
+using Asteroids.Scripts.Restarter;
+using Asteroids.Scripts.UI;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Installers
+namespace Asteroids.Scripts.Installers
 {
     public class GameStateInstaller : MonoInstaller
     {
@@ -20,6 +21,8 @@ namespace _Project.Scripts.Installers
             Container.BindInterfacesAndSelfTo<RestartGameButton>().FromInstance(_restartButton).AsSingle();
             Container.BindInterfacesAndSelfTo<GameRestarter>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameStateController>().AsSingle().NonLazy();
+            
+            Container.BindInterfacesAndSelfTo<PauseSystem>().AsSingle();
         }
     }
 }

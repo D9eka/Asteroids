@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using _Project.Scripts.Pause;
-using _Project.Scripts.Spawning.Enemies.Providers;
+using Asteroids.Scripts.Pause;
+using Asteroids.Scripts.Spawning.Enemies.Providers;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Spawning.Enemies.Core
+namespace Asteroids.Scripts.Spawning.Enemies.Core
 {
     public class EnemySpawner : ITickable, ITickableSystem
     {

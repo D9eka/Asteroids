@@ -1,8 +1,8 @@
-﻿using _Project.Scripts.Score;
+﻿using Asteroids.Scripts.Score;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Installers
+namespace Asteroids.Scripts.Installers
 {
     public class ScoreInstaller : MonoInstaller
     {

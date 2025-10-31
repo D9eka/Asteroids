@@ -1,11 +1,10 @@
-﻿using _Project.Scripts.Collision;
-using _Project.Scripts.Damage;
-using _Project.Scripts.Weapons.Core;
-using _Project.Scripts.Weapons.Services.Raycast;
-using _Project.Scripts.Weapons.Types.Laser.LineRenderer;
+﻿using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Damage;
+using Asteroids.Scripts.Weapons.Services.Raycast;
+using Asteroids.Scripts.Weapons.Types.Laser.LineRenderer;
 using UnityEngine;
 
-namespace _Project.Scripts.Weapons.Types.Laser
+namespace Asteroids.Scripts.Weapons.Types.Laser
 {
     public class LaserGun : MonoBehaviour, ILaserGun
     {

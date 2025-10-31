@@ -1,11 +1,11 @@
-﻿using _Project.Scripts.Collision;
-using _Project.Scripts.Core;
-using _Project.Scripts.Player.Movement;
-using _Project.Scripts.Player.Weapons;
-using _Project.Scripts.WarpSystem;
+﻿using Asteroids.Scripts.Core;
+using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Player.Movement;
+using Asteroids.Scripts.Player.Weapons;
+using Asteroids.Scripts.WarpSystem;
 using Zenject;
 
-namespace _Project.Scripts.Player
+namespace Asteroids.Scripts.Player
 {
     public class PlayerControllerInitializer : IInitializable
     {

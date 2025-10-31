@@ -1,8 +1,8 @@
 ﻿using System;
-using _Project.Scripts.Enemies;
+using Asteroids.Scripts.Enemies;
 using UnityEngine;
 
-namespace _Project.Scripts.Score
+namespace Asteroids.Scripts.Score
 {
     public interface IScoreService
     {

@@ -1,7 +1,7 @@
-﻿using _Project.Scripts.Enemies.Config;
+﻿using Asteroids.Scripts.Enemies.Config;
 using UnityEngine;
 
-namespace _Project.Scripts.Spawning.Enemies.Config
+namespace Asteroids.Scripts.Spawning.Enemies.Config
 {
     [CreateAssetMenu(menuName = "Configs/Spawn/Enemy/EnemyTypeSpawnConfig", fileName = "EnemyTypeSpawnConfig")]
     public class EnemyTypeSpawnConfig : ScriptableObject

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _Project.Scripts.Collision
+namespace Asteroids.Scripts.Collision
 {
     [RequireComponent(typeof(Collider2D))]
     public class CollisionHandler : MonoBehaviour, ICollisionHandler

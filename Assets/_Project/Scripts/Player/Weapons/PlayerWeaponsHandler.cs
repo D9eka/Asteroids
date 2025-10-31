@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using _Project.Scripts.Weapons.Core;
+using Asteroids.Scripts.Weapons.Core;
 using Zenject;
 
-namespace _Project.Scripts.Player.Weapons
+namespace Asteroids.Scripts.Player.Weapons
 {
     public class PlayerWeaponsHandler : IWeaponHandler
     {

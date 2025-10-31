@@ -1,12 +1,12 @@
-﻿using _Project.Scripts.Enemies;
-using _Project.Scripts.Enemies.Config;
-using _Project.Scripts.Movement.DirectionProviders;
-using _Project.Scripts.Movement.DirectionProviders.Config;
-using _Project.Scripts.Movement.RotationProviders;
-using _Project.Scripts.Movement.RotationProviders.Config;
+﻿using Asteroids.Scripts.Enemies;
+using Asteroids.Scripts.Enemies.Config;
+using Asteroids.Scripts.Movement.DirectionProviders;
+using Asteroids.Scripts.Movement.DirectionProviders.Config;
+using Asteroids.Scripts.Movement.RotationProviders;
+using Asteroids.Scripts.Movement.RotationProviders.Config;
 using UnityEngine;
 
-namespace _Project.Scripts.Spawning.Enemies.Movement
+namespace Asteroids.Scripts.Spawning.Enemies.Movement
 {
     public interface IEnemyMovementConfigurator
     {

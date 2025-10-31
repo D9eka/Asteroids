@@ -1,8 +1,8 @@
-﻿using _Project.Scripts.Movement.DirectionProviders.Config;
-using _Project.Scripts.Movement.RotationProviders.Config;
+﻿using Asteroids.Scripts.Movement.DirectionProviders.Config;
+using Asteroids.Scripts.Movement.RotationProviders.Config;
 using UnityEngine;
 
-namespace _Project.Scripts.Enemies.Config
+namespace Asteroids.Scripts.Enemies.Config
 {
     [CreateAssetMenu(menuName = "Configs/Enemy/EnemyTypeSpawnConfig", fileName = "EnemyTypeSpawnConfig")]
     public class EnemyTypeConfig : ScriptableObject

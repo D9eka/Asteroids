@@ -1,7 +1,7 @@
-﻿using _Project.Scripts.Weapons.Core;
+﻿using Asteroids.Scripts.Weapons.Core;
 using UnityEngine;
 
-namespace _Project.Scripts.Weapons.Types.Laser
+namespace Asteroids.Scripts.Weapons.Types.Laser
 {
     [CreateAssetMenu(fileName = "LaserGunConfig", menuName = "Weapons/LaserGunConfig")]
     public class LaserGunConfig : WeaponConfig

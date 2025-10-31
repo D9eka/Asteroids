@@ -1,7 +1,7 @@
-﻿using _Project.Scripts.Spawning.Enemies.Config;
+﻿using Asteroids.Scripts.Spawning.Enemies.Config;
 using UnityEngine;
 
-namespace _Project.Scripts.Enemies.Config
+namespace Asteroids.Scripts.Enemies.Config
 {
     [CreateAssetMenu(menuName = "Configs/Enemy/AsteroidFragmentTypeSpawnConfig", fileName = "AsteroidFragmentTypeSpawnConfig")]
     public class AsteroidTypeConfig : EnemyTypeConfig

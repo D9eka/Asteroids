@@ -1,7 +1,7 @@
-﻿using _Project.Scripts.Input;
+﻿using Asteroids.Scripts.Input;
 using Zenject;
 
-namespace _Project.Scripts.Installers
+namespace Asteroids.Scripts.Installers
 {
     public class InputInstaller : MonoInstaller
     {

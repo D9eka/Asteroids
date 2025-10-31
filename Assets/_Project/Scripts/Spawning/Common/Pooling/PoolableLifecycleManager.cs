@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Zenject;
 
-namespace _Project.Scripts.Spawning.Common.Pooling
+namespace Asteroids.Scripts.Spawning.Common.Pooling
 {
     public class PoolableLifecycleManager<T> : IPoolableLifecycleManager<T> where T : class, IPoolable
     {

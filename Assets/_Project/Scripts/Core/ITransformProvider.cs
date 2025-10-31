@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _Project.Scripts.Core
+namespace Asteroids.Scripts.Core
 {
     public interface ITransformProvider
     {

@@ -1,4 +1,4 @@
-﻿namespace _Project.Scripts.Spawning.Enemies.Providers
+﻿namespace Asteroids.Scripts.Spawning.Enemies.Providers
 {
     public interface IEnemyProvider
     {

@@ -1,9 +1,9 @@
-﻿using _Project.Scripts.Collision;
-using _Project.Scripts.Damage;
-using _Project.Scripts.Pause;
-using _Project.Scripts.Spawning.Common.Pooling;
+﻿using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Damage;
+using Asteroids.Scripts.Pause;
+using Asteroids.Scripts.Spawning.Common.Pooling;
 
-namespace _Project.Scripts.Weapons.Projectile
+namespace Asteroids.Scripts.Weapons.Projectile
 {
     public interface IProjectile : IDamageSource, IPoolable, IPausable
     {

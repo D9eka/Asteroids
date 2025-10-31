@@ -1,8 +1,8 @@
-﻿using _Project.Scripts.Camera;
+﻿using Asteroids.Scripts.Camera;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.WarpSystem
+namespace Asteroids.Scripts.WarpSystem
 {
     public class CameraBoundsWarp : IBoundsWarp
     {

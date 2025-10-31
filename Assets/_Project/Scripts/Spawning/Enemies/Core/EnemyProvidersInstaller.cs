@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using _Project.Scripts.Enemies;
-using _Project.Scripts.Enemies.Config;
-using _Project.Scripts.Spawning.Enemies.Config;
-using _Project.Scripts.Spawning.Enemies.Fragments;
-using _Project.Scripts.Spawning.Enemies.Initialization;
-using _Project.Scripts.Spawning.Enemies.Providers;
+using Asteroids.Scripts.Enemies;
+using Asteroids.Scripts.Enemies.Config;
+using Asteroids.Scripts.Spawning.Enemies.Config;
+using Asteroids.Scripts.Spawning.Enemies.Fragments;
+using Asteroids.Scripts.Spawning.Enemies.Initialization;
+using Asteroids.Scripts.Spawning.Enemies.Providers;
 using Zenject;
 
-namespace _Project.Scripts.Spawning.Enemies.Core
+namespace Asteroids.Scripts.Spawning.Enemies.Core
 {
     public class EnemyProvidersInstaller : IInitializable
     {

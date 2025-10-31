@@ -1,8 +1,8 @@
-﻿using _Project.Scripts.Input;
+﻿using Asteroids.Scripts.Input;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Player.Input
+namespace Asteroids.Scripts.Player.Input
 {
     public class PlayerInputHandler : ITickable
     {

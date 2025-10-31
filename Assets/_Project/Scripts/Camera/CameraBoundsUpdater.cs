@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Camera
+namespace Asteroids.Scripts.Camera
 {
     public class CameraBoundsUpdater : ICameraBoundsUpdater, ITickable
     {

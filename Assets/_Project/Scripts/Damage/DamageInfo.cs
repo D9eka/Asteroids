@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _Project.Scripts.Damage
+namespace Asteroids.Scripts.Damage
 {
     public class DamageInfo
     {

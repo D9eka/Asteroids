@@ -1,7 +1,7 @@
-﻿using _Project.Scripts.Weapons.Types.BulletGun;
+﻿using Asteroids.Scripts.Weapons.Types.BulletGun;
 using UnityEngine;
 
-namespace _Project.Scripts.Enemies.Config
+namespace Asteroids.Scripts.Enemies.Config
 {
     [CreateAssetMenu(menuName = "Configs/Enemy/UfoTypeConfig", fileName = "UfoTypeConfig")]
     public class UfoTypeConfig : EnemyTypeConfig

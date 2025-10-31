@@ -1,4 +1,4 @@
-﻿namespace _Project.Scripts.Movement.RotationProviders
+﻿namespace Asteroids.Scripts.Movement.RotationProviders
 {
     public interface IRotationProvider
     {

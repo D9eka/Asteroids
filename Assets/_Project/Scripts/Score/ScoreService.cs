@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using _Project.Scripts.Enemies;
-using _Project.Scripts.Player;
-using _Project.Scripts.Weapons.Projectile;
+using Asteroids.Scripts.Enemies;
+using Asteroids.Scripts.Player;
+using Asteroids.Scripts.Weapons.Projectile;
 using UnityEngine;
 
-namespace _Project.Scripts.Score
+namespace Asteroids.Scripts.Score
 {
     public class ScoreService : IScoreService
     {
@@ -37,7 +37,6 @@ namespace _Project.Scripts.Score
             
             int points = CalculatePoints(enemy);
             TotalScore += points;
-            Debug.Log($"[{killer.name}] killed [{enemy.Transform.name}] +{points} pts (Total: {TotalScore})");
         }
 
         public void ResetScore()

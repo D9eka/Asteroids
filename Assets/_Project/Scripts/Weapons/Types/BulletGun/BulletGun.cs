@@ -1,10 +1,10 @@
-﻿using _Project.Scripts.Collision;
-using _Project.Scripts.Damage;
-using _Project.Scripts.Weapons.Core;
-using _Project.Scripts.Weapons.Projectile;
+﻿using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Damage;
+using Asteroids.Scripts.Weapons.Core;
+using Asteroids.Scripts.Weapons.Projectile;
 using UnityEngine;
 
-namespace _Project.Scripts.Weapons.Types.BulletGun
+namespace Asteroids.Scripts.Weapons.Types.BulletGun
 {
     public class BulletGun : MonoBehaviour, IWeapon
     {

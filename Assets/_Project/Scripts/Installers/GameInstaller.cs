@@ -1,8 +1,8 @@
-﻿using _Project.Scripts.Collision;
+﻿using Asteroids.Scripts.Collision;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Installers
+namespace Asteroids.Scripts.Installers
 {
     public class GameInstaller : MonoInstaller
     {

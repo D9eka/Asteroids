@@ -1,7 +1,7 @@
-﻿using _Project.Scripts.Enemies;
-using _Project.Scripts.Enemies.Config;
+﻿using Asteroids.Scripts.Enemies;
+using Asteroids.Scripts.Enemies.Config;
 
-namespace _Project.Scripts.Spawning.Enemies.Initialization
+namespace Asteroids.Scripts.Spawning.Enemies.Initialization
 {
     public interface IEnemyInitializer<in TEnemy, in TConfig>
         where TEnemy : IEnemy

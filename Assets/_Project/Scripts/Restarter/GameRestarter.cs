@@ -1,10 +1,10 @@
-﻿using _Project.Scripts.Pause;
-using _Project.Scripts.Player;
-using _Project.Scripts.Score;
+﻿using Asteroids.Scripts.Pause;
+using Asteroids.Scripts.Player;
+using Asteroids.Scripts.Score;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Restarter
+namespace Asteroids.Scripts.Restarter
 {
     public class GameRestarter : IGameRestarter
     {

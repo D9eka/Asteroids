@@ -1,18 +1,18 @@
-﻿using _Project.Scripts.Collision;
-using _Project.Scripts.Enemies;
-using _Project.Scripts.Movement.DirectionProviders;
-using _Project.Scripts.Movement.RotationProviders;
-using _Project.Scripts.Spawning.Common.Core;
-using _Project.Scripts.Spawning.Common.Pooling;
-using _Project.Scripts.Spawning.Enemies.Config;
-using _Project.Scripts.Spawning.Enemies.Initialization;
-using _Project.Scripts.Spawning.Enemies.Movement;
-using _Project.Scripts.Spawning.Enemies.Pooling;
-using _Project.Scripts.Spawning.Enemies.Providers;
+﻿using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Spawning.Common.Pooling;
+using Asteroids.Scripts.Spawning.Enemies.Pooling;
+using Asteroids.Scripts.Enemies;
+using Asteroids.Scripts.Movement.DirectionProviders;
+using Asteroids.Scripts.Movement.RotationProviders;
+using Asteroids.Scripts.Spawning.Common.Core;
+using Asteroids.Scripts.Spawning.Enemies.Config;
+using Asteroids.Scripts.Spawning.Enemies.Initialization;
+using Asteroids.Scripts.Spawning.Enemies.Movement;
+using Asteroids.Scripts.Spawning.Enemies.Providers;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Spawning.Enemies.Fragments
+namespace Asteroids.Scripts.Spawning.Enemies.Fragments
 {
     public class AsteroidFragmentFactory : IAsteroidFragmentFactory
     {

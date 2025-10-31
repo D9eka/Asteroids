@@ -1,8 +1,8 @@
-﻿using _Project.Scripts.Collision;
-using _Project.Scripts.Damage;
+﻿using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Damage;
 using UnityEngine;
 
-namespace _Project.Scripts.Weapons.Projectile
+namespace Asteroids.Scripts.Weapons.Projectile
 {
     [RequireComponent(typeof(Rigidbody2D), typeof(CollisionHandler), typeof(SpriteRenderer))]
     public class Projectile : MonoBehaviour, IProjectile, IDamageable

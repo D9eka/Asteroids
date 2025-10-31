@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using _Project.Scripts.Enemies;
-using _Project.Scripts.Enemies.Config;
+using Asteroids.Scripts.Enemies;
+using Asteroids.Scripts.Enemies.Config;
 using UnityEngine;
 
-namespace _Project.Scripts.Score
+namespace Asteroids.Scripts.Score
 {
     [CreateAssetMenu(menuName = "Configs/Score/ScoreConfig", fileName = "ScoreConfig")]
     public class ScoreConfig : ScriptableObject

@@ -1,4 +1,4 @@
-﻿namespace _Project.Scripts.Player.Movement
+﻿namespace Asteroids.Scripts.Player.Movement
 {
     public interface IPlayerMovement
     {

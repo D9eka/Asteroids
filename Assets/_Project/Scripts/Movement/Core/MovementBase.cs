@@ -1,7 +1,7 @@
-﻿using _Project.Scripts.Pause;
+﻿using Asteroids.Scripts.Pause;
 using UnityEngine;
 
-namespace _Project.Scripts.Movement.Core
+namespace Asteroids.Scripts.Movement.Core
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public abstract class MovementBase : MonoBehaviour, IPausable

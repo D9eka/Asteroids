@@ -1,7 +1,7 @@
-﻿using _Project.Scripts.Spawning.Enemies.Config;
+﻿using Asteroids.Scripts.Spawning.Enemies.Config;
 using UnityEngine;
 
-namespace _Project.Scripts.Spawning.Enemies.Fragments
+namespace Asteroids.Scripts.Spawning.Enemies.Fragments
 {
     public interface IAsteroidFragmentFactory
     {

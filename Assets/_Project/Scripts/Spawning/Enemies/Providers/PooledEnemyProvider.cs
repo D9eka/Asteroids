@@ -1,10 +1,10 @@
-﻿using _Project.Scripts.Enemies;
-using _Project.Scripts.Spawning.Common.Pooling;
-using _Project.Scripts.Spawning.Enemies.Config;
-using _Project.Scripts.Spawning.Enemies.Pooling;
+﻿using Asteroids.Scripts.Enemies;
+using Asteroids.Scripts.Spawning.Common.Pooling;
+using Asteroids.Scripts.Spawning.Enemies.Config;
+using Asteroids.Scripts.Spawning.Enemies.Pooling;
 using UnityEngine;
 
-namespace _Project.Scripts.Spawning.Enemies.Providers
+namespace Asteroids.Scripts.Spawning.Enemies.Providers
 {
     public class PooledEnemyProvider<TEnemy, TConfig> : IPooledEnemyProvider<TEnemy, TConfig>
         where TEnemy : MonoBehaviour, IEnemy

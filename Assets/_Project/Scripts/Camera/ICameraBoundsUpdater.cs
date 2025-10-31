@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _Project.Scripts.Camera
+namespace Asteroids.Scripts.Camera
 {
     public interface ICameraBoundsUpdater
     {

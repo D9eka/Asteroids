@@ -1,20 +1,21 @@
 ﻿using System.Collections.Generic;
-using _Project.Scripts.Spawning.Common.Pooling;
+using Asteroids.Scripts.Spawning.Common.Pooling;
 using UnityEngine;
 using Zenject;
-using IPoolable = _Project.Scripts.Spawning.Common.Pooling.IPoolable;
+using IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
+using Pooling_IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
 
-namespace _Project.Scripts.WarpSystem
+namespace Asteroids.Scripts.WarpSystem
 {
     public class BoundsManager : IBoundsManager, ITickable
     {
-        private readonly IPoolableLifecycleManager<IPoolable> _lifecycleManager;
+        private readonly IPoolableLifecycleManager<Pooling_IPoolable> _lifecycleManager;
         private readonly IBoundsWarp _boundsWarp;
         private readonly float _boundsMargin;
         private readonly List<Transform> _objects = new List<Transform>();
 
         [Inject]
-        public BoundsManager(IPoolableLifecycleManager<IPoolable> lifecycleManager,
+        public BoundsManager(IPoolableLifecycleManager<Pooling_IPoolable> lifecycleManager,
             IBoundsWarp boundsWarp, 
             [Inject(Id = "BoundsMargin")] float boundsMargin)
         {
@@ -55,7 +56,7 @@ namespace _Project.Scripts.WarpSystem
                     }
                     else
                     {
-                        if (obj.TryGetComponent(out IPoolable enemy))
+                        if (obj.TryGetComponent(out Pooling_IPoolable enemy))
                         {
                             _lifecycleManager.Despawn(enemy);
                         }

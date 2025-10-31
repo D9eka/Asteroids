@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using _Project.Scripts.Enemies;
-using _Project.Scripts.Spawning.Common.Core;
-using _Project.Scripts.Spawning.Enemies.Config;
-using _Project.Scripts.Spawning.Enemies.Initialization;
-using _Project.Scripts.Spawning.Enemies.Movement;
-using _Project.Scripts.Spawning.Enemies.Providers;
+using Asteroids.Scripts.Spawning.Enemies.Movement;
+using Asteroids.Scripts.Enemies;
+using Asteroids.Scripts.Spawning.Common.Core;
+using Asteroids.Scripts.Spawning.Enemies.Config;
+using Asteroids.Scripts.Spawning.Enemies.Initialization;
+using Asteroids.Scripts.Spawning.Enemies.Providers;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Spawning.Enemies.Core
+namespace Asteroids.Scripts.Spawning.Enemies.Core
 {
     public class EnemyFactory : IEnemyFactory
     {

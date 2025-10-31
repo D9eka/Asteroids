@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace _Project.Scripts.UI
+namespace Asteroids.Scripts.UI
 {
     public interface IRestartGameButton
     {

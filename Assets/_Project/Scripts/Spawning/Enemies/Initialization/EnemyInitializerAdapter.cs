@@ -1,9 +1,9 @@
-﻿using _Project.Scripts.Enemies;
-using _Project.Scripts.Enemies.Config;
-using _Project.Scripts.Spawning.Enemies.Config;
+﻿using Asteroids.Scripts.Enemies;
+using Asteroids.Scripts.Enemies.Config;
+using Asteroids.Scripts.Spawning.Enemies.Config;
 using Zenject;
 
-namespace _Project.Scripts.Spawning.Enemies.Initialization
+namespace Asteroids.Scripts.Spawning.Enemies.Initialization
 {
     public class EnemyInitializerAdapter<TEnemy, TConfig> : IEnemyInitializerBase
         where TEnemy : class, IEnemy
