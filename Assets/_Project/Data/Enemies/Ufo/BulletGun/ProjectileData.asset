@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f10cba48f1c94731941008634f7bf941, type: 3}
   m_Name: ProjectileData
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Weapons.Projectile.ProjectileData
-  <Speed>k__BackingField: 3
+  <Speed>k__BackingField: 7
   <LifeTime>k__BackingField: 5
   <Sprite>k__BackingField: {fileID: 21300000, guid: 3a67368d020369a4692ebf8a9cab93f1, type: 3}

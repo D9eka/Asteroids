@@ -19,4 +19,5 @@ MonoBehaviour:
   <PoolSize>k__BackingField: 10
   <MinFragments>k__BackingField: 2
   <MaxFragments>k__BackingField: 4
+  <FragmentPositionOffsetModefier>k__BackingField: 0.25
   <FragmentSpeedMultiplier>k__BackingField: 2
