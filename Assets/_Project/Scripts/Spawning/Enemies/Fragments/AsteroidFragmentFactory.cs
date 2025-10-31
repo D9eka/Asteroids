@@ -7,6 +7,8 @@ using _Project.Scripts.Spawning.Common.Pooling;
 using _Project.Scripts.Spawning.Enemies.Config;
 using _Project.Scripts.Spawning.Enemies.Initialization;
 using _Project.Scripts.Spawning.Enemies.Movement;
+using _Project.Scripts.Spawning.Enemies.Pooling;
+using _Project.Scripts.Spawning.Enemies.Providers;
 using UnityEngine;
 using Zenject;
 
@@ -14,20 +16,19 @@ namespace _Project.Scripts.Spawning.Enemies.Fragments
 {
     public class AsteroidFragmentFactory : IAsteroidFragmentFactory
     {
-        private readonly GenericPool<AsteroidFragment> _pool;
+        private readonly IPooledEnemyProvider<AsteroidFragment, EnemyTypeSpawnConfig> _enemyProvider;
         private readonly IEnemyMovementConfigurator _movementConfigurator;
         private readonly SpawnBoundaryTracker _boundaryTracker;
         private readonly DefaultEnemyInitializer _initializer;
 
         [Inject]
         public AsteroidFragmentFactory(
-            ICollisionService collisionService,
-            GenericPool<AsteroidFragment> pool,
+            IPooledEnemyProvider<AsteroidFragment, EnemyTypeSpawnConfig> provider,
             IEnemyMovementConfigurator movementConfigurator,
             SpawnBoundaryTracker boundaryTracker,
             DefaultEnemyInitializer initializer)
         {
-            _pool = pool;
+            _enemyProvider = provider;
             _movementConfigurator = movementConfigurator;
             _boundaryTracker = boundaryTracker;
             _initializer = initializer;
@@ -53,7 +54,7 @@ namespace _Project.Scripts.Spawning.Enemies.Fragments
             float speed = asteroidSpeed * spawnConfig.FragmentSpeedMultiplier;
 
             Vector2 pos = center + randomOffset * spawnConfig.FragmentPositionOffsetModefier;
-            AsteroidFragment fragment = _pool.Spawn(pos);
+            AsteroidFragment fragment = _enemyProvider.Spawn(pos);
             _initializer.Initialize(fragment, spawnConfig.Config);
 
             IDirectionProvider directionProvider =

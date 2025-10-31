@@ -28,8 +28,10 @@ namespace _Project.Scripts.Spawning.Enemies.Initialization
         public override void Initialize(Ufo ufo, UfoTypeConfig config)
         {
             base.Initialize(ufo, config);
+            if (ufo.Initialized) return;
             ufo.BulletGun.Initialize(ufo.gameObject, CollisionService, config.BulletGunConfig, _projectileFactory);
             _weaponUpdater.AddWeapon(ufo.BulletGun);
+            ufo.Initialized = true;
         }
     }
 }

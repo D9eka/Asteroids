@@ -18,6 +18,7 @@ namespace _Project.Scripts.Enemies
         private AsteroidFragmentTypeSpawnConfig _fragmentSpawnConfig;
         
         public Transform Transform => transform;
+        public bool Initialized { get; set; }
         public EnemyType Type { get; private set; }
         
         public void SetType(EnemyType type)
@@ -32,6 +33,7 @@ namespace _Project.Scripts.Enemies
         {
             _fragmentsFactory = fragmentsFactory;
             _fragmentSpawnConfig = asteroidTypeConfig.AsteroidFragmentSpawnConfig;
+            Initialized = true;
         }
 
         public void TakeDamage(DamageInfo damageInfo)
@@ -39,8 +41,8 @@ namespace _Project.Scripts.Enemies
             if (damageInfo.Type == DamageType.Bullet)
             {
                 SpawnFragments(damageInfo.Instigator);
-                OnKilled?.Invoke(damageInfo.Instigator, this);
             }
+            OnKilled?.Invoke(damageInfo.Instigator, this);
         }
 
         private void SpawnFragments(GameObject damageInstigator)

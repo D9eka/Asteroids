@@ -17,6 +17,7 @@ namespace _Project.Scripts.Enemies
         private bool _isPaused; 
         
         public Transform Transform => transform;
+        public bool Initialized { get; set; }
         public EnemyType Type { get; private set; }
 
         private void Update()
@@ -32,8 +33,17 @@ namespace _Project.Scripts.Enemies
             Type = type;
         }
 
-        public void OnSpawned() => gameObject.SetActive(true);
-        public void OnDespawned() => gameObject.SetActive(false);
+        public void OnSpawned()
+        {
+            Resume();
+            gameObject.SetActive(true);
+        }
+
+        public void OnDespawned()
+        {
+            Pause();
+            gameObject.SetActive(false);
+        }
 
         public void TakeDamage(DamageInfo damageInfo)
         {

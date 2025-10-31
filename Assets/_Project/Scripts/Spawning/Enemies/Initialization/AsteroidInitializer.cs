@@ -25,6 +25,7 @@ namespace _Project.Scripts.Spawning.Enemies.Initialization
         public override void Initialize(Asteroid asteroid, AsteroidTypeConfig config)
         {
             base.Initialize(asteroid, config);
+            if (asteroid.Initialized) return;
             asteroid.Initialize(_fragmentsFactory, config);
         }
     }

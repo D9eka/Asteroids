@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using _Project.Scripts.Collision;
 using _Project.Scripts.Enemies;
@@ -26,6 +27,8 @@ namespace _Project.Scripts.Installers
 
         public override void InstallBindings()
         {
+            Container.Bind<EnemySpawnConfig>().FromInstance(_enemySpawnConfig).AsSingle();
+            
             Container.Bind<ICollisionService>().To<EnemyCollisionService>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<PoolableLifecycleManager<IPoolable>>().AsSingle();
@@ -37,75 +40,26 @@ namespace _Project.Scripts.Installers
                 .AsSingle()
                 .WithArguments(_playerTransform);
             
-            BindUfo();
-            BindAsteroid();
+            BindEnemy<Ufo, UfoTypeConfig>(EnemyType.Ufo, typeof(UfoInitializer));
+            BindEnemy<Asteroid, AsteroidTypeConfig>(EnemyType.Asteroid, typeof(AsteroidInitializer));
 
-            var providers = CreateProviders();
-            Container.Bind<List<IEnemyProvider>>().FromInstance(providers).AsSingle();
-
-            Container.BindInterfacesAndSelfTo<EnemyFactory>().AsSingle();
-            Container.BindInterfacesAndSelfTo<EnemySpawner>().AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<PauseSystem>().AsSingle();
+            Container.BindInterfacesAndSelfTo<EnemyProvidersInstaller>().AsSingle().NonLazy();
         }
         
-        private void BindUfo()
+        private void BindEnemy<TEnemy, TConfig>(
+            EnemyType enemyType,
+            Type initializerType)
+            where TEnemy : MonoBehaviour, IEnemy
+            where TConfig : EnemyTypeConfig
         {
             Container.Bind<IEnemyProviderFactory>()
-                .WithId(EnemyType.Ufo)
-                .To<EnemyProviderFactory<Ufo, EnemyTypeConfig>>()
+                .WithId(enemyType)
+                .To<EnemyProviderFactory<TEnemy, TConfig>>()
                 .AsSingle()
-                .WithArguments(EnemyType.Ufo);
+                .WithArguments(enemyType);
 
-            Container.BindInterfacesAndSelfTo<UfoInitializer>().AsSingle();
-            Container.BindInterfacesAndSelfTo<EnemyInitializerAdapter<Ufo, UfoTypeConfig>>().AsSingle();
-        }
-
-        private void BindAsteroid()
-        {
-            BindAsteroidFragment();
-            
-            Container.Bind<IEnemyProviderFactory>()
-                .WithId(EnemyType.Asteroid)
-                .To<EnemyProviderFactory<Asteroid, AsteroidTypeConfig>>()
-                .AsSingle()
-                .WithArguments(EnemyType.Asteroid);
-
-            Container.BindInterfacesAndSelfTo<AsteroidInitializer>().AsSingle();
-            Container.BindInterfacesAndSelfTo<EnemyInitializerAdapter<Asteroid, AsteroidTypeConfig>>().AsSingle();
-        }
-
-        private void BindAsteroidFragment()
-        {
-            EnemyTypeSpawnConfig asteroidSpawnConfig = _enemySpawnConfig.Enemies
-                .FirstOrDefault(e => e.Config is AsteroidTypeConfig);
-            AsteroidTypeConfig asteroidTypeConfig = (AsteroidTypeConfig)asteroidSpawnConfig.Config;
-
-            AsteroidFragmentTypeSpawnConfig asteroidFragmentSpawnConfig = 
-                asteroidTypeConfig.AsteroidFragmentSpawnConfig;
-            
-            Container.BindMemoryPool<AsteroidFragment, GenericPool<AsteroidFragment>>()
-                .WithInitialSize(asteroidFragmentSpawnConfig.PoolSize)
-                .FromComponentInNewPrefab(asteroidFragmentSpawnConfig.Config.Prefab)
-                .UnderTransformGroup($"{typeof(AsteroidFragment).Name}s");
-            
-            Container.BindInterfacesAndSelfTo<DefaultEnemyInitializer>().AsSingle();
-            Container.BindInterfacesAndSelfTo<AsteroidFragmentFactory>().AsSingle();
-        }
-
-        private List<IEnemyProvider> CreateProviders()
-        {
-            var providers = new List<IEnemyProvider>();
-
-            foreach (var spawnConfig in _enemySpawnConfig.Enemies)
-            {
-                EnemyType enemyType = spawnConfig.Config.Type;
-
-                var factory = Container.ResolveId<IEnemyProviderFactory>(enemyType);
-                var provider = factory.Create(spawnConfig);
-                providers.Add(provider);
-            }
-
-            return providers;
+            Container.BindInterfacesAndSelfTo(initializerType).AsSingle();
+            Container.BindInterfacesAndSelfTo<EnemyInitializerAdapter<TEnemy, TConfig>>().AsSingle();
         }
     }
 }
