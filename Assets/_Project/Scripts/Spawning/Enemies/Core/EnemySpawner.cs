@@ -34,7 +34,7 @@ namespace _Project.Scripts.Spawning.Enemies.Core
                 if (_timers[provider] <= 0f)
                 {
                     if (Random.value <= provider.Probability)
-                        _factory.Spawn();
+                        _factory.Spawn(provider);
 
                     _timers[provider] = provider.SpawnInterval;
                 }

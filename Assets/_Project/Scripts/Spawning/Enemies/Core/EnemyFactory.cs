@@ -29,9 +29,8 @@ namespace _Project.Scripts.Spawning.Enemies.Core
             _initializers = initializers;
         }
 
-        public IEnemy Spawn()
+        public IEnemy Spawn(IEnemyProvider provider)
         {
-            IEnemyProvider provider = ChooseRandomProvider();
             (IEnemy enemy, EnemyTypeSpawnConfig config) = SpawnFromProvider(provider);
             SetupEnemy(enemy, config);
             return enemy;
@@ -59,22 +58,6 @@ namespace _Project.Scripts.Spawning.Enemies.Core
                     break;
                 }
             }
-        }
-
-        private IEnemyProvider ChooseRandomProvider()
-        {
-            float totalWeight = _enemyProviders.Sum(p => p.Probability);
-            float roll = UnityEngine.Random.value * totalWeight;
-            float cumulative = 0;
-
-            foreach (IEnemyProvider provider in _enemyProviders)
-            {
-                cumulative += provider.Probability;
-                if (roll <= cumulative)
-                    return provider;
-            }
-
-            return _enemyProviders.Last();
         }
     }
 }
