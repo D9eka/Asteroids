@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Asteroids.Scripts.Core;
 using Asteroids.Scripts.UI;
 using Asteroids.Scripts.Weapons.Types.Laser;
 using UnityEngine;
@@ -13,7 +14,8 @@ namespace Asteroids.Scripts.Player
         private readonly Rigidbody2D _rigidbody;
         private readonly ILaserGun _laserGun;
 
-        public PlayerParamsService(IShowPlayerParams showPlayerParams, IPlayerController playerController, [Inject(Id = "PlayerLaserGun")] ILaserGun laserGun)
+        public PlayerParamsService(IShowPlayerParams showPlayerParams, IPlayerController playerController, 
+            [Inject(Id = InjectId.PlayerLaserGun)] ILaserGun laserGun)
         {
             _showPlayerParams = showPlayerParams;
             _transform = playerController.Transform;

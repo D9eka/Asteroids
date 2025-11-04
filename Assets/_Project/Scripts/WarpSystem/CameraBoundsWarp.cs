@@ -1,4 +1,5 @@
 ﻿using Asteroids.Scripts.Camera;
+using Asteroids.Scripts.Core;
 using UnityEngine;
 using Zenject;
 
@@ -13,7 +14,8 @@ namespace Asteroids.Scripts.WarpSystem
         public Vector2 MaxBounds => _boundsUpdater.MaxBounds;
 
         [Inject]
-        public CameraBoundsWarp(ICameraBoundsUpdater boundsUpdater, [Inject(Id = "BoundsMargin")] float boundsMargin)
+        public CameraBoundsWarp(ICameraBoundsUpdater boundsUpdater, 
+            [Inject(Id = InjectId.BoundsMargin)] float boundsMargin)
         {
             _boundsUpdater = boundsUpdater;
             _boundsMargin = boundsMargin;

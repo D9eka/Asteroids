@@ -1,5 +1,6 @@
 ﻿using System;
 using Asteroids.Scripts.Camera;
+using Asteroids.Scripts.Core;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Enemies.Config;
 using Asteroids.Scripts.Movement.DirectionProviders;
@@ -19,7 +20,7 @@ namespace Asteroids.Scripts.Spawning.Enemies.Movement
 
         public EnemyMovementConfigurator(
             ICameraBoundsUpdater cameraBoundsUpdater,
-            [Inject(Id = "PlayerTransform")] Transform playerTransform)
+            [Inject(Id = InjectId.PlayerTransform)] Transform playerTransform)
         {
             _cameraBoundsUpdater = cameraBoundsUpdater;
             _playerTransform = playerTransform;

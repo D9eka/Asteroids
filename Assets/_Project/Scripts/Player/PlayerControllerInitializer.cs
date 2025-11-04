@@ -23,8 +23,8 @@ namespace Asteroids.Scripts.Player
             PlayerMovementData movementData,
             IWeaponHandler weaponHandler,
             BoundsManager boundsManager,
-            [Inject(Id = "PlayerCollisionService")] ICollisionService collisionService,
-            [Inject(Id = "PlayerCollisionHandler")] ICollisionHandler collisionHandler)
+            [Inject(Id = InjectId.PlayerCollisionService)] ICollisionService collisionService,
+            [Inject(Id = InjectId.PlayerCollisionHandler)] ICollisionHandler collisionHandler)
         {
             _controller = controller;
             _movement = movement;

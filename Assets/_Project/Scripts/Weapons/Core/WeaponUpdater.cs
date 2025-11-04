@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Asteroids.Scripts.Core;
 using Zenject;
 
 namespace Asteroids.Scripts.Weapons.Core
@@ -8,7 +9,7 @@ namespace Asteroids.Scripts.Weapons.Core
         private readonly List<IWeapon> _weapons = new List<IWeapon>();
 
         [Inject]
-        public WeaponUpdater([Inject(Id = "PlayerWeapons")] IWeapon[] weapons)
+        public WeaponUpdater([Inject(Id = InjectId.PlayerWeapons)] IWeapon[] weapons)
         {
             _weapons.AddRange(weapons);
         }

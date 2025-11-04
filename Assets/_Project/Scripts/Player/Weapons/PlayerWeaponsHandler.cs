@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Asteroids.Scripts.Core;
 using Asteroids.Scripts.Weapons.Core;
 using Zenject;
 
@@ -10,7 +11,7 @@ namespace Asteroids.Scripts.Player.Weapons
         private int _currentIndex;
         
         [Inject]
-        public PlayerWeaponsHandler([Inject(Id = "PlayerWeapons")] IWeapon[] weapons)
+        public PlayerWeaponsHandler([Inject(Id = InjectId.PlayerWeapons)] IWeapon[] weapons)
         {
             _weapons.Clear();
             _weapons.AddRange(weapons);

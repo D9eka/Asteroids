@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Asteroids.Scripts.Core;
 using Asteroids.Scripts.Spawning.Common.Pooling;
 using UnityEngine;
 using Zenject;
@@ -17,7 +18,7 @@ namespace Asteroids.Scripts.WarpSystem
         [Inject]
         public BoundsManager(IPoolableLifecycleManager<Pooling_IPoolable> lifecycleManager,
             IBoundsWarp boundsWarp, 
-            [Inject(Id = "BoundsMargin")] float boundsMargin)
+            [Inject(Id = InjectId.BoundsMargin)] float boundsMargin)
         {
             _lifecycleManager = lifecycleManager;
             _boundsWarp = boundsWarp;
