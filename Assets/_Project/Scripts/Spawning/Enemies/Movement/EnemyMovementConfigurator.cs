@@ -7,6 +7,7 @@ using Asteroids.Scripts.Movement.DirectionProviders.Config;
 using Asteroids.Scripts.Movement.RotationProviders;
 using Asteroids.Scripts.Movement.RotationProviders.Config;
 using UnityEngine;
+using Zenject;
 using Random = UnityEngine.Random;
 
 namespace Asteroids.Scripts.Spawning.Enemies.Movement
@@ -18,7 +19,7 @@ namespace Asteroids.Scripts.Spawning.Enemies.Movement
 
         public EnemyMovementConfigurator(
             ICameraBoundsUpdater cameraBoundsUpdater,
-            Transform playerTransform)
+            [Inject(Id = "PlayerTransform")] Transform playerTransform)
         {
             _cameraBoundsUpdater = cameraBoundsUpdater;
             _playerTransform = playerTransform;

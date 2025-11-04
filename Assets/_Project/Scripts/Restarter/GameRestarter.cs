@@ -16,11 +16,12 @@ namespace Asteroids.Scripts.Restarter
         [Inject]
         public GameRestarter(
             IPlayerController playerController,
+            [Inject(Id = "PlayerStartPos")] Vector2 playerStartPosition,
             IScoreService score,
             IPauseSystem pause)
         {
             _playerController = playerController;
-            _playerStartPosition = playerController.Transform.position;
+            _playerStartPosition = playerStartPosition;
             _score = score;
             _pause = pause;
         }
