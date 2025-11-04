@@ -4,11 +4,12 @@ using Asteroids.Scripts.Damage;
 using Asteroids.Scripts.Enemies.Config;
 using Asteroids.Scripts.Spawning.Enemies.Config;
 using Asteroids.Scripts.Spawning.Enemies.Fragments;
+using Asteroids.Scripts.WarpSystem;
 using UnityEngine;
 
 namespace Asteroids.Scripts.Enemies
 {
-    public class Asteroid : MonoBehaviour, IEnemy
+    public class Asteroid : MonoBehaviour, IEnemy, IWarpable
     {
         public event Action<GameObject, IEnemy> OnKilled;
 
