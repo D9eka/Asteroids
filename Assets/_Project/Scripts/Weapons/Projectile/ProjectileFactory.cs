@@ -5,7 +5,6 @@ using Asteroids.Scripts.Spawning.Common.Pooling;
 using UnityEngine;
 using Zenject;
 using IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
-using Pooling_IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
 
 namespace Asteroids.Scripts.Weapons.Projectile
 {
@@ -13,11 +12,11 @@ namespace Asteroids.Scripts.Weapons.Projectile
     {
         private readonly ProjectilePool<Projectile> _pool;
         private readonly IPauseSystem _pauseSystem;
-        private readonly IPoolableLifecycleManager<Pooling_IPoolable> _lifecycleManager;
+        private readonly IPoolableLifecycleManager<IPoolable> _lifecycleManager;
 
         [Inject]
         public ProjectileFactory(ProjectilePool<Projectile> pool, IPauseSystem pauseSystem,
-            IPoolableLifecycleManager<Pooling_IPoolable> lifecycleManager)
+            IPoolableLifecycleManager<IPoolable> lifecycleManager)
         {
             _pool = pool;
             _pauseSystem = pauseSystem;

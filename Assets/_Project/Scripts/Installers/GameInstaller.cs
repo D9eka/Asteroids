@@ -210,8 +210,7 @@ namespace Asteroids.Scripts.Installers
             Container.Bind<IEnemyProviderFactory>()
                 .WithId(enemyType)
                 .To<EnemyProviderFactory<TEnemy, TConfig>>()
-                .AsSingle()
-                .WithArguments(enemyType);
+                .AsSingle();
 
             Container.BindInterfacesAndSelfTo(initializerType).AsSingle();
             Container.BindInterfacesAndSelfTo<EnemyInitializerAdapter<TEnemy, TConfig>>().AsSingle();

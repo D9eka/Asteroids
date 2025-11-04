@@ -2,7 +2,6 @@
 {
     public interface IPauseSystem
     {
-        bool IsPaused { get; }
         void Pause();
         void Resume();
         void Register(IPausable pausable);

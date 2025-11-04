@@ -19,12 +19,6 @@ namespace Asteroids.Scripts.Player.Weapons
 
         public IWeapon CurrentWeapon => _weapons.Count > 0 ? _weapons[_currentIndex] : null;
 
-        public void Initialize(IEnumerable<IWeapon> weapons)
-        {
-            _weapons.Clear();
-            _weapons.AddRange(weapons);
-        }
-
         public void SwitchWeapon()
         {
             if (_weapons.Count <= 1) return;

@@ -15,15 +15,11 @@ namespace Asteroids.Scripts.Spawning.Enemies.Providers
     {
         private readonly DiContainer _container;
         private readonly IEnemyLifecycleManager _lifecycleManager;
-        private readonly EnemyType _enemyType;
 
-        public EnemyType EnemyType => _enemyType;
-
-        public EnemyProviderFactory(DiContainer container, IEnemyLifecycleManager lifecycleManager, EnemyType enemyType)
+        public EnemyProviderFactory(DiContainer container, IEnemyLifecycleManager lifecycleManager)
         {
             _container = container;
             _lifecycleManager = lifecycleManager;
-            _enemyType = enemyType;
         }
 
         public IEnemyProvider Create(EnemyTypeSpawnConfig spawnConfig)

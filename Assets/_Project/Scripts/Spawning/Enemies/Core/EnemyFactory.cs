@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Asteroids.Scripts.Spawning.Enemies.Movement;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Spawning.Common.Core;
 using Asteroids.Scripts.Spawning.Enemies.Config;
@@ -14,7 +12,6 @@ namespace Asteroids.Scripts.Spawning.Enemies.Core
 {
     public class EnemyFactory : IEnemyFactory
     {
-        private readonly List<IEnemyProvider> _enemyProviders;
         private readonly SpawnPointGenerator _spawnPointGenerator;
         private readonly List<IEnemyInitializerBase> _initializers;
 
@@ -24,7 +21,6 @@ namespace Asteroids.Scripts.Spawning.Enemies.Core
             SpawnPointGenerator spawnPointGenerator,
             List<IEnemyInitializerBase> initializers)
         {
-            _enemyProviders = enemyProviders;
             _spawnPointGenerator = spawnPointGenerator;
             _initializers = initializers;
         }

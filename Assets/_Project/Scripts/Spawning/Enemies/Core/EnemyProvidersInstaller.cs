@@ -68,8 +68,7 @@ namespace Asteroids.Scripts.Spawning.Enemies.Core
             _container.Bind<IEnemyProviderFactory>()
                 .WithId(EnemyType.AsteroidFragment)
                 .To<EnemyProviderFactory<AsteroidFragment, EnemyTypeConfig>>()
-                .AsSingle()
-                .WithArguments(EnemyType.AsteroidFragment);
+                .AsSingle();
 
             IPooledEnemyProvider<AsteroidFragment, EnemyTypeSpawnConfig> asteroidFragmentProvider = CreateProvider(
                 spawnConfig) as IPooledEnemyProvider<AsteroidFragment, EnemyTypeSpawnConfig>;

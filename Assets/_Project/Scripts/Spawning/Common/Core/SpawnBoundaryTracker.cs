@@ -4,7 +4,6 @@ using Asteroids.Scripts.WarpSystem;
 using UnityEngine;
 using Zenject;
 using IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
-using Pooling_IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
 
 namespace Asteroids.Scripts.Spawning.Common.Core
 {
@@ -12,12 +11,12 @@ namespace Asteroids.Scripts.Spawning.Common.Core
     {
         private const float MAX_REGISTRATION_TIME_SECONDS = 5f;
 
-        private readonly IPoolableLifecycleManager<Pooling_IPoolable> _lifecycleManager;
+        private readonly IPoolableLifecycleManager<IPoolable> _lifecycleManager;
         private readonly IBoundsManager _boundsManager;
         private readonly Dictionary<Transform, float> _objects = new Dictionary<Transform, float>();
 
         [Inject]
-        public SpawnBoundaryTracker(IPoolableLifecycleManager<Pooling_IPoolable> lifecycleManager, IBoundsManager boundsManager)
+        public SpawnBoundaryTracker(IPoolableLifecycleManager<IPoolable> lifecycleManager, IBoundsManager boundsManager)
         {
             _lifecycleManager = lifecycleManager;
             _boundsManager = boundsManager;
@@ -74,7 +73,7 @@ namespace Asteroids.Scripts.Spawning.Common.Core
 
         private void DestroyObject(Transform obj)
         {
-            if (obj.TryGetComponent(out Pooling_IPoolable poolable))
+            if (obj.TryGetComponent(out IPoolable poolable))
             {
                 _lifecycleManager.Despawn(poolable);
             }
