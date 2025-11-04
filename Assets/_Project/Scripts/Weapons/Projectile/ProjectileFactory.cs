@@ -24,13 +24,12 @@ namespace Asteroids.Scripts.Weapons.Projectile
             _lifecycleManager = lifecycleManager;
         }
 
-        public IProjectile Create(Vector2 position, Quaternion rotation, 
+        public void Create(Vector2 position, Quaternion rotation, 
             ProjectileData data, DamageInfo damageInfo, ICollisionService collisionService)
         {
             Projectile projectile = _pool.Spawn(position, rotation, data, damageInfo, collisionService);
             _pauseSystem.Register(projectile);
             _lifecycleManager.Register(projectile, _pool);
-            return projectile;
         }
     }
 }

@@ -32,12 +32,12 @@ namespace Asteroids.Scripts.Spawning.Enemies.Providers
             if (typedConfig == null)
                 throw new ArgumentException($"Config is not of type {typeof(TConfig)}");
 
-            _container.BindMemoryPool<TEnemy, GenericPool<TEnemy>>()
+            _container.BindMemoryPool<TEnemy, ObjectPool<TEnemy>>()
                 .WithInitialSize(spawnConfig.PoolSize)
                 .FromComponentInNewPrefab(typedConfig.Prefab)
                 .UnderTransformGroup($"{typeof(TEnemy).Name}s");
 
-            var pool = _container.Resolve<GenericPool<TEnemy>>();
+            var pool = _container.Resolve<ObjectPool<TEnemy>>();
             return new PooledEnemyProvider<TEnemy, EnemyTypeSpawnConfig>(_lifecycleManager, pool, spawnConfig);
         }
     }

@@ -11,13 +11,13 @@ namespace Asteroids.Scripts.Spawning.Enemies.Providers
         where TConfig : EnemyTypeSpawnConfig
     {
         private readonly IEnemyLifecycleManager _enemyLifecycleManager;
-        private readonly GenericPool<TEnemy> _pool;
+        private readonly ObjectPool<TEnemy> _pool;
         
         public TConfig Config { get; private set; }
         public float Probability => Config.SpawnProbability;
         public float SpawnInterval => Config.SpawnInterval;
 
-        public PooledEnemyProvider(IEnemyLifecycleManager enemyLifecycleManager, GenericPool<TEnemy> pool, TConfig config)
+        public PooledEnemyProvider(IEnemyLifecycleManager enemyLifecycleManager, ObjectPool<TEnemy> pool, TConfig config)
         {
             _enemyLifecycleManager = enemyLifecycleManager;
             _pool = pool;

@@ -3,7 +3,7 @@ using Zenject;
 
 namespace Asteroids.Scripts.Spawning.Common.Pooling
 {
-    public class GenericPool<T> : MonoMemoryPool<Vector3, T> where T : Component, IPoolable
+    public class ObjectPool<T> : MonoMemoryPool<Vector3, T> where T : Component, IPoolable
     {
         protected override void Reinitialize(Vector3 position, T item)
         {

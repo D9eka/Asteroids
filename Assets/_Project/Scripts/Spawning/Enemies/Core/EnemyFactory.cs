@@ -29,11 +29,10 @@ namespace Asteroids.Scripts.Spawning.Enemies.Core
             _initializers = initializers;
         }
 
-        public IEnemy Spawn(IEnemyProvider provider)
+        public void Spawn(IEnemyProvider provider)
         {
             (IEnemy enemy, EnemyTypeSpawnConfig config) = SpawnFromProvider(provider);
             SetupEnemy(enemy, config);
-            return enemy;
         }
 
         private (IEnemy enemy, EnemyTypeSpawnConfig config) SpawnFromProvider(IEnemyProvider provider)

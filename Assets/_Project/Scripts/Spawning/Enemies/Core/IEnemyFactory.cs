@@ -5,6 +5,6 @@ namespace Asteroids.Scripts.Spawning.Enemies.Core
 {
     public interface IEnemyFactory
     {
-        IEnemy Spawn(IEnemyProvider provider);
+        void Spawn(IEnemyProvider provider);
     }
 }
