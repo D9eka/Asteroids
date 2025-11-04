@@ -3,28 +3,17 @@ using System.Collections.Generic;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Player;
 using Asteroids.Scripts.Weapons.Projectile;
+using UniRx;
 using UnityEngine;
 
 namespace Asteroids.Scripts.Score
 {
     public class ScoreService : IScoreService
     {
-        public event Action<int> OnScoreAdded;
-        
         private readonly IReadOnlyDictionary<EnemyType, int> _config;
-        
-        private int _totalScore;
+        private readonly ReactiveProperty<int> _totalScore = new ReactiveProperty<int>(0);
 
-        public int TotalScore
-        {
-            get => _totalScore;
-            set
-            {
-                if (value == _totalScore) return;
-                _totalScore = value;
-                OnScoreAdded?.Invoke(value);
-            }
-        }
+        public IReadOnlyReactiveProperty<int> TotalScore => _totalScore;
 
         public ScoreService(ScoreConfig config)
         {
@@ -36,12 +25,12 @@ namespace Asteroids.Scripts.Score
             if (!CanAddScoreToKiller(killer)) return;
             
             int points = CalculatePoints(enemy);
-            TotalScore += points;
+            _totalScore.Value += points;
         }
 
         public void ResetScore()
         {
-            TotalScore = 0;
+            _totalScore.Value = 0;
         }
 
         private int CalculatePoints(IEnemy enemy)

@@ -56,24 +56,26 @@ namespace Asteroids.Scripts.Installers
         [Header("Enemies")]
         [SerializeField] private EnemySpawnConfig _enemySpawnConfig;
         [Space]
-        [Header("UI")]
-        [SerializeField] private ShowPlayerParams _showPlayerParams;
-        [SerializeField] private RestartGameButton _restartButton;
+        [Header("Score")]
         [SerializeField] private ScoreConfig _scoreConfig;
-        [SerializeField] private ScoreView _scoreView;
+        [Space]
+        [Header("UI")] 
+        [SerializeField] private GameUIView _gameUIViewPrefab;
         
         public override void InstallBindings()
         {
+            Container.Bind<UnityEngine.Camera>().FromInstance(_camera).AsSingle();
+            
             InstallBoundsSystem();
             InstallProjectilePool();
             InstallPlayer();
             InstallEnemies();
+            InstallGameplaySystems();
             InstallUI();
         }
 
         private void InstallBoundsSystem()
         {
-            Container.Bind<UnityEngine.Camera>().FromInstance(_camera).AsSingle();
             Container.Bind<float>().WithId(InjectId.BoundsMargin).FromInstance(_boundsMargin).AsCached();
             Container.Bind<ICameraBoundsUpdater>().To<CameraBoundsUpdater>().AsSingle().NonLazy();
             Container.Bind<IBoundsWarp>().To<CameraBoundsWarp>().AsSingle().NonLazy();
@@ -215,19 +217,20 @@ namespace Asteroids.Scripts.Installers
             Container.BindInterfacesAndSelfTo<EnemyInitializerAdapter<TEnemy, TConfig>>().AsSingle();
         }
 
-        private void InstallUI()
+        private void InstallGameplaySystems()
         {
             Container.BindInterfacesAndSelfTo<ScoreService>().AsSingle().WithArguments(_scoreConfig);
-            Container.Bind<ScoreView>().FromInstance(_scoreView).AsSingle();
-            
-            Container.BindInterfacesAndSelfTo<ShowPlayerParams>().FromInstance(_showPlayerParams).AsSingle();
-            Container.BindInterfacesAndSelfTo<PlayerParamsService>().AsSingle().NonLazy();
-            
-            Container.BindInterfacesAndSelfTo<RestartGameButton>().FromInstance(_restartButton).AsSingle();
             Container.BindInterfacesAndSelfTo<GameRestarter>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameStateController>().AsSingle().NonLazy();
-            
             Container.BindInterfacesAndSelfTo<PauseSystem>().AsSingle();
+        }
+
+        private void InstallUI()
+        {
+            Container.BindInterfacesAndSelfTo<PlayerParamsService>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<GameUIViewModel>().AsSingle();
+            var uiView = Container.InstantiatePrefab(_gameUIViewPrefab);
+            uiView.GetComponent<Canvas>().worldCamera = _camera;
         }
     }
 }

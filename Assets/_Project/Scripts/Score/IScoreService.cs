@@ -1,12 +1,13 @@
 ﻿using System;
 using Asteroids.Scripts.Enemies;
+using UniRx;
 using UnityEngine;
 
 namespace Asteroids.Scripts.Score
 {
     public interface IScoreService
     {
-        public event Action<int> OnScoreAdded;
+        public IReadOnlyReactiveProperty<int> TotalScore { get; }
         
         public void AddScore(GameObject killer, IEnemy enemy);
 

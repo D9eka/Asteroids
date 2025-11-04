@@ -1,8 +1,11 @@
-﻿namespace Asteroids.Scripts.GameState
+﻿using System;
+using UniRx;
+
+namespace Asteroids.Scripts.GameState
 {
     public interface IGameStateController
     {
-        void HandlePlayerDeath();
+        public IObservable<Unit> PlayerDeath { get; }
         void HandleRestartRequest();
     }
 }
