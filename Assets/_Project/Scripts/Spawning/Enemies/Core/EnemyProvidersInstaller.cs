@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Enemies.Config;
+using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Spawning.Enemies.Config;
 using Asteroids.Scripts.Spawning.Enemies.Fragments;
 using Asteroids.Scripts.Spawning.Enemies.Initialization;
@@ -11,12 +12,14 @@ namespace Asteroids.Scripts.Spawning.Enemies.Core
 {
     public class EnemyProvidersInstaller : IInitializable
     {
+        private readonly IPauseSystem _pauseSystem;
         private readonly DiContainer _container;
         private readonly EnemySpawnConfig _spawnConfig;
 
-        public EnemyProvidersInstaller(DiContainer container, EnemySpawnConfig spawnConfig)
+        public EnemyProvidersInstaller(DiContainer container, IPauseSystem pauseSystem, EnemySpawnConfig spawnConfig)
         {
             _container = container;
+            _pauseSystem = pauseSystem;
             _spawnConfig = spawnConfig;
         }
         
@@ -32,6 +35,7 @@ namespace Asteroids.Scripts.Spawning.Enemies.Core
             
             _container.BindInterfacesAndSelfTo<EnemySpawner>().AsSingle().NonLazy();
             _container.Resolve<TickableManager>().Add(_container.Resolve<EnemySpawner>());
+            _pauseSystem.Register(_container.Resolve<EnemySpawner>());
         }
 
         private List<IEnemyProvider> CreateProviders()

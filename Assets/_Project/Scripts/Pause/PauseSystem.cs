@@ -1,30 +1,19 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
-using Asteroids.Scripts.Input;
-using Asteroids.Scripts.Spawning.Enemies.Core;
-using Zenject;
 
 namespace Asteroids.Scripts.Pause
 {
-    public class PauseSystem : IPauseSystem, IInitializable
+    public class PauseSystem : IPauseSystem
     {
-        private readonly DiContainer _container;
+        private readonly List<ITickableSystem> _tickableSystems = new();
         private readonly HashSet<IPausable> _pausables = new();
-        
-        private List<ITickableSystem> _tickableSystems;
-        
+
         public bool IsPaused { get; private set; }
 
-        public PauseSystem(DiContainer container)
+        public PauseSystem(IEnumerable<ITickableSystem> tickableSystems)
         {
-            _container  = container;
+            _tickableSystems.AddRange(tickableSystems);
         }
 
-        public void Initialize()
-        {
-            _tickableSystems = _container.ResolveAll<ITickableSystem>();
-        }
-        
         public void Pause()
         {
             if (IsPaused) return;
@@ -66,9 +55,19 @@ namespace Asteroids.Scripts.Pause
                 pausable.Pause();
         }
 
+        public void Register(ITickableSystem pausable)
+        {
+            _tickableSystems.Add(pausable);
+        }
+
         public void Unregister(IPausable pausable)
         {
             _pausables.Remove(pausable);
+        }
+
+        public void Unregister(ITickableSystem pausable)
+        {
+            _tickableSystems.Remove(pausable);
         }
     }
 }
