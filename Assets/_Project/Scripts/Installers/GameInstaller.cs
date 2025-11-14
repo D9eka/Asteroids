@@ -72,6 +72,8 @@ namespace Asteroids.Scripts.Installers
             InstallProjectilePool();
             InstallPlayer();
             InstallEnemies();
+            InstallSaveSystem();
+            InstallScoreSystem();
             InstallGameplaySystems();
             InstallUI();
         }
@@ -217,11 +219,15 @@ namespace Asteroids.Scripts.Installers
             Container.BindInterfacesAndSelfTo(initializerType).AsSingle();
             Container.BindInterfacesAndSelfTo<EnemyInitializerAdapter<TEnemy, TConfig>>().AsSingle();
         }
+        
+        private void InstallSaveSystem()
+        {
+            Container.BindInterfacesAndSelfTo<PlayerPrefsSaveService>().AsSingle();
+        }
 
-        private void InstallGameplaySystems()
+        private void InstallScoreSystem()
         {
             Container.BindInterfacesAndSelfTo<ScoreService>().AsSingle().WithArguments(_scoreConfig);
-            Container.BindInterfacesAndSelfTo<GameRestarter>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameStateController>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<PauseSystem>().AsSingle();
         }

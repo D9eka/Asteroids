@@ -12,6 +12,7 @@ namespace Asteroids.Scripts.GameState
         private readonly IPlayerController _playerController;
         private readonly IPauseSystem _pauseSystem;
         private readonly IGameRestarter _gameRestarter;
+        private readonly IScoreSaveHandler _scoreSaveHandler;
         private readonly Subject<Unit> _playerDeath = new Subject<Unit>();
         
         public IObservable<Unit> PlayerDeath => _playerDeath;
@@ -21,10 +22,12 @@ namespace Asteroids.Scripts.GameState
             IPlayerController playerController,
             IPauseSystem pauseSystem,
             IGameRestarter gameRestarter)
+            IScoreSaveHandler scoreSaveHandler,
         {
             _playerController  = playerController;
             _pauseSystem = pauseSystem;
             _gameRestarter = gameRestarter;
+            _scoreSaveHandler = scoreSaveHandler;
 
             _playerController.OnKilled += HandlePlayerDeath;
         }
@@ -44,6 +47,7 @@ namespace Asteroids.Scripts.GameState
         public void HandleRestartRequest()
         {
             _gameRestarter.Restart();
+            _scoreSaveHandler.SaveCurrentScore();
         }
     }
 }
