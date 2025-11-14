@@ -1,4 +1,5 @@
-﻿using Asteroids.Scripts.Core;
+﻿using _Project.Scripts.Core.InjectIds;
+using Asteroids.Scripts.Core;
 using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Player.Movement;
 using Asteroids.Scripts.Player.Weapons;
@@ -23,8 +24,8 @@ namespace Asteroids.Scripts.Player
             PlayerMovementData movementData,
             IWeaponHandler weaponHandler,
             BoundsManager boundsManager,
-            [Inject(Id = InjectId.PlayerCollisionService)] ICollisionService collisionService,
-            [Inject(Id = InjectId.PlayerCollisionHandler)] ICollisionHandler collisionHandler)
+            [Inject(Id = CollisionServiceInjectId.Player)] ICollisionService collisionService,
+            [Inject(Id = CollisionHandlerInjectId.Player)] ICollisionHandler collisionHandler)
         {
             _controller = controller;
             _movement = movement;

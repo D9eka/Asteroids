@@ -1,4 +1,5 @@
 ﻿using Asteroids.Scripts.Core;
+using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Player;
 using Asteroids.Scripts.Score;
@@ -20,7 +21,7 @@ namespace Asteroids.Scripts.Restarter
         [Inject]
         public GameRestarter(
             IPlayerController playerController,
-            [Inject(Id = InjectId.PlayerStartPos)] Vector2 playerStartPosition,
+            [Inject(Id = Vector2InjectId.PlayerStartPos)] Vector2 playerStartPosition,
             IScoreService score,
             IPauseSystem pause,
             IPoolableLifecycleManager<IPoolable> lifecycleManager)

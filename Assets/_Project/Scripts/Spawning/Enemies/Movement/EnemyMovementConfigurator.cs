@@ -1,4 +1,5 @@
 ﻿using System;
+using _Project.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Camera;
 using Asteroids.Scripts.Core;
 using Asteroids.Scripts.Enemies;
@@ -20,7 +21,7 @@ namespace Asteroids.Scripts.Spawning.Enemies.Movement
 
         public EnemyMovementConfigurator(
             ICameraBoundsUpdater cameraBoundsUpdater,
-            [Inject(Id = InjectId.PlayerTransform)] Transform playerTransform)
+            [Inject(Id = TransformInjectId.Player)] Transform playerTransform)
         {
             _cameraBoundsUpdater = cameraBoundsUpdater;
             _playerTransform = playerTransform;

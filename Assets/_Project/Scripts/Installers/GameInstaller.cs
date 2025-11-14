@@ -1,7 +1,9 @@
 ﻿using System;
+using _Project.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Camera;
 using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Core;
+using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Enemies.Config;
 using Asteroids.Scripts.GameState;
@@ -76,7 +78,7 @@ namespace Asteroids.Scripts.Installers
 
         private void InstallBoundsSystem()
         {
-            Container.Bind<float>().WithId(InjectId.BoundsMargin).FromInstance(_boundsMargin).AsCached();
+            Container.Bind<float>().WithId(FloatInjectId.BoundsMargin).FromInstance(_boundsMargin).AsCached();
             Container.Bind<ICameraBoundsUpdater>().To<CameraBoundsUpdater>().AsSingle().NonLazy();
             Container.Bind<IBoundsWarp>().To<CameraBoundsWarp>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<BoundsManager>().AsSingle().NonLazy();
@@ -107,15 +109,15 @@ namespace Asteroids.Scripts.Installers
             
             PlayerController playerController = playerGo.GetComponent<PlayerController>();
             PlayerMovement playerMovement = playerGo.GetComponent<PlayerMovement>();
-            Container.Bind<Vector2>().WithId(InjectId.PlayerStartPos).FromInstance(_playerSpawnPosition).AsSingle();
-            Container.Bind<Transform>().WithId(InjectId.PlayerTransform).FromInstance(playerGo.transform).AsSingle();
+            Container.Bind<Vector2>().WithId(Vector2InjectId.PlayerStartPos).FromInstance(_playerSpawnPosition).AsSingle();
+            Container.Bind<Transform>().WithId(TransformInjectId.Player).FromInstance(playerGo.transform).AsSingle();
             Container.Bind<IPlayerController>().FromInstance(playerController).AsSingle();
             Container.Bind<ICollisionService>()
-                .WithId(InjectId.PlayerCollisionService)
+                .WithId(CollisionServiceInjectId.Player)
                 .To<PlayerCollisionService>()
                 .AsCached();
             Container.Bind<ICollisionHandler>()
-                .WithId(InjectId.PlayerCollisionHandler)
+                .WithId(CollisionHandlerInjectId.Player)
                 .FromInstance(playerController.GetComponent<CollisionHandler>())
                 .AsCached();
             Container.Bind<PlayerMovementData>().FromInstance(_movementData).AsSingle();
@@ -130,7 +132,7 @@ namespace Asteroids.Scripts.Installers
             BindBulletGun(bulletGun);
             BindLaserGun(laserGun);
             
-            Container.Bind<IWeapon[]>().WithId(InjectId.PlayerWeapons)
+            Container.Bind<IWeapon[]>().WithId(WeaponInjectId.PlayerWeapons)
                 .FromInstance(new IWeapon[]{ bulletGun, laserGun })
                 .AsCached();
             
@@ -147,7 +149,7 @@ namespace Asteroids.Scripts.Installers
                 .WhenInjectedInto<PlayerWeaponsInitializer>();
 
             Container.Bind<IWeapon>()
-                .WithId(InjectId.PlayerBulletGun)
+                .WithId(WeaponInjectId.PlayerBulletGun)
                 .To<BulletGun>()
                 .FromInstance(bulletGun)
                 .AsCached();
@@ -170,12 +172,12 @@ namespace Asteroids.Scripts.Installers
                 .AsSingle()
                 .WhenInjectedInto<PlayerWeaponsInitializer>();
             Container.Bind<IWeapon>()
-                .WithId(InjectId.PlayerLaserGun)
+                .WithId(WeaponInjectId.PlayerLaserGun)
                 .To<LaserGun>()
                 .FromInstance(laserGun)
                 .AsCached();
             Container.Bind<ILaserGun>()
-                .WithId(InjectId.PlayerLaserGun)
+                .WithId(WeaponInjectId.PlayerLaserGun)
                 .To<LaserGun>()
                 .FromInstance(laserGun)
                 .AsCached();

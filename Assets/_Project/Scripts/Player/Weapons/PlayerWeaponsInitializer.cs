@@ -1,5 +1,5 @@
-﻿using Asteroids.Scripts.Collision;
-using Asteroids.Scripts.Core;
+﻿using _Project.Scripts.Core.InjectIds;
+using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Projectile;
 using Asteroids.Scripts.Weapons.Services.Raycast;
@@ -26,8 +26,8 @@ namespace Asteroids.Scripts.Player.Weapons
         public PlayerWeaponsInitializer(
             IPlayerController playerController,
             IProjectileFactory projectileFactory, 
-            [Inject(Id = InjectId.PlayerCollisionService)] ICollisionService collisionService,
-            [Inject(Id = InjectId.PlayerWeapons)] IWeapon[] weapons,
+            [Inject(Id = CollisionServiceInjectId.Player)] ICollisionService collisionService,
+            [Inject(Id = WeaponInjectId.PlayerWeapons)] IWeapon[] weapons,
             BulletGunConfig bulletGunConfig,
             LaserGunConfig laserGunConfig,
             ILineRenderer laserGunLineRenderer,

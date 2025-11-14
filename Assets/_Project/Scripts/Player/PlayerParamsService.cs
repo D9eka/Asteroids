@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using _Project.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Core;
 using Asteroids.Scripts.Weapons.Types.Laser;
 using UniRx;
@@ -18,7 +19,7 @@ namespace Asteroids.Scripts.Player
         public IReadOnlyReactiveProperty<string> Params => _params;
 
         public PlayerParamsService(IPlayerController playerController, 
-            [Inject(Id = InjectId.PlayerLaserGun)] ILaserGun laserGun)
+            [Inject(Id = WeaponInjectId.PlayerLaserGun)] ILaserGun laserGun)
         {
             _transform = playerController.Transform;
             _rigidbody = playerController.Transform.GetComponent<Rigidbody2D>();
