@@ -12,7 +12,7 @@ namespace Asteroids.Scripts.Spawning.Enemies.Core
         private readonly List<IEnemyProvider> _providers;
         private readonly Dictionary<IEnemyProvider, float> _timers = new();
 
-        private bool _isEnabled = true;
+        private bool _isEnabled;
 
         public EnemySpawner(IEnemyFactory factory, List<IEnemyProvider> providers)
         {

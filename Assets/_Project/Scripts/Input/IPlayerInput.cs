@@ -1,5 +1,4 @@
-﻿using Asteroids.Scripts.Spawning.Enemies.Core;
-using Asteroids.Scripts.Pause;
+﻿using Asteroids.Scripts.Pause;
 using UnityEngine;
 
 namespace Asteroids.Scripts.Input

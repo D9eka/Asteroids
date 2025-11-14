@@ -7,7 +7,7 @@ namespace Asteroids.Scripts.Pause
         private readonly List<ITickableSystem> _tickableSystems = new();
         private readonly HashSet<IPausable> _pausables = new();
 
-        public bool IsPaused { get; private set; }
+        public bool IsPaused { get; private set; } = true;
 
         public PauseSystem(IEnumerable<ITickableSystem> tickableSystems)
         {

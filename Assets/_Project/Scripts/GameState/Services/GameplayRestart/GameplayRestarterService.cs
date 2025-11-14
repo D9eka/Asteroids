@@ -2,15 +2,16 @@
 using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Player;
+using Asteroids.Scripts.SaveService;
 using Asteroids.Scripts.Score;
 using Asteroids.Scripts.Spawning.Common.Pooling;
 using UnityEngine;
 using Zenject;
 using IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
 
-namespace Asteroids.Scripts.Restarter
+namespace Asteroids.Scripts.GameplayRestart
 {
-    public class GameRestarter : IGameRestarter
+    public class GameplayRestarterService : IGameplayRestarterService
     {
         private readonly IPlayerController _playerController;
         private readonly Vector2 _playerStartPosition;
@@ -19,7 +20,7 @@ namespace Asteroids.Scripts.Restarter
         private readonly IPoolableLifecycleManager<IPoolable> _lifecycleManager;
 
         [Inject]
-        public GameRestarter(
+        public GameplayRestarterService(
             IPlayerController playerController,
             [Inject(Id = Vector2InjectId.PlayerStartPos)] Vector2 playerStartPosition,
             IScoreService score,
@@ -33,13 +34,17 @@ namespace Asteroids.Scripts.Restarter
             _lifecycleManager = lifecycleManager;
         }
 
-        public void Restart()
+        public void Reset()
         {
             _score.ResetScore();
             _lifecycleManager.ClearAll();
             
             _playerController.Transform.position = _playerStartPosition;
-            _playerController.Transform.gameObject.SetActive(true);
+        }
+
+        public void Restart()
+        {
+            Reset();
 
             _pause.Resume();
         }

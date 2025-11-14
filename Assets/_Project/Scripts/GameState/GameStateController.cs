@@ -1,7 +1,9 @@
 ﻿using System;
 using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Player;
-using Asteroids.Scripts.Restarter;
+using Asteroids.Scripts.GameplayRestart;
+using Asteroids.Scripts.SaveService;
+using Asteroids.Scripts.UI;
 using UniRx;
 using Zenject;
 
@@ -11,8 +13,8 @@ namespace Asteroids.Scripts.GameState
     {
         private readonly IPlayerController _playerController;
         private readonly IPauseSystem _pauseSystem;
-        private readonly IGameRestarter _gameRestarter;
         private readonly IScoreSaveHandler _scoreSaveHandler;
+        private readonly IGameplayRestarterService _gameplayRestarterService;
         private readonly Subject<Unit> _playerDeath = new Subject<Unit>();
         
         public IObservable<Unit> PlayerDeath => _playerDeath;
@@ -21,13 +23,13 @@ namespace Asteroids.Scripts.GameState
         public GameStateController(
             IPlayerController playerController,
             IPauseSystem pauseSystem,
-            IGameRestarter gameRestarter)
             IScoreSaveHandler scoreSaveHandler,
+            IGameplayRestarterService gameplayRestarterService)
         {
             _playerController  = playerController;
             _pauseSystem = pauseSystem;
-            _gameRestarter = gameRestarter;
             _scoreSaveHandler = scoreSaveHandler;
+            _gameplayRestarterService = gameplayRestarterService;
 
             _playerController.OnKilled += HandlePlayerDeath;
         }
@@ -40,14 +42,19 @@ namespace Asteroids.Scripts.GameState
         public void HandlePlayerDeath()
         {
             _pauseSystem.Pause();
-            _playerController.Transform.gameObject.SetActive(false);
             _playerDeath.OnNext(Unit.Default);
         }
 
         public void HandleRestartRequest()
         {
-            _gameRestarter.Restart();
             _scoreSaveHandler.SaveCurrentScore();
+            _gameplayRestarterService.Restart();
+        }
+
+        public void HandleExitRequest()
+        {
+            _scoreSaveHandler.SaveCurrentScore();
+            _gameplayRestarterService.Reset();
         }
     }
 }

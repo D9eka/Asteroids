@@ -12,6 +12,7 @@ namespace Asteroids.Scripts.UI.GameplayScreen
         private readonly IScoreService _scoreService;
         private readonly IPlayerParamsService _paramsService;
         private readonly IGameStateController _gameStateController;
+        private readonly IUIController _uiController;
 
         private readonly CompositeDisposable _disposables = new CompositeDisposable();
 
@@ -23,10 +24,12 @@ namespace Asteroids.Scripts.UI.GameplayScreen
             IScoreService scoreService,
             IPlayerParamsService paramsService,
             IGameStateController gameStateController,
+            IUIController uiController)
         {
             _scoreService = scoreService;
             _paramsService = paramsService;
             _gameStateController = gameStateController;
+            _uiController = uiController;
         }
 
         public void Initialize()
@@ -50,6 +53,12 @@ namespace Asteroids.Scripts.UI.GameplayScreen
             ShowRestartButtonCommand.Execute(false);
         }
 
+        public void OnExitClicked(IView view)
+        {
+            _gameStateController.HandleExitRequest();
+            ShowRestartButtonCommand.Execute(false);
+            _uiController.CloseScreen(view);
+        }
 
         public void Dispose()
         {

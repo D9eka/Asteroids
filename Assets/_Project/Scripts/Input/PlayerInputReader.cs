@@ -27,7 +27,6 @@ namespace Asteroids.Scripts.Input
         public void Initialize()
         {
             _inputActions = new PlayerInputActions();
-            Enable();
 
             _inputActions.Player.Move.performed += OnMove;
             _inputActions.Player.Move.canceled += OnMove;

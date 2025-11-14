@@ -11,6 +11,7 @@ namespace Asteroids.Scripts.UI.GameplayScreen
         [SerializeField] private TMP_Text _scoreText;
         [SerializeField] private TMP_Text _paramsText;
         [SerializeField] private Button _restartButton;
+        [SerializeField] private Button _exitButton;
 
         private GameplayScreenViewModel _screenViewModel;
         private readonly CompositeDisposable _disposables = new CompositeDisposable();
@@ -39,6 +40,9 @@ namespace Asteroids.Scripts.UI.GameplayScreen
                 .Subscribe(_ => _screenViewModel.OnRestartClicked())
                 .AddTo(_disposables);
             
+            _exitButton.onClick.AsObservable()
+                .Subscribe(_ => _screenViewModel.OnExitClicked(this))
+                .AddTo(_disposables);
             
             SetRestartButtonsActive(false);
         }
