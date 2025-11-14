@@ -2,7 +2,6 @@
 using _Project.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Camera;
 using Asteroids.Scripts.Collision;
-using Asteroids.Scripts.Core;
 using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Enemies.Config;
@@ -13,7 +12,8 @@ using Asteroids.Scripts.Player;
 using Asteroids.Scripts.Player.Input;
 using Asteroids.Scripts.Player.Movement;
 using Asteroids.Scripts.Player.Weapons;
-using Asteroids.Scripts.Restarter;
+using Asteroids.Scripts.GameplayRestart;
+using Asteroids.Scripts.SaveService;
 using Asteroids.Scripts.Score;
 using Asteroids.Scripts.Spawning.Common.Core;
 using Asteroids.Scripts.Spawning.Common.Pooling;
@@ -24,6 +24,8 @@ using Asteroids.Scripts.Spawning.Enemies.Movement;
 using Asteroids.Scripts.Spawning.Enemies.Pooling;
 using Asteroids.Scripts.Spawning.Enemies.Providers;
 using Asteroids.Scripts.UI;
+using Asteroids.Scripts.UI.GameplayScreen;
+using Asteroids.Scripts.UI.MainScreen;
 using Asteroids.Scripts.WarpSystem;
 using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Projectile;
@@ -62,7 +64,8 @@ namespace Asteroids.Scripts.Installers
         [SerializeField] private ScoreConfig _scoreConfig;
         [Space]
         [Header("UI")] 
-        [SerializeField] private GameUIView _gameUIViewPrefab;
+        [SerializeField] private MainScreenView _mainScreenViewPrefab;
+        [SerializeField] private GameplayScreenView _gameplayScreenViewPrefab;
         
         public override void InstallBindings()
         {
@@ -228,16 +231,50 @@ namespace Asteroids.Scripts.Installers
         private void InstallScoreSystem()
         {
             Container.BindInterfacesAndSelfTo<ScoreService>().AsSingle().WithArguments(_scoreConfig);
+            Container.BindInterfacesAndSelfTo<ScoreSaveHandler>().AsSingle();
+        }
+
+        private void InstallGameplaySystems()
+        {
+            Container.BindInterfacesAndSelfTo<GameplayRestarterService>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameStateController>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<PauseSystem>().AsSingle();
         }
 
         private void InstallUI()
         {
+            Container.BindInterfacesAndSelfTo<UIController>().AsSingle();
             Container.BindInterfacesAndSelfTo<PlayerParamsService>().AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<GameUIViewModel>().AsSingle();
-            var uiView = Container.InstantiatePrefab(_gameUIViewPrefab);
-            uiView.GetComponent<Canvas>().worldCamera = _camera;
+            
+            BindScreen<GameplayScreenView, GameplayScreenViewModel>(_gameplayScreenViewPrefab.gameObject, 
+                ScreenInjectId.GameplayScreenView);
+            BindScreen<MainScreenView, MainScreenViewModel>(_mainScreenViewPrefab.gameObject, 
+                ScreenInjectId.MainScreenView);
+            
+            Container
+                .BindInterfacesAndSelfTo<UiControllerInitializer>()
+                .AsSingle()
+                .WithArguments(typeof(MainScreenView))
+                .NonLazy();
         }
+        
+        private void BindScreen<TView, TViewModel>(GameObject prefab, ScreenInjectId screenId)
+            where TView : IView
+            where TViewModel : IViewModel
+        {
+            Container.BindInterfacesAndSelfTo<TViewModel>().AsSingle();
+            
+            var screenGo = Container.InstantiatePrefab(prefab);
+            var screen = screenGo.GetComponent<TView>();
+
+            Container.Bind<IView>().FromInstance(screen).AsCached();
+            Container.Bind<IView>()
+                .WithId(screenId)
+                .FromInstance(screen)
+                .AsCached();
+            
+            screenGo.GetComponent<Canvas>().worldCamera = _camera;
+        }
+
     }
 }

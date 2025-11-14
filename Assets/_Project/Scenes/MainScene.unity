@@ -380,7 +380,8 @@ MonoBehaviour:
   _laserGunConfig: {fileID: 11400000, guid: 04ea9f0568b33794180b0bd6e0996f69, type: 2}
   _enemySpawnConfig: {fileID: 11400000, guid: 6190ea4ae7db7f149a5fd8f0cf57e33b, type: 2}
   _scoreConfig: {fileID: 11400000, guid: 32b55e0377d37c348accf9c3eba9563f, type: 2}
-  _gameUIViewPrefab: {fileID: 4992146458691577293, guid: 334054619577d9648afe58e386714d08, type: 3}
+  _mainScreenViewPrefab: {fileID: 9105209200323443848, guid: 1448d6556f5b9ae499dd950639db89a8, type: 3}
+  _gameplayScreenViewPrefab: {fileID: 4992146458691577293, guid: 334054619577d9648afe58e386714d08, type: 3}
 --- !u!114 &1525026507
 MonoBehaviour:
   m_ObjectHideFlags: 0
