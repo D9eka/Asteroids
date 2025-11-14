@@ -5,9 +5,9 @@ using Asteroids.Scripts.Score;
 using UniRx;
 using Zenject;
 
-namespace Asteroids.Scripts.UI
+namespace Asteroids.Scripts.UI.GameplayScreen
 {
-    public class GameUIViewModel : IInitializable, IDisposable
+    public class GameplayScreenViewModel : IViewModel, IInitializable, IDisposable
     {
         private readonly IScoreService _scoreService;
         private readonly IPlayerParamsService _paramsService;
@@ -19,10 +19,10 @@ namespace Asteroids.Scripts.UI
         public ReactiveProperty<string> PlayerParams { get; } = new ReactiveProperty<string>("");
         public IReactiveCommand<bool> ShowRestartButtonCommand { get; } = new ReactiveCommand<bool>();
 
-        public GameUIViewModel(
+        public GameplayScreenViewModel(
             IScoreService scoreService,
             IPlayerParamsService paramsService,
-            IGameStateController gameStateController)
+            IGameStateController gameStateController,
         {
             _scoreService = scoreService;
             _paramsService = paramsService;
@@ -49,6 +49,7 @@ namespace Asteroids.Scripts.UI
             _gameStateController.HandleRestartRequest();
             ShowRestartButtonCommand.Execute(false);
         }
+
 
         public void Dispose()
         {

@@ -4,42 +4,43 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace Asteroids.Scripts.UI
+namespace Asteroids.Scripts.UI.GameplayScreen
 {
-    public class GameUIView : MonoBehaviour
+    public class GameplayScreenView : BaseView
     {
         [SerializeField] private TMP_Text _scoreText;
         [SerializeField] private TMP_Text _paramsText;
         [SerializeField] private Button _restartButton;
 
-        private GameUIViewModel _viewModel;
+        private GameplayScreenViewModel _screenViewModel;
         private readonly CompositeDisposable _disposables = new CompositeDisposable();
 
         [Inject]
-        public void Construct(GameUIViewModel viewModel)
+        public void Construct(GameplayScreenViewModel screenViewModel)
         {
-            _viewModel = viewModel;
+            _screenViewModel = screenViewModel;
         }
 
         private void Awake()
         {
-            _viewModel.CurrentScore
+            _screenViewModel.CurrentScore
                 .Subscribe(UpdateScoreText)
                 .AddTo(_disposables);
             
-            _viewModel.PlayerParams
+            _screenViewModel.PlayerParams
                 .Subscribe(UpdateParamsText)
                 .AddTo(_disposables);
             
-            _viewModel.ShowRestartButtonCommand
-                .Subscribe(SetRestartButtonActive)
+            _screenViewModel.ShowRestartButtonCommand
+                .Subscribe(SetRestartButtonsActive)
                 .AddTo(_disposables);
             
             _restartButton.onClick.AsObservable()
-                .Subscribe(_ => _viewModel.OnRestartClicked())
+                .Subscribe(_ => _screenViewModel.OnRestartClicked())
                 .AddTo(_disposables);
             
-            HideRestartButton();
+            
+            SetRestartButtonsActive(false);
         }
 
         private void OnDestroy()
@@ -58,14 +59,10 @@ namespace Asteroids.Scripts.UI
             _paramsText.text = parameters;
         }
 
-        private void SetRestartButtonActive(bool isActive)
+        private void SetRestartButtonsActive(bool isActive)
         {
             _restartButton.gameObject.SetActive(isActive);
-        }
-
-        private void HideRestartButton()
-        {
-            _restartButton.gameObject.SetActive(false);
+            _exitButton.gameObject.SetActive(isActive);
         }
     }
 }
