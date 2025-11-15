@@ -20,6 +20,7 @@ namespace Asteroids.Scripts.Movement.Core
         public virtual void Pause()
         {
             _isPaused = true;
+            Rigidbody.totalForce = Vector2.zero;
             Rigidbody.linearVelocity = Vector2.zero;
             Rigidbody.angularVelocity = 0f;
         }

@@ -54,5 +54,15 @@ namespace Asteroids.Scripts.Player
         {
             return new DamageInfo(DamageType.Collide, gameObject);
         }
+
+        public void Pause()
+        {
+            _movement.Pause();
+        }
+
+        public void Resume()
+        {
+            _movement.Resume();
+        }
     }
 }

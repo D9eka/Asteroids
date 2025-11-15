@@ -1,6 +1,8 @@
-﻿namespace Asteroids.Scripts.Player.Movement
+﻿using Asteroids.Scripts.Pause;
+
+namespace Asteroids.Scripts.Player.Movement
 {
-    public interface IPlayerMovement
+    public interface IPlayerMovement : IPausable
     {
         public void Initialize(PlayerMovementData data);
         
