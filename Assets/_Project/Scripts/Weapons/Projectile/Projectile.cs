@@ -9,7 +9,7 @@ namespace Asteroids.Scripts.Weapons.Projectile
     {
         private float _speed;
         private float _lifeTime;
-        private float _timeAlive;
+        private bool _isEnabled;
         private DamageInfo _damageInfo;
         
         private Rigidbody2D _rb;
@@ -25,8 +25,10 @@ namespace Asteroids.Scripts.Weapons.Projectile
 
         private void Update()
         {
-            _timeAlive += Time.deltaTime;
-            if (_timeAlive >= _lifeTime)
+            if (!_isEnabled) return;
+            
+            _lifeTime -= Time.deltaTime;
+            if (_lifeTime <= 0)
                 OnDespawned();
         }
 
@@ -39,8 +41,8 @@ namespace Asteroids.Scripts.Weapons.Projectile
             _collisionHandler.Initialize(collisionService);
             
             _rb.linearVelocity = transform.up * _speed;
-            _timeAlive = 0f;
             gameObject.SetActive(true);
+            _isEnabled = true;
         }
 
         public void OnSpawned() => gameObject.SetActive(true);
@@ -58,6 +60,7 @@ namespace Asteroids.Scripts.Weapons.Projectile
 
         public void Pause()
         {
+            _isEnabled = false;
             _rb.linearVelocity = Vector2.zero;
             _rb.angularVelocity = 0f;
         }
@@ -65,6 +68,7 @@ namespace Asteroids.Scripts.Weapons.Projectile
         public void Resume()
         {
             _rb.linearVelocity = transform.up * _speed;
+            _isEnabled = true;
         }
     }
 }
