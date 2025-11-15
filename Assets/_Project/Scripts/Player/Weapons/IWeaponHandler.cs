@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Asteroids.Scripts.Weapons.Core;
+﻿using Asteroids.Scripts.Weapons.Core;
 
 namespace Asteroids.Scripts.Player.Weapons
 {

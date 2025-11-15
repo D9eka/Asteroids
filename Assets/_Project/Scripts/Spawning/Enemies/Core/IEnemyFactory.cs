@@ -1,5 +1,4 @@
-﻿using Asteroids.Scripts.Enemies;
-using Asteroids.Scripts.Spawning.Enemies.Providers;
+﻿using Asteroids.Scripts.Spawning.Enemies.Providers;
 
 namespace Asteroids.Scripts.Spawning.Enemies.Core
 {

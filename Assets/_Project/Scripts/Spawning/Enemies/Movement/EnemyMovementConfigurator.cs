@@ -1,7 +1,6 @@
 ﻿using System;
-using _Project.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Camera;
-using Asteroids.Scripts.Core;
+using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Enemies.Config;
 using Asteroids.Scripts.Movement.DirectionProviders;

@@ -1,18 +1,17 @@
 ﻿using System;
-using _Project.Scripts.Core.InjectIds;
-using Asteroids.Scripts.Pause;
+using Asteroids.Scripts.Core.GameExit;
+using Asteroids.Scripts.GameState.GameplaySession;
 using Asteroids.Scripts.SaveService;
-using Zenject;
 using UniRx;
+using Zenject;
 
-namespace Asteroids.Scripts.UI.MainScreen
+namespace Asteroids.Scripts.UI.Screens.MainScreen
 {
     public class MainScreenViewModel : IViewModel, IInitializable, IDisposable
     {
         private readonly ISaveService _saveService;
-        private readonly IPauseSystem _pauseSystem;
-        private readonly IUIController _uiController;
-        private readonly IView _gameplayView;
+        private readonly IGameplaySessionManager _gameplaySessionManager;
+        private readonly IGameExitService _gameExitService;
 
         private readonly CompositeDisposable _disposables = new CompositeDisposable();
         
@@ -20,13 +19,12 @@ namespace Asteroids.Scripts.UI.MainScreen
         public ReactiveProperty<int> HighestScore { get; } = new ReactiveProperty<int>(0);
 
         
-        public MainScreenViewModel(ISaveService saveService, IPauseSystem pauseSystem, IUIController uiController, 
-            [Inject(Id = ScreenInjectId.GameplayScreenView)] IView gameplayView)
+        public MainScreenViewModel(ISaveService saveService, IGameplaySessionManager gameplaySessionManager, 
+            IGameExitService gameExitService)
         {
             _saveService = saveService;
-            _pauseSystem = pauseSystem;
-            _uiController = uiController;
-            _gameplayView = gameplayView;
+            _gameplaySessionManager = gameplaySessionManager;
+            _gameExitService = gameExitService;
         }
 
         public void Initialize()
@@ -43,17 +41,12 @@ namespace Asteroids.Scripts.UI.MainScreen
 
         public void OnStartClicked()
         {
-            _pauseSystem.Resume();
-            _uiController.OpenScreen(_gameplayView);
+            _gameplaySessionManager.Start();
         }
 
         public void OnExitClicked()
         {
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+            _gameExitService.Exit();
         }
 
         public void Dispose()

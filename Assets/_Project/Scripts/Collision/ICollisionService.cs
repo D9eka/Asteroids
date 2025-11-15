@@ -1,5 +1,4 @@
-﻿using Asteroids.Scripts.Damage;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Asteroids.Scripts.Collision
 {

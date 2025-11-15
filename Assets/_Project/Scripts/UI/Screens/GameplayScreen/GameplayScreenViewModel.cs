@@ -5,7 +5,7 @@ using Asteroids.Scripts.Score;
 using UniRx;
 using Zenject;
 
-namespace Asteroids.Scripts.UI.GameplayScreen
+namespace Asteroids.Scripts.UI.Screens.GameplayScreen
 {
     public class GameplayScreenViewModel : IViewModel, IInitializable, IDisposable
     {

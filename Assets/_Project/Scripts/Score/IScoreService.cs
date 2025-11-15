@@ -1,5 +1,4 @@
-﻿using System;
-using Asteroids.Scripts.Enemies;
+﻿using Asteroids.Scripts.Enemies;
 using UniRx;
 using UnityEngine;
 

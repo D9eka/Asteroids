@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Player;
 using Asteroids.Scripts.Weapons.Projectile;

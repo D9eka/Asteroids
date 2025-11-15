@@ -1,5 +1,5 @@
-﻿using _Project.Scripts.Core.InjectIds;
-using Asteroids.Scripts.Collision;
+﻿using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Projectile;
 using Asteroids.Scripts.Weapons.Services.Raycast;

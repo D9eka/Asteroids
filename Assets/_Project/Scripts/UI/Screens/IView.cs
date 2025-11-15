@@ -1,4 +1,4 @@
-﻿namespace Asteroids.Scripts.UI
+﻿namespace Asteroids.Scripts.UI.Screens
 {
     public interface IView
     {

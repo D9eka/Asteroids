@@ -1,6 +1,5 @@
-﻿using _Project.Scripts.Core.InjectIds;
-using Asteroids.Scripts.Core;
-using Asteroids.Scripts.Collision;
+﻿using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Player.Movement;
 using Asteroids.Scripts.Player.Weapons;

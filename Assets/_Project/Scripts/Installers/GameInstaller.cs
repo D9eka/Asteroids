@@ -1,18 +1,18 @@
 ﻿using System;
-using _Project.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Camera;
 using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Core.GameExit;
 using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Enemies.Config;
 using Asteroids.Scripts.GameState;
+using Asteroids.Scripts.GameState.GameplaySession;
 using Asteroids.Scripts.Input;
 using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Player;
 using Asteroids.Scripts.Player.Input;
 using Asteroids.Scripts.Player.Movement;
 using Asteroids.Scripts.Player.Weapons;
-using Asteroids.Scripts.GameplayRestart;
 using Asteroids.Scripts.SaveService;
 using Asteroids.Scripts.Score;
 using Asteroids.Scripts.Spawning.Common.Core;
@@ -24,8 +24,9 @@ using Asteroids.Scripts.Spawning.Enemies.Movement;
 using Asteroids.Scripts.Spawning.Enemies.Pooling;
 using Asteroids.Scripts.Spawning.Enemies.Providers;
 using Asteroids.Scripts.UI;
-using Asteroids.Scripts.UI.GameplayScreen;
-using Asteroids.Scripts.UI.MainScreen;
+using Asteroids.Scripts.UI.Screens;
+using Asteroids.Scripts.UI.Screens.GameplayScreen;
+using Asteroids.Scripts.UI.Screens.MainScreen;
 using Asteroids.Scripts.WarpSystem;
 using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Projectile;
@@ -236,7 +237,8 @@ namespace Asteroids.Scripts.Installers
 
         private void InstallGameplaySystems()
         {
-            Container.BindInterfacesAndSelfTo<GameplayRestarterService>().AsSingle();
+            Container.BindInterfacesAndSelfTo<GameplaySessionManager>().AsSingle();
+            Container.BindInterfacesAndSelfTo<GameExitService>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameStateController>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<PauseSystem>().AsSingle();
         }
@@ -252,7 +254,7 @@ namespace Asteroids.Scripts.Installers
                 ScreenInjectId.MainScreenView);
             
             Container
-                .BindInterfacesAndSelfTo<UIControllerInitializer>()
+                .BindInterfacesAndSelfTo<ScreensInitializer>()
                 .AsSingle()
                 .WithArguments(typeof(MainScreenView))
                 .NonLazy();

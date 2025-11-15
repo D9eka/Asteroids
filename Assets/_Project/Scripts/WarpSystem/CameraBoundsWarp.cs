@@ -1,6 +1,5 @@
-﻿using _Project.Scripts.Core.InjectIds;
-using Asteroids.Scripts.Camera;
-using Asteroids.Scripts.Core;
+﻿using Asteroids.Scripts.Camera;
+using Asteroids.Scripts.Core.InjectIds;
 using UnityEngine;
 using Zenject;
 

@@ -1,4 +1,4 @@
-﻿namespace _Project.Scripts.Core.InjectIds
+﻿namespace Asteroids.Scripts.Core.InjectIds
 {
     public enum FloatInjectId
     {

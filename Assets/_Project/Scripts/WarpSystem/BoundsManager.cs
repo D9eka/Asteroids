@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-using _Project.Scripts.Core.InjectIds;
-using Asteroids.Scripts.Core;
+using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Spawning.Common.Pooling;
 using UnityEngine;
 using Zenject;

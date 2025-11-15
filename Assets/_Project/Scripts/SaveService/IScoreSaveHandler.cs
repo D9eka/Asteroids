@@ -1,6 +1,4 @@
-﻿using Asteroids.Scripts.Score;
-
-namespace Asteroids.Scripts.SaveService
+﻿namespace Asteroids.Scripts.SaveService
 {
     public interface IScoreSaveHandler
     {

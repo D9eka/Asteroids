@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Asteroids.Scripts.UI
+namespace Asteroids.Scripts.UI.Screens
 {
     public abstract class BaseView : MonoBehaviour, IView
     {

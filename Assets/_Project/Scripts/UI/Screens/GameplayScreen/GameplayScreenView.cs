@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace Asteroids.Scripts.UI.GameplayScreen
+namespace Asteroids.Scripts.UI.Screens.GameplayScreen
 {
     public class GameplayScreenView : BaseView
     {

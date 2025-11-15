@@ -1,7 +1,5 @@
-﻿using System;
-using System.Text;
-using _Project.Scripts.Core.InjectIds;
-using Asteroids.Scripts.Core;
+﻿using System.Text;
+using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Weapons.Types.Laser;
 using UniRx;
 using UnityEngine;

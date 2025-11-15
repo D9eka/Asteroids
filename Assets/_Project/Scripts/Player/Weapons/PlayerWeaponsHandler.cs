@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using _Project.Scripts.Core.InjectIds;
+using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Weapons.Core;
 using Zenject;
 
