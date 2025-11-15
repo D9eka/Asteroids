@@ -4,13 +4,13 @@ using Zenject;
 
 namespace Asteroids.Scripts.UI
 {
-    public class UiControllerInitializer : IInitializable
+    public class UIControllerInitializer : IInitializable
     {
         private readonly IUIController _uiController;
         private readonly List<IView> _screens;
         private readonly Type _startScreenType;
 
-        public UiControllerInitializer(IUIController uiController, IEnumerable<IView> screens, Type startScreenType)
+        public UIControllerInitializer(IUIController uiController, IEnumerable<IView> screens, Type startScreenType)
         {
             _uiController = uiController;
             _screens = new List<IView>(screens);

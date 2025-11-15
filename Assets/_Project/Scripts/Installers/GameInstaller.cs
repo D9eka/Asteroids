@@ -252,7 +252,7 @@ namespace Asteroids.Scripts.Installers
                 ScreenInjectId.MainScreenView);
             
             Container
-                .BindInterfacesAndSelfTo<UiControllerInitializer>()
+                .BindInterfacesAndSelfTo<UIControllerInitializer>()
                 .AsSingle()
                 .WithArguments(typeof(MainScreenView))
                 .NonLazy();
