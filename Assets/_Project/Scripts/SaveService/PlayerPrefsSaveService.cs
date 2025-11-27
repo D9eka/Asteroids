@@ -1,5 +1,4 @@
-﻿using UniRx;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Asteroids.Scripts.SaveService
 {
@@ -7,35 +6,21 @@ namespace Asteroids.Scripts.SaveService
     {
         private const string SAVE_KEY = "player_save";
 
-        public SaveData Data { get; private set; }
-
-        public void Load()
+        public SaveData Load()
         {
             if (!PlayerPrefs.HasKey(SAVE_KEY))
             {
-                Data = new SaveData();
-                return;
+                return new SaveData();
             }
 
             string json = PlayerPrefs.GetString(SAVE_KEY);
-            var dto = JsonUtility.FromJson<SaveDataDTO>(json);
-
-            Data = new SaveData
-            {
-                PreviousScore = new ReactiveProperty<int>(dto.PreviousScore),
-                HighestScore = new ReactiveProperty<int>(dto.HighestScore)
-            };
+            SaveData data = JsonUtility.FromJson<SaveData>(json);
+            return data;
         }
 
-        public void Persist()
+        public void Save(SaveData saveData)
         {
-            var dto = new SaveDataDTO
-            {
-                PreviousScore = Data.PreviousScore.Value,
-                HighestScore = Data.HighestScore.Value
-            };
-
-            string json = JsonUtility.ToJson(dto);
+            string json = JsonUtility.ToJson(saveData);
             PlayerPrefs.SetString(SAVE_KEY, json);
             PlayerPrefs.Save();
         }

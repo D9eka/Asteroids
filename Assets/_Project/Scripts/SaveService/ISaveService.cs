@@ -2,9 +2,7 @@
 {
     public interface ISaveService
     {
-        SaveData Data { get; }
-
-        void Load();
-        void Persist();
+        SaveData Load();
+        void Save(SaveData saveData);
     }
 }

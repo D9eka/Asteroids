@@ -12,7 +12,7 @@ namespace Asteroids.Scripts.GameState
     {
         private readonly IPlayerController _playerController;
         private readonly IPauseSystem _pauseSystem;
-        private readonly IScoreSaveHandler _scoreSaveHandler;
+        private readonly IScoreTracker _scoreSaveHandler;
         private readonly IGameplaySessionManager _gameplaySessionManager;
         private readonly Subject<Unit> _playerDeath = new Subject<Unit>();
         
@@ -22,7 +22,7 @@ namespace Asteroids.Scripts.GameState
         public GameStateController(
             IPlayerController playerController,
             IPauseSystem pauseSystem,
-            IScoreSaveHandler scoreSaveHandler,
+            IScoreTracker scoreSaveHandler,
             IGameplaySessionManager gameplaySessionManager)
         {
             _playerController  = playerController;

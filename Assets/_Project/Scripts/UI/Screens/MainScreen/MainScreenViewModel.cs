@@ -9,7 +9,7 @@ namespace Asteroids.Scripts.UI.Screens.MainScreen
 {
     public class MainScreenViewModel : IViewModel, IInitializable, IDisposable
     {
-        private readonly ISaveService _saveService;
+        private readonly IScoreTracker _scoreTracker;
         private readonly IGameplaySessionManager _gameplaySessionManager;
         private readonly IGameExitService _gameExitService;
 
@@ -19,22 +19,21 @@ namespace Asteroids.Scripts.UI.Screens.MainScreen
         public ReactiveProperty<int> HighestScore { get; } = new ReactiveProperty<int>(0);
 
         
-        public MainScreenViewModel(ISaveService saveService, IGameplaySessionManager gameplaySessionManager, 
+        public MainScreenViewModel(IScoreTracker scoreTracker, IGameplaySessionManager gameplaySessionManager, 
             IGameExitService gameExitService)
         {
-            _saveService = saveService;
+            _scoreTracker = scoreTracker;
             _gameplaySessionManager = gameplaySessionManager;
             _gameExitService = gameExitService;
         }
 
         public void Initialize()
         {
-            _saveService.Load();
-            _saveService.Data.PreviousScore
+            _scoreTracker.PreviousScore
                 .Subscribe(score => PreviousScore.Value = score)
                 .AddTo(_disposables);
             
-            _saveService.Data.HighestScore
+            _scoreTracker.HighestScore
                 .Subscribe(score => HighestScore.Value = score)
                 .AddTo(_disposables);
         }

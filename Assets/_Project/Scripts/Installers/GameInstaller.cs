@@ -232,7 +232,7 @@ namespace Asteroids.Scripts.Installers
         private void InstallScoreSystem()
         {
             Container.BindInterfacesAndSelfTo<ScoreService>().AsSingle().WithArguments(_scoreConfig);
-            Container.BindInterfacesAndSelfTo<ScoreSaveHandler>().AsSingle();
+            Container.BindInterfacesAndSelfTo<ScoreTracker>().AsSingle();
         }
 
         private void InstallGameplaySystems()
