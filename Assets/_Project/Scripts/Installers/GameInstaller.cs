@@ -1,4 +1,5 @@
 ﻿using System;
+using Asteroids.Scripts.Analytics;
 using Asteroids.Scripts.Camera;
 using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Core.GameExit;
@@ -78,6 +79,7 @@ namespace Asteroids.Scripts.Installers
             InstallEnemies();
             InstallSaveSystem();
             InstallScoreSystem();
+            InstallAnalyticsSystem();
             InstallGameplaySystems();
             InstallUI();
         }
@@ -101,7 +103,7 @@ namespace Asteroids.Scripts.Installers
                 .To<ProjectileFactory>()
                 .AsSingle();
         }
-        
+
         private void InstallPlayer()
         {
             Container.BindInterfacesAndSelfTo<PlayerInputReader>().AsSingle();
@@ -208,7 +210,7 @@ namespace Asteroids.Scripts.Installers
 
             Container.BindInterfacesAndSelfTo<EnemyProvidersInstaller>().AsSingle().NonLazy();
         }
-        
+
         private void BindEnemy<TEnemy, TConfig>(
             EnemyType enemyType,
             Type initializerType)
@@ -223,7 +225,7 @@ namespace Asteroids.Scripts.Installers
             Container.BindInterfacesAndSelfTo(initializerType).AsSingle();
             Container.BindInterfacesAndSelfTo<EnemyInitializerAdapter<TEnemy, TConfig>>().AsSingle();
         }
-        
+
         private void InstallSaveSystem()
         {
             Container.BindInterfacesAndSelfTo<PlayerPrefsSaveService>().AsSingle();
@@ -233,6 +235,12 @@ namespace Asteroids.Scripts.Installers
         {
             Container.BindInterfacesAndSelfTo<ScoreService>().AsSingle().WithArguments(_scoreConfig);
             Container.BindInterfacesAndSelfTo<ScoreTracker>().AsSingle();
+        }
+
+        private void InstallAnalyticsSystem()
+        {
+            Container.BindInterfacesAndSelfTo<AnalyticsCollector>().AsSingle();
+            Container.BindInterfacesAndSelfTo<FirebaseAnalyticsService>().AsSingle();
         }
 
         private void InstallGameplaySystems()

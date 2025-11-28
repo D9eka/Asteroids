@@ -1,4 +1,5 @@
-﻿using Asteroids.Scripts.Core.InjectIds;
+﻿using Asteroids.Scripts.Analytics;
+using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Player;
 using Asteroids.Scripts.Score;
@@ -19,6 +20,7 @@ namespace Asteroids.Scripts.GameState.GameplaySession
         private readonly IPauseSystem _pauseSystem;
         private readonly IPoolableLifecycleManager<Pooling_IPoolable> _lifecycleManager;
         private readonly IUIController _uiController;
+        private readonly IAnalyticsService _analyticsService;
         
         private IView _gameplayView;
 
@@ -28,7 +30,9 @@ namespace Asteroids.Scripts.GameState.GameplaySession
             [Inject(Id = Vector2InjectId.PlayerStartPos)] Vector2 playerStartPosition,
             IScoreService score,
             IPauseSystem pauseSystem,
-            IPoolableLifecycleManager<Pooling_IPoolable> lifecycleManager, IUIController uiController)
+            IPoolableLifecycleManager<Pooling_IPoolable> lifecycleManager, 
+            IUIController uiController,
+            IAnalyticsService analyticsService)
         {
             _playerController = playerController;
             _playerStartPosition = playerStartPosition;
@@ -36,6 +40,7 @@ namespace Asteroids.Scripts.GameState.GameplaySession
             _pauseSystem = pauseSystem;
             _lifecycleManager = lifecycleManager;
             _uiController = uiController;
+            _analyticsService = analyticsService;
         }
 
         public void Initialize(IView gameplayView)
@@ -47,12 +52,14 @@ namespace Asteroids.Scripts.GameState.GameplaySession
         {
             _pauseSystem.Resume();
             _uiController.OpenScreen(_gameplayView);
+            _analyticsService.SendStartGameEvent();
         }
 
         public void Reset()
         {
             _score.ResetScore();
             _lifecycleManager.ClearAll();
+            _analyticsService.SendEndGameEvent();
             
             _playerController.Transform.position = _playerStartPosition;
             _playerController.Transform.rotation = Quaternion.identity;
@@ -61,8 +68,7 @@ namespace Asteroids.Scripts.GameState.GameplaySession
         public void Restart()
         {
             Reset();
-
-            _pauseSystem.Resume();
+            Start();
         }
     }
 }

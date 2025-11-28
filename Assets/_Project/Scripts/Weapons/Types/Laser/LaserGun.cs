@@ -1,4 +1,5 @@
-﻿using Asteroids.Scripts.Collision;
+﻿using System;
+using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Damage;
 using Asteroids.Scripts.Weapons.Services.Raycast;
 using Asteroids.Scripts.Weapons.Types.Laser.LineRenderer;
@@ -8,6 +9,8 @@ namespace Asteroids.Scripts.Weapons.Types.Laser
 {
     public class LaserGun : MonoBehaviour, ILaserGun
     {
+        public event Action OnShoot;
+        
         [SerializeField] private Transform _laserStartPoint;
         
         private LaserGunConfig _config;
@@ -36,7 +39,7 @@ namespace Asteroids.Scripts.Weapons.Types.Laser
             CurrentCharges = _config.MaxCharges;
             _lineRenderer.Disable();
         }
-        
+
         public void Shoot()
         {
             if (!CanShoot) return;
@@ -46,6 +49,7 @@ namespace Asteroids.Scripts.Weapons.Types.Laser
             _isShooting = true;
             _laserTime = _config.LaserDuration;
             _lineRenderer.Enable();
+            OnShoot?.Invoke();
         }
 
         public void Recharge(float deltaTime)

@@ -1,4 +1,5 @@
-﻿using Asteroids.Scripts.Collision;
+﻿using System;
+using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Damage;
 using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Projectile;
@@ -8,6 +9,8 @@ namespace Asteroids.Scripts.Weapons.Types.BulletGun
 {
     public class BulletGun : MonoBehaviour, IWeapon
     {
+        public event Action OnShoot;
+        
         [SerializeField] private Transform _firePoint;
         
         private ICollisionService _collisionService;
@@ -34,6 +37,7 @@ namespace Asteroids.Scripts.Weapons.Types.BulletGun
             _projectileFactory.Create(_firePoint.position, _firePoint.rotation,
                 _config.ProjectileData, _damageInfo, _collisionService);
             _cooldown = _config.FireRate;
+            OnShoot?.Invoke();
         }
 
         public void Recharge(float deltaTime)

@@ -1,6 +1,5 @@
 ﻿using System;
 using Asteroids.Scripts.Enemies;
-using Asteroids.Scripts.Score;
 using Asteroids.Scripts.Spawning.Common.Pooling;
 using UnityEngine;
 using Zenject;
@@ -10,15 +9,14 @@ namespace Asteroids.Scripts.Spawning.Enemies.Pooling
 {
     public class EnemyLifecycleManager : IEnemyLifecycleManager, IDisposable
     {
+        public event Action<GameObject, IEnemy> OnEnemyKilled; 
+        
         private readonly IPoolableLifecycleManager<IPoolable> _poolLifecycle;
-        private readonly IScoreService _scoreService;
 
-        public EnemyLifecycleManager(IPoolableLifecycleManager<IPoolable> poolLifecycle, IScoreService scoreService)
+        public EnemyLifecycleManager(IPoolableLifecycleManager<IPoolable> poolLifecycle)
         {
             _poolLifecycle = poolLifecycle;
             _poolLifecycle.OnDespawned += OnPoolableDespawned;
-            
-            _scoreService = scoreService;
         }
         
         public void Dispose()
@@ -35,8 +33,8 @@ namespace Asteroids.Scripts.Spawning.Enemies.Pooling
 
         private void HandleEnemyKilled(GameObject killer, IEnemy enemy)
         {
-            _scoreService.AddScore(killer, enemy);
             _poolLifecycle.Despawn(enemy);
+            OnEnemyKilled?.Invoke(killer, enemy);
         }
 
         private void OnPoolableDespawned(IPoolable poolable)

@@ -27,7 +27,9 @@ namespace Asteroids.Scripts.UI
         {
             if (_screenStack.Count > 0)
             {
-                _screenStack.Peek().Hide();
+                IView currentScreen = _screenStack.Peek();
+                if (currentScreen == view) return;
+                currentScreen.Hide();
             }
 
             _screenStack.Push(view);

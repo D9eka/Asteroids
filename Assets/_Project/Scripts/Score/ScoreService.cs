@@ -1,22 +1,37 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Player;
+using Asteroids.Scripts.Spawning.Enemies.Pooling;
 using Asteroids.Scripts.Weapons.Projectile;
 using UniRx;
 using UnityEngine;
+using Zenject;
 
 namespace Asteroids.Scripts.Score
 {
-    public class ScoreService : IScoreService
+    public class ScoreService : IScoreService, IInitializable, IDisposable
     {
         private readonly IReadOnlyDictionary<EnemyType, int> _config;
         private readonly ReactiveProperty<int> _totalScore = new ReactiveProperty<int>(0);
+        private readonly IEnemyLifecycleManager _enemyLifecycleManager;
 
         public IReadOnlyReactiveProperty<int> TotalScore => _totalScore;
 
-        public ScoreService(ScoreConfig config)
+        public ScoreService(ScoreConfig config, IEnemyLifecycleManager enemyLifecycleManager)
         {
             _config = config.ScoreByConfig;
+            _enemyLifecycleManager = enemyLifecycleManager;
+        }
+
+        public void Initialize()
+        {
+            _enemyLifecycleManager.OnEnemyKilled += AddScore;
+        }
+
+        public void Dispose()
+        {
+            _enemyLifecycleManager.OnEnemyKilled -= AddScore;
         }
 
         public void AddScore(GameObject killer, IEnemy enemy)
