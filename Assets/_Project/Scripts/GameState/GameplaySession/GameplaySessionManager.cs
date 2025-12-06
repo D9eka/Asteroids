@@ -50,6 +50,7 @@ namespace Asteroids.Scripts.GameState.GameplaySession
 
         public void Start()
         {
+            _score.ResetScore();
             _pauseSystem.Resume();
             _uiController.OpenScreen(_gameplayView);
             _analyticsService.SendStartGameEvent();
@@ -57,7 +58,6 @@ namespace Asteroids.Scripts.GameState.GameplaySession
 
         public void Reset()
         {
-            _score.ResetScore();
             _lifecycleManager.ClearAll();
             _analyticsService.SendEndGameEvent();
             
