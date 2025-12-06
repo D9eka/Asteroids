@@ -20,7 +20,7 @@ namespace Asteroids.Scripts.GameState.GameplaySession
         private readonly IPauseSystem _pauseSystem;
         private readonly IPoolableLifecycleManager<Pooling_IPoolable> _lifecycleManager;
         private readonly IUIController _uiController;
-        private readonly IAnalyticsService _analyticsService;
+        private readonly IAnalyticsController _analyticsController;
         
         private IView _gameplayView;
 
@@ -32,7 +32,7 @@ namespace Asteroids.Scripts.GameState.GameplaySession
             IPauseSystem pauseSystem,
             IPoolableLifecycleManager<Pooling_IPoolable> lifecycleManager, 
             IUIController uiController,
-            IAnalyticsService analyticsService)
+            IAnalyticsController analyticsController)
         {
             _playerController = playerController;
             _playerStartPosition = playerStartPosition;
@@ -40,7 +40,7 @@ namespace Asteroids.Scripts.GameState.GameplaySession
             _pauseSystem = pauseSystem;
             _lifecycleManager = lifecycleManager;
             _uiController = uiController;
-            _analyticsService = analyticsService;
+            _analyticsController = analyticsController;
         }
 
         public void Initialize(IView gameplayView)
@@ -53,13 +53,13 @@ namespace Asteroids.Scripts.GameState.GameplaySession
             _score.ResetScore();
             _pauseSystem.Resume();
             _uiController.OpenScreen(_gameplayView);
-            _analyticsService.SendStartGameEvent();
+            _analyticsController.SendStartGameEvent();
         }
 
         public void Reset()
         {
             _lifecycleManager.ClearAll();
-            _analyticsService.SendEndGameEvent();
+            _analyticsController.SendEndGameEvent();
             
             _playerController.Transform.position = _playerStartPosition;
             _playerController.Transform.rotation = Quaternion.identity;

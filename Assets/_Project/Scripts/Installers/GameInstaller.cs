@@ -241,6 +241,7 @@ namespace Asteroids.Scripts.Installers
         {
             Container.BindInterfacesTo<AnalyticsCollector>().AsSingle();
             Container.BindInterfacesTo<FirebaseAnalyticsService>().AsSingle();
+            Container.BindInterfacesTo<AnalyticsController>().AsSingle();
         }
 
         private void InstallGameplaySystems()

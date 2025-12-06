@@ -3,6 +3,9 @@
     public interface IAnalyticsService
     {
         public void SendStartGameEvent();
-        public void SendEndGameEvent();
+
+        public void SendEndGameEvent(AnalyticsData data);
+
+        public void SendLaserUsedEvent();
     }
 }
