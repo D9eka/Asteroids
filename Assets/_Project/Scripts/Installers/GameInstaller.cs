@@ -89,7 +89,7 @@ namespace Asteroids.Scripts.Installers
             Container.Bind<float>().WithId(FloatInjectId.BoundsMargin).FromInstance(_boundsMargin).AsCached();
             Container.Bind<ICameraBoundsUpdater>().To<CameraBoundsUpdater>().AsSingle().NonLazy();
             Container.Bind<IBoundsWarp>().To<CameraBoundsWarp>().AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<BoundsManager>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<BoundsManager>().AsSingle().NonLazy();
         }
 
         private void InstallProjectilePool()
@@ -106,7 +106,7 @@ namespace Asteroids.Scripts.Installers
 
         private void InstallPlayer()
         {
-            Container.BindInterfacesAndSelfTo<PlayerInputReader>().AsSingle();
+            Container.BindInterfacesTo<PlayerInputReader>().AsSingle();
             
             var playerGo = Container.InstantiatePrefab(_playerPrefab.gameObject);
             playerGo.transform.position = _playerSpawnPosition;
@@ -129,10 +129,10 @@ namespace Asteroids.Scripts.Installers
                 .FromInstance(playerController.GetComponent<CollisionHandler>())
                 .AsCached();
             Container.Bind<PlayerMovementData>().FromInstance(_movementData).AsSingle();
-            Container.BindInterfacesAndSelfTo<PlayerMovement>().FromInstance(playerMovement).AsSingle();
+            Container.BindInterfacesTo<PlayerMovement>().FromInstance(playerMovement).AsSingle();
             
-            Container.BindInterfacesAndSelfTo<PlayerInputHandler>().AsSingle();
-            Container.BindInterfacesAndSelfTo<PlayerControllerInitializer>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<PlayerInputHandler>().AsSingle();
+            Container.BindInterfacesTo<PlayerControllerInitializer>().AsSingle().NonLazy();
         }
 
         private void BindPlayerWeapons(BulletGun bulletGun, LaserGun laserGun)
@@ -144,9 +144,9 @@ namespace Asteroids.Scripts.Installers
                 .FromInstance(new IWeapon[]{ bulletGun, laserGun })
                 .AsCached();
             
-            Container.BindInterfacesAndSelfTo<PlayerWeaponsHandler>().AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<WeaponUpdater>().AsSingle();
-            Container.BindInterfacesAndSelfTo<PlayerWeaponsInitializer>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<PlayerWeaponsHandler>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<WeaponUpdater>().AsSingle();
+            Container.BindInterfacesTo<PlayerWeaponsInitializer>().AsSingle().NonLazy();
         }
 
         private void BindBulletGun(BulletGun bulletGun)
@@ -197,9 +197,9 @@ namespace Asteroids.Scripts.Installers
             
             Container.Bind<ICollisionService>().To<EnemyCollisionService>().AsSingle();
 
-            Container.BindInterfacesAndSelfTo<PoolableLifecycleManager<IPoolable>>().AsSingle();
-            Container.BindInterfacesAndSelfTo<EnemyLifecycleManager>().AsSingle();
-            Container.BindInterfacesAndSelfTo<SpawnBoundaryTracker>().AsSingle();
+            Container.BindInterfacesTo<PoolableLifecycleManager<IPoolable>>().AsSingle();
+            Container.BindInterfacesTo<EnemyLifecycleManager>().AsSingle();
+            Container.BindInterfacesTo<SpawnBoundaryTracker>().AsSingle();
             Container.Bind<SpawnPointGenerator>().AsSingle();
             Container.Bind<IEnemyMovementConfigurator>()
                 .To<EnemyMovementConfigurator>()
@@ -208,7 +208,7 @@ namespace Asteroids.Scripts.Installers
             BindEnemy<Ufo, UfoTypeConfig>(EnemyType.Ufo, typeof(UfoInitializer));
             BindEnemy<Asteroid, AsteroidTypeConfig>(EnemyType.Asteroid, typeof(AsteroidInitializer));
 
-            Container.BindInterfacesAndSelfTo<EnemyProvidersInstaller>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<EnemyProvidersInstaller>().AsSingle().NonLazy();
         }
 
         private void BindEnemy<TEnemy, TConfig>(
@@ -222,39 +222,39 @@ namespace Asteroids.Scripts.Installers
                 .To<EnemyProviderFactory<TEnemy, TConfig>>()
                 .AsSingle();
 
-            Container.BindInterfacesAndSelfTo(initializerType).AsSingle();
-            Container.BindInterfacesAndSelfTo<EnemyInitializerAdapter<TEnemy, TConfig>>().AsSingle();
+            Container.BindInterfacesTo(initializerType).AsSingle();
+            Container.BindInterfacesTo<EnemyInitializerAdapter<TEnemy, TConfig>>().AsSingle();
         }
 
         private void InstallSaveSystem()
         {
-            Container.BindInterfacesAndSelfTo<PlayerPrefsSaveService>().AsSingle();
+            Container.BindInterfacesTo<PlayerPrefsSaveService>().AsSingle();
         }
 
         private void InstallScoreSystem()
         {
-            Container.BindInterfacesAndSelfTo<ScoreService>().AsSingle().WithArguments(_scoreConfig);
-            Container.BindInterfacesAndSelfTo<ScoreTracker>().AsSingle();
+            Container.BindInterfacesTo<ScoreService>().AsSingle().WithArguments(_scoreConfig);
+            Container.BindInterfacesTo<ScoreTracker>().AsSingle();
         }
 
         private void InstallAnalyticsSystem()
         {
-            Container.BindInterfacesAndSelfTo<AnalyticsCollector>().AsSingle();
-            Container.BindInterfacesAndSelfTo<FirebaseAnalyticsService>().AsSingle();
+            Container.BindInterfacesTo<AnalyticsCollector>().AsSingle();
+            Container.BindInterfacesTo<FirebaseAnalyticsService>().AsSingle();
         }
 
         private void InstallGameplaySystems()
         {
-            Container.BindInterfacesAndSelfTo<GameplaySessionManager>().AsSingle();
-            Container.BindInterfacesAndSelfTo<GameExitService>().AsSingle();
-            Container.BindInterfacesAndSelfTo<GameStateController>().AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<PauseSystem>().AsSingle();
+            Container.BindInterfacesTo<GameplaySessionManager>().AsSingle();
+            Container.BindInterfacesTo<GameExitService>().AsSingle();
+            Container.BindInterfacesTo<GameStateController>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<PauseSystem>().AsSingle();
         }
 
         private void InstallUI()
         {
-            Container.BindInterfacesAndSelfTo<UIController>().AsSingle();
-            Container.BindInterfacesAndSelfTo<PlayerParamsService>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<UIController>().AsSingle();
+            Container.BindInterfacesTo<PlayerParamsService>().AsSingle().NonLazy();
             
             BindScreen<GameplayScreenView, GameplayScreenViewModel>(_gameplayScreenViewPrefab.gameObject, 
                 ScreenInjectId.GameplayScreenView);
@@ -262,7 +262,7 @@ namespace Asteroids.Scripts.Installers
                 ScreenInjectId.MainScreenView);
             
             Container
-                .BindInterfacesAndSelfTo<ScreensInitializer>()
+                .BindInterfacesTo<ScreensInitializer>()
                 .AsSingle()
                 .WithArguments(typeof(MainScreenView))
                 .NonLazy();

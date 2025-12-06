@@ -15,14 +15,14 @@ namespace Asteroids.Scripts.Spawning.Enemies.Fragments
     {
         private readonly IPooledEnemyProvider<AsteroidFragment, EnemyTypeSpawnConfig> _enemyProvider;
         private readonly IEnemyMovementConfigurator _movementConfigurator;
-        private readonly SpawnBoundaryTracker _boundaryTracker;
+        private readonly ISpawnBoundaryTracker _boundaryTracker;
         private readonly DefaultEnemyInitializer _initializer;
 
         [Inject]
         public AsteroidFragmentFactory(
             IPooledEnemyProvider<AsteroidFragment, EnemyTypeSpawnConfig> provider,
             IEnemyMovementConfigurator movementConfigurator,
-            SpawnBoundaryTracker boundaryTracker,
+            ISpawnBoundaryTracker boundaryTracker,
             DefaultEnemyInitializer initializer)
         {
             _enemyProvider = provider;

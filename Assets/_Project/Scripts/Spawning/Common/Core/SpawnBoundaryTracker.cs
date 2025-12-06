@@ -7,7 +7,7 @@ using IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
 
 namespace Asteroids.Scripts.Spawning.Common.Core
 {
-    public class SpawnBoundaryTracker : IFixedTickable
+    public class SpawnBoundaryTracker : ISpawnBoundaryTracker, IFixedTickable
     {
         private const float MAX_REGISTRATION_TIME_SECONDS = 5f;
 

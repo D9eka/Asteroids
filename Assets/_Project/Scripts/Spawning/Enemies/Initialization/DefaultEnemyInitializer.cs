@@ -10,7 +10,7 @@ namespace Asteroids.Scripts.Spawning.Enemies.Initialization
     public class DefaultEnemyInitializer : EnemyInitializer<IEnemy, EnemyTypeConfig>
     {
         public DefaultEnemyInitializer(ICollisionService collisionService,
-            IEnemyMovementConfigurator movementConfigurator, SpawnBoundaryTracker spawnBoundaryTracker, 
+            IEnemyMovementConfigurator movementConfigurator, ISpawnBoundaryTracker spawnBoundaryTracker, 
             IPauseSystem pauseSystem) : base( collisionService, movementConfigurator, spawnBoundaryTracker, pauseSystem)
         {
         }

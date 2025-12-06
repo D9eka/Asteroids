@@ -17,7 +17,7 @@ namespace Asteroids.Scripts.Spawning.Enemies.Initialization
 
         [Inject]
         public UfoInitializer(ICollisionService collisionService, IEnemyMovementConfigurator movementConfigurator,
-            SpawnBoundaryTracker spawnBoundaryTracker, IPauseSystem pauseSystem, IProjectileFactory projectileFactory, 
+            ISpawnBoundaryTracker spawnBoundaryTracker, IPauseSystem pauseSystem, IProjectileFactory projectileFactory, 
             IWeaponUpdater weaponUpdater)
             : base(collisionService, movementConfigurator, spawnBoundaryTracker, pauseSystem)
         {

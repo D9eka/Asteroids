@@ -14,7 +14,7 @@ namespace Asteroids.Scripts.Player
         private readonly IPlayerMovement _movement;
         private readonly PlayerMovementData _movementData;
         private readonly IWeaponHandler _weaponHandler;
-        private readonly BoundsManager _boundsManager;
+        private readonly IBoundsManager _boundsManager;
         private readonly ICollisionService _collisionService;
         private readonly ICollisionHandler _collisionHandler;
         private readonly IPauseSystem _pauseSystem;
@@ -24,7 +24,7 @@ namespace Asteroids.Scripts.Player
             IPlayerMovement movement,
             PlayerMovementData movementData,
             IWeaponHandler weaponHandler,
-            BoundsManager boundsManager,
+            IBoundsManager boundsManager,
             [Inject(Id = CollisionServiceInjectId.Player)] ICollisionService collisionService,
             [Inject(Id = CollisionHandlerInjectId.Player)] ICollisionHandler collisionHandler,
             IPauseSystem pauseSystem)

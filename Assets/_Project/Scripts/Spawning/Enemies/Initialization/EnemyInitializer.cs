@@ -14,13 +14,13 @@ namespace Asteroids.Scripts.Spawning.Enemies.Initialization
     {
         protected readonly ICollisionService CollisionService;
         protected readonly IEnemyMovementConfigurator MovementConfigurator;
-        protected readonly SpawnBoundaryTracker SpawnBoundaryTracker;
+        protected readonly ISpawnBoundaryTracker SpawnBoundaryTracker;
         protected readonly IPauseSystem PauseSystem;
 
         [Inject]
         public EnemyInitializer(ICollisionService collisionService,
             IEnemyMovementConfigurator movementConfigurator,
-            SpawnBoundaryTracker spawnBoundaryTracker,
+            ISpawnBoundaryTracker spawnBoundaryTracker,
             IPauseSystem pauseSystem)
         {
             CollisionService = collisionService;

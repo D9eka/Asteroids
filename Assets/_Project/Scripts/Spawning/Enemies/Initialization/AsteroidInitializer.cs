@@ -15,7 +15,7 @@ namespace Asteroids.Scripts.Spawning.Enemies.Initialization
 
         [Inject]
         public AsteroidInitializer(ICollisionService collisionService, IEnemyMovementConfigurator movementConfigurator, 
-            SpawnBoundaryTracker spawnBoundaryTracker, IPauseSystem pauseSystem, 
+            ISpawnBoundaryTracker spawnBoundaryTracker, IPauseSystem pauseSystem, 
             IAsteroidFragmentFactory fragmentsFactory)
             : base(collisionService, movementConfigurator, spawnBoundaryTracker, pauseSystem)
         {
