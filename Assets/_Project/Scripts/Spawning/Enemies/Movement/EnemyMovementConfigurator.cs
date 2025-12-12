@@ -1,6 +1,5 @@
 ﻿using System;
 using Asteroids.Scripts.Camera;
-using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Enemies.Config;
 using Asteroids.Scripts.Movement.DirectionProviders;
@@ -8,7 +7,6 @@ using Asteroids.Scripts.Movement.DirectionProviders.Config;
 using Asteroids.Scripts.Movement.RotationProviders;
 using Asteroids.Scripts.Movement.RotationProviders.Config;
 using UnityEngine;
-using Zenject;
 using Random = UnityEngine.Random;
 
 namespace Asteroids.Scripts.Spawning.Enemies.Movement
@@ -16,13 +14,16 @@ namespace Asteroids.Scripts.Spawning.Enemies.Movement
     public class EnemyMovementConfigurator : IEnemyMovementConfigurator
     {
         private readonly ICameraBoundsUpdater _cameraBoundsUpdater;
-        private readonly Transform _playerTransform;
+        
+        private Transform _playerTransform;
 
-        public EnemyMovementConfigurator(
-            ICameraBoundsUpdater cameraBoundsUpdater,
-            [Inject(Id = TransformInjectId.Player)] Transform playerTransform)
+        public EnemyMovementConfigurator(ICameraBoundsUpdater cameraBoundsUpdater)
         {
             _cameraBoundsUpdater = cameraBoundsUpdater;
+        }
+
+        public void Initialize(Transform playerTransform)
+        {
             _playerTransform = playerTransform;
         }
 

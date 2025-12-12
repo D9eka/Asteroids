@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Asteroids.Scripts.Addressable;
 using Asteroids.Scripts.Analytics;
 using Asteroids.Scripts.Camera;
@@ -27,7 +26,6 @@ using Asteroids.Scripts.Spawning.Enemies.Movement;
 using Asteroids.Scripts.Spawning.Enemies.Pooling;
 using Asteroids.Scripts.Spawning.Enemies.Providers;
 using Asteroids.Scripts.UI;
-using Asteroids.Scripts.UI.Screens;
 using Asteroids.Scripts.UI.Screens.GameplayScreen;
 using Asteroids.Scripts.UI.Screens.MainScreen;
 using Asteroids.Scripts.WarpSystem;
@@ -36,7 +34,6 @@ using Asteroids.Scripts.Weapons.Projectile;
 using Asteroids.Scripts.Weapons.Services.Raycast;
 using Asteroids.Scripts.Weapons.Types.BulletGun;
 using Asteroids.Scripts.Weapons.Types.Laser;
-using Asteroids.Scripts.Weapons.Types.Laser.LineRenderer;
 using UnityEngine;
 using Zenject;
 using IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
@@ -51,11 +48,8 @@ namespace Asteroids.Scripts.Installers
         [Header("BoundsSystem")]
         [SerializeField] private float _boundsMargin;
         [Space]
-        [Header("ProjectilePool")]
-        [SerializeField] private Projectile _projectilePrefab;
         [Space]
         [Header("Player")]
-        [SerializeField] private PlayerController _playerPrefab;
         [SerializeField] private Vector2 _playerSpawnPosition;
         [SerializeField] private PlayerMovementData _movementData;
         [SerializeField] private BulletGunConfig _bulletGunConfig;
@@ -101,88 +95,38 @@ namespace Asteroids.Scripts.Installers
         private void InstallPlayer()
         {
             Container.BindInterfacesTo<PlayerInputReader>().AsSingle();
+            Container.BindInterfacesAndSelfTo<PlayerInputHandler>().AsSingle();
+            Container.Bind<PlayerMovementData>().FromInstance(_movementData).AsSingle();
             
-            var playerGo = Container.InstantiatePrefab(_playerPrefab.gameObject);
-            playerGo.transform.position = _playerSpawnPosition;
-            
-            BulletGun bulletGun = playerGo.GetComponentInChildren<BulletGun>();
-            LaserGun laserGun = playerGo.GetComponentInChildren<LaserGun>();
-            BindPlayerWeapons(bulletGun, laserGun);
-            
-            PlayerController playerController = playerGo.GetComponent<PlayerController>();
-            PlayerMovement playerMovement = playerGo.GetComponent<PlayerMovement>();
-            Container.Bind<Vector2>().WithId(Vector2InjectId.PlayerStartPos).FromInstance(_playerSpawnPosition).AsSingle();
-            Container.Bind<Transform>().WithId(TransformInjectId.Player).FromInstance(playerGo.transform).AsSingle();
-            Container.Bind<IPlayerController>().FromInstance(playerController).AsSingle();
             Container.Bind<ICollisionService>()
                 .WithId(CollisionServiceInjectId.Player)
                 .To<PlayerCollisionService>()
                 .AsCached();
-            Container.Bind<ICollisionHandler>()
-                .WithId(CollisionHandlerInjectId.Player)
-                .FromInstance(playerController.GetComponent<CollisionHandler>())
-                .AsCached();
-            Container.Bind<PlayerMovementData>().FromInstance(_movementData).AsSingle();
-            Container.BindInterfacesTo<PlayerMovement>().FromInstance(playerMovement).AsSingle();
             
-            Container.BindInterfacesTo<PlayerInputHandler>().AsSingle();
+            Container.Bind<Vector2>()
+                .WithId(Vector2InjectId.PlayerStartPos)
+                .FromInstance(_playerSpawnPosition)
+                .AsSingle();
+            
+            BindPlayerWeapons();
+
+            Container.Bind<PlayerWeaponsInitializer>().AsSingle();
             Container.BindInterfacesTo<PlayerControllerInitializer>().AsSingle().NonLazy();
         }
 
-        private void BindPlayerWeapons(BulletGun bulletGun, LaserGun laserGun)
-        {
-            BindBulletGun(bulletGun);
-            BindLaserGun(laserGun);
-            
-            Container.Bind<IWeapon[]>().WithId(WeaponInjectId.PlayerWeapons)
-                .FromInstance(new IWeapon[]{ bulletGun, laserGun })
-                .AsCached();
-            
-            Container.BindInterfacesTo<PlayerWeaponsHandler>().AsSingle().NonLazy();
-            Container.BindInterfacesTo<WeaponUpdater>().AsSingle();
-            Container.BindInterfacesTo<PlayerWeaponsInitializer>().AsSingle().NonLazy();
-        }
-
-        private void BindBulletGun(BulletGun bulletGun)
+        private void BindPlayerWeapons()
         {
             Container.Bind<BulletGunConfig>()
                 .FromInstance(_bulletGunConfig)
-                .AsCached()
-                .WhenInjectedInto<PlayerWeaponsInitializer>();
-
-            Container.Bind<IWeapon>()
-                .WithId(WeaponInjectId.PlayerBulletGun)
-                .To<BulletGun>()
-                .FromInstance(bulletGun)
-                .AsCached();
-        }
-
-        private void BindLaserGun(LaserGun laserGun)
-        {
-            SpriteLineRenderer lineRenderer = laserGun.GetComponentInChildren<SpriteLineRenderer>();
-            
-            Container.Bind<LaserGunConfig>()
-                .FromInstance(_laserGunConfig)
-                .AsCached()
-                .WhenInjectedInto<PlayerWeaponsInitializer>();
-            Container.Bind<ILineRenderer>()
-                .FromInstance(lineRenderer)
-                .AsCached()
-                .WhenInjectedInto<PlayerWeaponsInitializer>();
-            Container.Bind<IRaycastService>()
-                .To<RaycastService>()
                 .AsSingle()
                 .WhenInjectedInto<PlayerWeaponsInitializer>();
-            Container.Bind<IWeapon>()
-                .WithId(WeaponInjectId.PlayerLaserGun)
-                .To<LaserGun>()
-                .FromInstance(laserGun)
-                .AsCached();
-            Container.Bind<ILaserGun>()
-                .WithId(WeaponInjectId.PlayerLaserGun)
-                .To<LaserGun>()
-                .FromInstance(laserGun)
-                .AsCached();
+            Container.Bind<LaserGunConfig>()
+                .FromInstance(_laserGunConfig)
+                .AsSingle()
+                .WhenInjectedInto<PlayerWeaponsInitializer>();
+            
+            Container.BindInterfacesTo<WeaponUpdater>().AsSingle();
+            Container.BindInterfacesAndSelfTo<RaycastService>().AsSingle();
         }
 
         private void InstallEnemies()

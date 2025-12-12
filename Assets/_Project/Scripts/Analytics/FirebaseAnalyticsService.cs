@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Firebase;
+﻿using Firebase;
 using Firebase.Analytics;
 using Firebase.Extensions;
 using UnityEngine;
@@ -19,7 +17,6 @@ namespace Asteroids.Scripts.Analytics
                 var dependencyStatus = task.Result;
                 if (dependencyStatus == DependencyStatus.Available) {
                     _firebaseApp = FirebaseApp.DefaultInstance;
-                    FirebaseApp.LogLevel = LogLevel.Debug;
                     _isFirebaseInitialized = true;
                 } 
                 else 

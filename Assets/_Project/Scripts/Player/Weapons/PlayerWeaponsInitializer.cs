@@ -1,4 +1,5 @@
-﻿using Asteroids.Scripts.Collision;
+﻿using Asteroids.Scripts.Analytics;
+using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Projectile;
@@ -11,51 +12,44 @@ using Zenject;
 
 namespace Asteroids.Scripts.Player.Weapons
 {
-    public class PlayerWeaponsInitializer : IInitializable
+    public class PlayerWeaponsInitializer
     {
-        private readonly GameObject _damageInstigator;
+        private readonly IWeaponUpdater _weaponUpdater;
+        private readonly IAnalyticsCollector _analyticsCollector;
         private readonly IProjectileFactory _projectileFactory;
-        private readonly ICollisionService _collisionService;
-        private readonly IWeapon[] _weapons;
+        private readonly IRaycastService _raycastService;
         private readonly BulletGunConfig _bulletGunConfig;
         private readonly LaserGunConfig _laserGunConfig;
-        private readonly ILineRenderer _laserGunLineRenderer;
-        private readonly IRaycastService _raycastService;
-        
-        [Inject]
-        public PlayerWeaponsInitializer(
-            IPlayerController playerController,
-            IProjectileFactory projectileFactory, 
-            [Inject(Id = CollisionServiceInjectId.Player)] ICollisionService collisionService,
-            [Inject(Id = WeaponInjectId.PlayerWeapons)] IWeapon[] weapons,
-            BulletGunConfig bulletGunConfig,
-            LaserGunConfig laserGunConfig,
-            ILineRenderer laserGunLineRenderer,
-            IRaycastService raycastService)
+
+        public PlayerWeaponsInitializer(IWeaponUpdater weaponUpdater, IAnalyticsCollector analyticsCollector,
+            IProjectileFactory projectileFactory, IRaycastService raycastService, BulletGunConfig bulletGunConfig,
+            LaserGunConfig laserGunConfig)
         {
-            _damageInstigator = playerController.Transform.gameObject;
+            _weaponUpdater = weaponUpdater;
+            _analyticsCollector = analyticsCollector;
             _projectileFactory = projectileFactory;
-            _collisionService = collisionService;
-            _weapons = weapons;
+            _raycastService = raycastService;
             _bulletGunConfig = bulletGunConfig;
             _laserGunConfig = laserGunConfig;
-            _laserGunLineRenderer = laserGunLineRenderer;
-            _raycastService = raycastService;
         }
-        
-        public void Initialize()
+
+        public void Initialize(GameObject damageInstigator, ICollisionService playerCollisionService, IWeapon[] weapons, 
+            ILineRenderer laserGunLineRenderer)
         {
-            foreach (IWeapon weapon in _weapons)
+            foreach (IWeapon weapon in weapons)
             {
+                _weaponUpdater.AddWeapon(weapon);
                 if (weapon is BulletGun bulletGun)
                 {
-                    bulletGun.Initialize(_damageInstigator, _collisionService, _bulletGunConfig, _projectileFactory);
+                    bulletGun.Initialize(damageInstigator, playerCollisionService, _bulletGunConfig, _projectileFactory);
+                    _analyticsCollector.Initialize(bulletGun);
                 }
                 if (weapon is LaserGun laserGun)
                 {
                     _raycastService.Initialize(laserGun.gameObject);
-                    laserGun.Initialize(_damageInstigator, _laserGunConfig, _laserGunLineRenderer, _raycastService,
-                        _collisionService);
+                    laserGun.Initialize(damageInstigator, _laserGunConfig, laserGunLineRenderer, _raycastService,
+                        playerCollisionService);
+                    _analyticsCollector.Initialize(laserGun);
                 }
             }
         }

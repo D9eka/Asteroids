@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Asteroids.Scripts.Core.InjectIds;
 using Zenject;
 
 namespace Asteroids.Scripts.Weapons.Core
@@ -7,12 +6,6 @@ namespace Asteroids.Scripts.Weapons.Core
     public class WeaponUpdater : IWeaponUpdater, ITickable
     {
         private readonly List<IWeapon> _weapons = new List<IWeapon>();
-
-        [Inject]
-        public WeaponUpdater([Inject(Id = WeaponInjectId.PlayerWeapons)] IWeapon[] weapons)
-        {
-            _weapons.AddRange(weapons);
-        }
 
         public void Tick()
         {

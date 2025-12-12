@@ -1,6 +1,4 @@
-﻿using UniRx;
-
-namespace Asteroids.Scripts.SaveService
+﻿namespace Asteroids.Scripts.SaveService
 {
     [System.Serializable]
     public class SaveData

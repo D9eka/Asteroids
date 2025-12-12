@@ -1,8 +1,9 @@
 ﻿using System;
-using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Spawning.Enemies.Pooling;
 using Asteroids.Scripts.Weapons.Core;
+using Asteroids.Scripts.Weapons.Types.BulletGun;
+using Asteroids.Scripts.Weapons.Types.Laser;
 using UnityEngine;
 using Zenject;
 
@@ -13,25 +14,31 @@ namespace Asteroids.Scripts.Analytics
         public event Action OnLaserUsed;
         
         private readonly IEnemyLifecycleManager _enemyLifecycleManager;
-        private readonly IWeapon _playerBulletGun;
-        private readonly IWeapon _playerLaserGun;
+        
+        private IWeapon _playerBulletGun;
+        private IWeapon _playerLaserGun;
         
         public AnalyticsData Analytics { get; private set; } = new AnalyticsData();
         
-        public AnalyticsCollector(
-            IEnemyLifecycleManager enemyLifecycleManager,
-            [Inject(Id = WeaponInjectId.PlayerBulletGun)] IWeapon playerBulletGun,
-            [Inject(Id = WeaponInjectId.PlayerLaserGun)] IWeapon playerLaserGun)
+        public AnalyticsCollector(IEnemyLifecycleManager enemyLifecycleManager)
         {
             _enemyLifecycleManager = enemyLifecycleManager;
-            _playerBulletGun = playerBulletGun;
-            _playerLaserGun = playerLaserGun;
         }
         
         public void Initialize()
         {
             _enemyLifecycleManager.OnEnemyKilled += EnemyLifecycleManagerOnEnemyKilled;
+        }
+        
+        public void Initialize(BulletGun playerBulletGun)
+        {
+            _playerBulletGun = playerBulletGun;
             _playerBulletGun.OnShoot += PlayerBulletGunOnShoot;
+        }
+        
+        public void Initialize(LaserGun playerLaserGun)
+        {
+            _playerLaserGun = playerLaserGun;
             _playerLaserGun.OnShoot += PlayerLaserGunOnShoot;
         }
 

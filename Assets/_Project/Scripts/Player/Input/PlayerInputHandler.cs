@@ -6,19 +6,25 @@ namespace Asteroids.Scripts.Player.Input
 {
     public class PlayerInputHandler : ITickable
     {
-        private readonly IPlayerController _playerController;
         private readonly IPlayerInput _input;
         
+        private IPlayerController _playerController;
         private Vector2 _lastMove;
 
-        public PlayerInputHandler(IPlayerController playerController, IPlayerInput input)
+        public PlayerInputHandler(IPlayerInput input)
+        {
+            _input = input;
+        }
+
+        public void Initialize(IPlayerController playerController)
         {
             _playerController = playerController;
-            _input = input;
         }
 
         public void Tick()
         {
+            if (_playerController == null) return;
+            
             Vector2 move = _input.Move;
             
             Vector2 currentMove = new Vector2(move.x, Mathf.Max(0f, move.y));

@@ -10,8 +10,7 @@ namespace Asteroids.Scripts.Player.Weapons
         private readonly List<IWeapon> _weapons = new();
         private int _currentIndex;
         
-        [Inject]
-        public PlayerWeaponsHandler([Inject(Id = WeaponInjectId.PlayerWeapons)] IWeapon[] weapons)
+        public PlayerWeaponsHandler(IWeapon[] weapons)
         {
             _weapons.Clear();
             _weapons.AddRange(weapons);

@@ -9,23 +9,25 @@ namespace Asteroids.Scripts.Player
 {
     public class PlayerParamsService : ITickable, IPlayerParamsService
     {
-        private readonly Transform _transform;
-        private readonly Rigidbody2D _rigidbody;
-        private readonly ILaserGun _laserGun;
         private readonly ReactiveProperty<string> _params = new ReactiveProperty<string>("");
+        
+        private Transform _transform;
+        private Rigidbody2D _rigidbody;
+        private ILaserGun _laserGun;
         
         public IReadOnlyReactiveProperty<string> Params => _params;
 
-        public PlayerParamsService(IPlayerController playerController, 
-            [Inject(Id = WeaponInjectId.PlayerLaserGun)] ILaserGun laserGun)
+        public void Initialize(Transform playerTransform, Rigidbody2D playerRigidbody, ILaserGun laserGun)
         {
-            _transform = playerController.Transform;
-            _rigidbody = playerController.Transform.GetComponent<Rigidbody2D>();
+            _transform = playerTransform;
+            _rigidbody = playerRigidbody;
             _laserGun = laserGun;
         }
 
         public void Tick()
         {
+            if (_transform == null || _rigidbody == null || _laserGun == null) return;
+            
             string newText = GenerateText();
             if (_params.Value != newText)
             {
