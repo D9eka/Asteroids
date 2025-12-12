@@ -94,14 +94,8 @@ namespace Asteroids.Scripts.Installers
 
         private void InstallProjectilePool()
         {
-            Container.BindMemoryPool<Projectile, ProjectilePool<Projectile>>()
-                .WithInitialSize(20)
-                .FromComponentInNewPrefab(_projectilePrefab)
-                .UnderTransformGroup("Projectiles");
-            
-            Container.Bind<IProjectileFactory>()
-                .To<ProjectileFactory>()
-                .AsSingle();
+            Container.BindInterfacesTo<ProjectileFactory>().AsSingle();
+            Container.BindInterfacesTo<ProjectileFactoryInitializer>().AsSingle();
         }
 
         private void InstallPlayer()

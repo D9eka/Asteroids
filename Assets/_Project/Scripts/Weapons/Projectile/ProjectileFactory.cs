@@ -10,22 +10,28 @@ namespace Asteroids.Scripts.Weapons.Projectile
 {
     public class ProjectileFactory : IProjectileFactory
     {
-        private readonly ProjectilePool<Projectile> _pool;
         private readonly IPauseSystem _pauseSystem;
         private readonly IPoolableLifecycleManager<IPoolable> _lifecycleManager;
+        
+        private ProjectilePool<Projectile> _pool;
 
         [Inject]
-        public ProjectileFactory(ProjectilePool<Projectile> pool, IPauseSystem pauseSystem,
-            IPoolableLifecycleManager<IPoolable> lifecycleManager)
+        public ProjectileFactory(IPauseSystem pauseSystem, IPoolableLifecycleManager<IPoolable> lifecycleManager)
         {
-            _pool = pool;
             _pauseSystem = pauseSystem;
             _lifecycleManager = lifecycleManager;
+        }
+
+        public void Initialize(ProjectilePool<Projectile> pool)
+        {
+            _pool = pool;
         }
 
         public void Create(Vector2 position, Quaternion rotation, 
             ProjectileData data, DamageInfo damageInfo, ICollisionService collisionService)
         {
+            if (_pool == null) return;
+            
             Projectile projectile = _pool.Spawn(position, rotation, data, damageInfo, collisionService);
             _pauseSystem.Register(projectile);
             _lifecycleManager.Register(projectile, _pool);

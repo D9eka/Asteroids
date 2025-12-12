@@ -53,7 +53,7 @@ namespace Asteroids.Scripts.UI
             }
             catch (Exception e)
             {
-                Debug.LogError(e);
+                Debug.LogException(e);
             }
         }
         
