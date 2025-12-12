@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+using Asteroids.Scripts.Addressable;
 using Asteroids.Scripts.Analytics;
 using Asteroids.Scripts.Camera;
 using Asteroids.Scripts.Collision;
@@ -64,14 +66,12 @@ namespace Asteroids.Scripts.Installers
         [Space]
         [Header("Score")]
         [SerializeField] private ScoreConfig _scoreConfig;
-        [Space]
-        [Header("UI")] 
-        [SerializeField] private MainScreenView _mainScreenViewPrefab;
-        [SerializeField] private GameplayScreenView _gameplayScreenViewPrefab;
         
         public override void InstallBindings()
         {
             Container.Bind<UnityEngine.Camera>().FromInstance(_camera).AsSingle();
+
+            Container.BindInterfacesTo<UnityAddressableLoader>().AsSingle();
             
             InstallBoundsSystem();
             InstallProjectilePool();
@@ -256,11 +256,9 @@ namespace Asteroids.Scripts.Installers
         {
             Container.BindInterfacesTo<UIController>().AsSingle();
             Container.BindInterfacesTo<PlayerParamsService>().AsSingle().NonLazy();
-            
-            BindScreen<GameplayScreenView, GameplayScreenViewModel>(_gameplayScreenViewPrefab.gameObject, 
-                ScreenInjectId.GameplayScreenView);
-            BindScreen<MainScreenView, MainScreenViewModel>(_mainScreenViewPrefab.gameObject, 
-                ScreenInjectId.MainScreenView);
+
+            Container.BindInterfacesAndSelfTo<GameplayScreenViewModel>().AsSingle();
+            Container.BindInterfacesAndSelfTo<MainScreenViewModel>().AsSingle();
             
             Container
                 .BindInterfacesTo<ScreensInitializer>()
@@ -268,24 +266,5 @@ namespace Asteroids.Scripts.Installers
                 .WithArguments(typeof(MainScreenView))
                 .NonLazy();
         }
-        
-        private void BindScreen<TView, TViewModel>(GameObject prefab, ScreenInjectId screenId)
-            where TView : IView
-            where TViewModel : IViewModel
-        {
-            Container.BindInterfacesAndSelfTo<TViewModel>().AsSingle();
-            
-            var screenGo = Container.InstantiatePrefab(prefab);
-            var screen = screenGo.GetComponent<TView>();
-
-            Container.Bind<IView>().FromInstance(screen).AsCached();
-            Container.Bind<IView>()
-                .WithId(screenId)
-                .FromInstance(screen)
-                .AsCached();
-            
-            screenGo.GetComponent<Canvas>().worldCamera = _camera;
-        }
-
     }
 }
