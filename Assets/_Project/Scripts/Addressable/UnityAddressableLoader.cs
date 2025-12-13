@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -6,7 +7,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Asteroids.Scripts.Addressable
 {
-    public class UnityAddressableLoader : IAddressableLoader
+    public class UnityAddressableLoader : IAddressableLoader, IDisposable
     {
         private AsyncOperationHandle _cachedObject;
         
@@ -43,6 +44,14 @@ namespace Asteroids.Scripts.Addressable
                 Addressables.Release(handle);
             }
             _handles.Remove(addressableId);
+        }
+
+        public void Dispose()
+        {
+            foreach (var handlesKey in new List<AddressableId>(_handles.Keys))
+            {
+                Unload(handlesKey);
+            }
         }
 
         private bool TryGetItemFromDictionary<T>(AddressableId addressableId, out T result)

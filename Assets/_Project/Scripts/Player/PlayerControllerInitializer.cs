@@ -99,7 +99,6 @@ namespace Asteroids.Scripts.Player
             Task<GameObject> task = _addressableLoader.Load<GameObject>(AddressableId.Player);
             await task;
             var playerGo = _container.InstantiatePrefab(task.Result);
-            _addressableLoader.Unload(AddressableId.Player);
             return playerGo;
         }
     }

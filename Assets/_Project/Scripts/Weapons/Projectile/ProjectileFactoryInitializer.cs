@@ -41,7 +41,6 @@ namespace Asteroids.Scripts.Weapons.Projectile
                 .WithInitialSize(20)
                 .FromComponentInNewPrefab(task.Result.GetComponent<Projectile>())
                 .UnderTransformGroup("Projectiles");
-            _addressableLoader.Unload(AddressableId.Projectile);
             
             await Task.CompletedTask;
         }

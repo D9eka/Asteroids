@@ -62,7 +62,6 @@ namespace Asteroids.Scripts.UI
             Task<GameObject> task = _addressableLoader.Load<GameObject>(screenAddressableId);
             await task;
             GameObject screenGo = _container.InstantiatePrefab(task.Result);
-            _addressableLoader.Unload(screenAddressableId);
             
             TView screen = screenGo.GetComponent<TView>();
             _screens.Add(screen);
