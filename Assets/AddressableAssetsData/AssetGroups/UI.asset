@@ -20,6 +20,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2782a269a3a787b48a7808129d2e9193
+    m_Address: ReviveScreen
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 334054619577d9648afe58e386714d08
     m_Address: GameplayScreen
     m_ReadOnly: 0
@@ -31,3 +36,4 @@ MonoBehaviour:
     m_Schemas:
     - {fileID: 11400000, guid: cc90bc742b435db4282da7cf1789556a, type: 2}
     - {fileID: 11400000, guid: 5ece81a5ad7f6bc4fa7ece4419bef8f7, type: 2}
+    - {fileID: 11400000, guid: 48ec262eab7db034a9086f5f61608f86, type: 2}
