@@ -7,8 +7,11 @@ namespace Asteroids.Scripts.GameState
     public interface IGameStateController
     {
         public IObservable<Unit> PlayerDeath { get; }
+        public IObservable<Unit> PlayerRevive { get; }
+    
         public void Initialize(IPlayerController playerController);
         public void HandleRestartRequest();
+        public void HandleRevivalRequest();
         public void HandleExitRequest();
     }
 }

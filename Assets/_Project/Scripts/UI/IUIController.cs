@@ -6,8 +6,8 @@ namespace Asteroids.Scripts.UI
 {
     public interface IUIController
     {
+        public void Initialize(List<IView> screens, Type startScreenType);
         public void OpenScreen(IView view);
         public void CloseScreen(IView view);
-        public void Initialize(List<IView> screens, Type startScreenType);
     }
 }

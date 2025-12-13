@@ -1,6 +1,5 @@
 ﻿using Asteroids.Scripts.Analytics;
 using Asteroids.Scripts.Collision;
-using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Projectile;
 using Asteroids.Scripts.Weapons.Services.Raycast;
@@ -8,7 +7,6 @@ using Asteroids.Scripts.Weapons.Types.BulletGun;
 using Asteroids.Scripts.Weapons.Types.Laser;
 using Asteroids.Scripts.Weapons.Types.Laser.LineRenderer;
 using UnityEngine;
-using Zenject;
 
 namespace Asteroids.Scripts.Player.Weapons
 {

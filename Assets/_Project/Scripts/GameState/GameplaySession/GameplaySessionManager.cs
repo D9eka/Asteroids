@@ -1,4 +1,5 @@
-﻿using Asteroids.Scripts.Analytics;
+﻿using System;
+using Asteroids.Scripts.Analytics;
 using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Player;
@@ -6,6 +7,7 @@ using Asteroids.Scripts.Score;
 using Asteroids.Scripts.Spawning.Common.Pooling;
 using Asteroids.Scripts.UI;
 using Asteroids.Scripts.UI.Screens;
+using UniRx;
 using UnityEngine;
 using Zenject;
 using Pooling_IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
@@ -20,9 +22,12 @@ namespace Asteroids.Scripts.GameState.GameplaySession
         private readonly IPoolableLifecycleManager<Pooling_IPoolable> _lifecycleManager;
         private readonly IUIController _uiController;
         private readonly IAnalyticsController _analyticsController;
+        private readonly Subject<Unit> _gameStarted = new Subject<Unit>();
         
         private IPlayerController _playerController;
         private IView _gameplayView;
+
+        public IObservable<Unit> GameStarted => _gameStarted;
 
         [Inject]
         public GameplaySessionManager(
@@ -57,6 +62,7 @@ namespace Asteroids.Scripts.GameState.GameplaySession
             _pauseSystem.Resume();
             _uiController.OpenScreen(_gameplayView);
             _analyticsController.SendStartGameEvent();
+            _gameStarted.OnNext(Unit.Default);
         }
 
         public void Reset()

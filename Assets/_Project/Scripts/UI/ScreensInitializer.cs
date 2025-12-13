@@ -5,6 +5,7 @@ using Asteroids.Scripts.Addressable;
 using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.GameState.GameplaySession;
 using Asteroids.Scripts.UI.Screens;
+using Asteroids.Scripts.UI.Screens.EndGameScreen;
 using Asteroids.Scripts.UI.Screens.GameplayScreen;
 using Asteroids.Scripts.UI.Screens.MainScreen;
 using UnityEngine;
@@ -20,11 +21,12 @@ namespace Asteroids.Scripts.UI
         private readonly DiContainer _container;
         private readonly UnityEngine.Camera _camera;
         private readonly IAddressableLoader _addressableLoader;
+        private readonly ReviveFlowController _reviveFlowController;
         private readonly List<IView> _screens = new ();
 
         public ScreensInitializer(IUIController uiController, Type startScreenType,
             IGameplaySessionManager gameplaySessionManager, DiContainer container, UnityEngine.Camera camera, 
-            IAddressableLoader addressableLoader)
+            IAddressableLoader addressableLoader, ReviveFlowController reviveFlowController)
         {
             _uiController = uiController;
             _startScreenType = startScreenType;
@@ -32,12 +34,14 @@ namespace Asteroids.Scripts.UI
             _container = container;
             _camera = camera;
             _addressableLoader = addressableLoader;
+            _reviveFlowController = reviveFlowController;
         }
 
         public async void Initialize()
         {
             try
             {
+                await BindScreen<ReviveScreenView>(AddressableId.ReviveScreen, ScreenInjectId.ReviveScreenView);
                 await BindScreen<GameplayScreenView>(AddressableId.GameplayScreen, ScreenInjectId.GameplayScreenView);
                 await BindScreen<MainScreenView>(AddressableId.MainScreen, ScreenInjectId.MainScreenView);
             
@@ -47,6 +51,11 @@ namespace Asteroids.Scripts.UI
                     if (screen is GameplayScreenView gameplayScreenView)
                     {
                         _gameplaySessionManager.Initialize(gameplayScreenView);
+                    }
+
+                    if (screen is ReviveScreenView reviveScreenView)
+                    {
+                        _reviveFlowController.Initialize(reviveScreenView);
                     }
                 }
             }

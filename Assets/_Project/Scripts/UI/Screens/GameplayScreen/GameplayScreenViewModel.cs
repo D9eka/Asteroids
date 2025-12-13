@@ -42,6 +42,10 @@ namespace Asteroids.Scripts.UI.Screens.GameplayScreen
                 .Subscribe(_ => ShowRestartButtonCommand.Execute(true))
                 .AddTo(_disposables);
         
+            _gameStateController.PlayerRevive
+                .Subscribe(_ => ShowRestartButtonCommand.Execute(false))
+                .AddTo(_disposables);
+        
             _paramsService.Params
                 .Subscribe(param => PlayerParams.Value = param)
                 .AddTo(_disposables);

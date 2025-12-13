@@ -14,10 +14,12 @@ namespace Asteroids.Scripts.GameState
         private readonly IScoreTracker _scoreSaveHandler;
         private readonly IGameplaySessionManager _gameplaySessionManager;
         private readonly Subject<Unit> _playerDeath = new Subject<Unit>();
+        private readonly Subject<Unit> _playerRevive = new Subject<Unit>();
         
         private IPlayerController _playerController;
         
         public IObservable<Unit> PlayerDeath => _playerDeath;
+        public IObservable<Unit> PlayerRevive => _playerRevive;
 
         [Inject]
         public GameStateController(
@@ -45,6 +47,12 @@ namespace Asteroids.Scripts.GameState
         {
             _pauseSystem.Pause();
             _playerDeath.OnNext(Unit.Default);
+        }
+        
+        public void HandleRevivalRequest()
+        {
+            _pauseSystem.Resume();
+            _playerRevive.OnNext(Unit.Default);
         }
 
         public void HandleRestartRequest()

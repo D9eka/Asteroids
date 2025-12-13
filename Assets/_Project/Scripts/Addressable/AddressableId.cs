@@ -5,6 +5,7 @@
         Player,
         MainScreen,
         GameplayScreen,
+        ReviveScreen,
         Projectile
     }
 }

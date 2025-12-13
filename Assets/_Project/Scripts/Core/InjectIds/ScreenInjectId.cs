@@ -3,6 +3,7 @@
     public enum ScreenInjectId
     {
         MainScreenView,
-        GameplayScreenView
+        GameplayScreenView,
+        ReviveScreenView,
     }
 }

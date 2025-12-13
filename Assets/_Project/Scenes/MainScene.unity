@@ -372,16 +372,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Installers.GameInstaller
   _camera: {fileID: 519420031}
   _boundsMargin: 1
-  _projectilePrefab: {fileID: 59639721922869075, guid: 35d5608be1f57694fb45fddabe24cb97, type: 3}
-  _playerPrefab: {fileID: 633740740848931753, guid: aef5237b8f8234841ba8df59c10e525c, type: 3}
   _playerSpawnPosition: {x: 0, y: -3}
   _movementData: {fileID: 11400000, guid: 7bd75cd04e84bd24d86c92b276c7ae93, type: 2}
   _bulletGunConfig: {fileID: 11400000, guid: 2079401626a983c48809c0389d85064b, type: 2}
   _laserGunConfig: {fileID: 11400000, guid: 04ea9f0568b33794180b0bd6e0996f69, type: 2}
   _enemySpawnConfig: {fileID: 11400000, guid: 6190ea4ae7db7f149a5fd8f0cf57e33b, type: 2}
   _scoreConfig: {fileID: 11400000, guid: 32b55e0377d37c348accf9c3eba9563f, type: 2}
-  _mainScreenViewPrefab: {fileID: 9105209200323443848, guid: 1448d6556f5b9ae499dd950639db89a8, type: 3}
-  _gameplayScreenViewPrefab: {fileID: 4992146458691577293, guid: 334054619577d9648afe58e386714d08, type: 3}
+  _adAppId: 24909ccbd
+  _interstitialAdId: nxmgttjw7s7d7a8b
+  _revivalAdId: ac19ok4bjjhitjek
 --- !u!114 &1525026507
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 ﻿using System;
+using _Project.Scripts.Advertisement;
 using Asteroids.Scripts.Addressable;
 using Asteroids.Scripts.Analytics;
 using Asteroids.Scripts.Camera;
@@ -26,6 +27,7 @@ using Asteroids.Scripts.Spawning.Enemies.Movement;
 using Asteroids.Scripts.Spawning.Enemies.Pooling;
 using Asteroids.Scripts.Spawning.Enemies.Providers;
 using Asteroids.Scripts.UI;
+using Asteroids.Scripts.UI.Screens.EndGameScreen;
 using Asteroids.Scripts.UI.Screens.GameplayScreen;
 using Asteroids.Scripts.UI.Screens.MainScreen;
 using Asteroids.Scripts.WarpSystem;
@@ -60,6 +62,11 @@ namespace Asteroids.Scripts.Installers
         [Space]
         [Header("Score")]
         [SerializeField] private ScoreConfig _scoreConfig;
+        [Space] 
+        [Header("Advertisement")] 
+        [SerializeField] private string _adAppId;
+        [SerializeField] private string _interstitialAdId;
+        [SerializeField] private string _revivalAdId;
         
         public override void InstallBindings()
         {
@@ -67,6 +74,7 @@ namespace Asteroids.Scripts.Installers
 
             Container.BindInterfacesTo<UnityAddressableLoader>().AsSingle();
             
+            InstallAdvertisementSystem();
             InstallBoundsSystem();
             InstallProjectilePool();
             InstallPlayer();
@@ -76,6 +84,18 @@ namespace Asteroids.Scripts.Installers
             InstallAnalyticsSystem();
             InstallGameplaySystems();
             InstallUI();
+        }
+
+        private void InstallAdvertisementSystem()
+        {
+#if UNITY_EDITOR
+            Container.BindInterfacesTo<TestAdvertisementSystem>()
+                .AsSingle();
+#else
+            Container.BindInterfacesTo<LPlayAdvertisementSystem>()
+                .AsSingle()
+                .WithArguments(_adAppId, _interstitialAdId, _revivalAdId);
+#endif
         }
 
         private void InstallBoundsSystem()
@@ -195,8 +215,11 @@ namespace Asteroids.Scripts.Installers
             Container.BindInterfacesTo<UIController>().AsSingle();
             Container.BindInterfacesTo<PlayerParamsService>().AsSingle().NonLazy();
 
+            Container.BindInterfacesAndSelfTo<ReviveScreenViewModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameplayScreenViewModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<MainScreenViewModel>().AsSingle();
+            
+            Container.BindInterfacesAndSelfTo<ReviveFlowController>().AsSingle();
             
             Container
                 .BindInterfacesTo<ScreensInitializer>()
