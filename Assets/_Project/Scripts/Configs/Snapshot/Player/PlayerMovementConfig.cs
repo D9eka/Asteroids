@@ -1,0 +1,18 @@
+﻿using System;
+using UnityEngine;
+
+namespace Asteroids.Scripts.Configs.Snapshot.Player
+{
+    [Serializable]
+    public class PlayerMovementConfig
+    {
+        [field:SerializeField] public float ThrustForce { get; private set; }
+        [field:SerializeField] public float RotationSpeed { get; private set; }
+
+        public PlayerMovementConfig(float thrustForce, float rotationSpeed)
+        {
+            ThrustForce = thrustForce;
+            RotationSpeed = rotationSpeed;
+        }
+    }
+}
