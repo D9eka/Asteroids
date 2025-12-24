@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bead3f864344d409cdd852958844be7, type: 3}
   m_Name: AsteroidFragmentTypeConfig
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Enemies.Config.EnemyTypeConfig
-  <Prefab>k__BackingField: {fileID: 3022016801730663401, guid: 7e515b6dc7fd73f418fd0b1ad2dcae4a, type: 3}
+  <PrefabId>k__BackingField: 6
   <Type>k__BackingField: 2
   <Score>k__BackingField: 20
   <DirectionProviderConfig>k__BackingField: {fileID: 11400000, guid: 99728c0ecb9a49d40a5204684d0492c7, type: 2}

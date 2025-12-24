@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Enemies.Config;
 using Asteroids.Scripts.Pause;
@@ -23,10 +24,11 @@ namespace Asteroids.Scripts.Spawning.Enemies.Core
             _spawnConfig = spawnConfig;
         }
         
-        public void Initialize()
+        public async void Initialize()
         {
-            List<IEnemyProvider> providers = CreateProviders();
-            _container.Bind<List<IEnemyProvider>>().FromInstance(providers).AsSingle();
+            Task<List<IEnemyProvider>> createProvidersTask = CreateProviders();
+            await createProvidersTask;
+            _container.Bind<List<IEnemyProvider>>().FromInstance(createProvidersTask.Result).AsSingle();
             
             _container.Bind<IEnemyFactory>()
                 .To<EnemyFactory>()
@@ -38,40 +40,46 @@ namespace Asteroids.Scripts.Spawning.Enemies.Core
             _pauseSystem.Register(_container.Resolve<EnemySpawner>());
         }
 
-        private List<IEnemyProvider> CreateProviders()
+        private async Task<List<IEnemyProvider>> CreateProviders()
         {
             List<IEnemyProvider> providers = new List<IEnemyProvider>();
 
             foreach (EnemyTypeSpawnConfig spawnConfig in _spawnConfig.Enemies)
             {
-                providers.Add(CreateProvider(spawnConfig));
+                Task<IEnemyProvider> createProviderTask = CreateProvider(spawnConfig);
+                await createProviderTask;
+                providers.Add(createProviderTask.Result);
                 if (spawnConfig.Config is AsteroidTypeConfig asteroidConfig)
                 {
-                    CreateAsteroidFragmentFactory(asteroidConfig.AsteroidFragmentSpawnConfig);
+                    await CreateAsteroidFragmentFactory(asteroidConfig.AsteroidFragmentSpawnConfig);
                 }
             }
 
             return providers;
         }
 
-        private IEnemyProvider CreateProvider(EnemyTypeSpawnConfig spawnConfig)
+        private async Task<IEnemyProvider> CreateProvider(EnemyTypeSpawnConfig spawnConfig)
         {
             EnemyType enemyType = spawnConfig.Config.Type;
 
             IEnemyProviderFactory factory = _container.ResolveId<IEnemyProviderFactory>(enemyType);
-            IEnemyProvider provider = factory.Create(spawnConfig);
-            return provider;
+            var createProviderTask = factory.Create(spawnConfig);
+            await createProviderTask;
+            return createProviderTask.Result;
         }
 
-        private void CreateAsteroidFragmentFactory(AsteroidFragmentTypeSpawnConfig spawnConfig)
+        private async Task CreateAsteroidFragmentFactory(AsteroidFragmentTypeSpawnConfig spawnConfig)
         {
             _container.Bind<IEnemyProviderFactory>()
                 .WithId(EnemyType.AsteroidFragment)
                 .To<EnemyProviderFactory<AsteroidFragment, EnemyTypeConfig>>()
                 .AsSingle();
+            
+            Task<IEnemyProvider> createProviderTask = CreateProvider(spawnConfig);
+            await createProviderTask;
 
-            IPooledEnemyProvider<AsteroidFragment, EnemyTypeSpawnConfig> asteroidFragmentProvider = CreateProvider(
-                spawnConfig) as IPooledEnemyProvider<AsteroidFragment, EnemyTypeSpawnConfig>;
+            IPooledEnemyProvider<AsteroidFragment, EnemyTypeSpawnConfig> asteroidFragmentProvider = 
+                createProviderTask.Result as IPooledEnemyProvider<AsteroidFragment, EnemyTypeSpawnConfig>;
             
             _container.BindInterfacesAndSelfTo<DefaultEnemyInitializer>().AsSingle();
             _container.BindInterfacesAndSelfTo<AsteroidFragmentFactory>().AsSingle().WithArguments(asteroidFragmentProvider);
