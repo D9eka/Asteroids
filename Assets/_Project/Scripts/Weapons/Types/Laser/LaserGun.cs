@@ -1,5 +1,6 @@
 ﻿using System;
 using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Configs.Snapshot.Weapons.LaserGun;
 using Asteroids.Scripts.Damage;
 using Asteroids.Scripts.Weapons.Services.Raycast;
 using Asteroids.Scripts.Weapons.Types.Laser.LineRenderer;

@@ -1,6 +1,6 @@
 ﻿using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Configs.Snapshot.Enemies;
 using Asteroids.Scripts.Enemies;
-using Asteroids.Scripts.Enemies.Config;
 using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Spawning.Common.Core;
 using Asteroids.Scripts.Spawning.Enemies.Fragments;

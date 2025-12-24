@@ -1,4 +1,5 @@
 ﻿using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Configs.Snapshot.Weapons.Projectile;
 using Asteroids.Scripts.Damage;
 using UnityEngine;
 
@@ -32,11 +33,11 @@ namespace Asteroids.Scripts.Weapons.Projectile
                 OnDespawned();
         }
 
-        public void Initialize(ProjectileData data, DamageInfo damageInfo, ICollisionService collisionService)
+        public void Initialize(ProjectileConfig config, DamageInfo damageInfo, ICollisionService collisionService)
         {
-            _speed = data.Speed;
-            _lifeTime = data.LifeTime;
-            _spriteRenderer.sprite = data.Sprite;
+            _speed = config.Speed;
+            _lifeTime = config.LifeTime;
+            //_spriteRenderer.sprite = data.Sprite;
             _damageInfo = damageInfo;
             _collisionHandler.Initialize(collisionService);
             

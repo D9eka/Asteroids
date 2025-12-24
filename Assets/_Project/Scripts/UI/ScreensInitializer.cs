@@ -5,9 +5,9 @@ using Asteroids.Scripts.Addressable;
 using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.GameState.GameplaySession;
 using Asteroids.Scripts.UI.Screens;
-using Asteroids.Scripts.UI.Screens.EndGameScreen;
 using Asteroids.Scripts.UI.Screens.GameplayScreen;
 using Asteroids.Scripts.UI.Screens.MainScreen;
+using Asteroids.Scripts.UI.Screens.ReviveScreen;
 using UnityEngine;
 using Zenject;
 

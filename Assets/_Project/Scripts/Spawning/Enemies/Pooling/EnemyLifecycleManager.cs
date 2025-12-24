@@ -4,6 +4,7 @@ using Asteroids.Scripts.Spawning.Common.Pooling;
 using UnityEngine;
 using Zenject;
 using IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
+using Pooling_IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
 
 namespace Asteroids.Scripts.Spawning.Enemies.Pooling
 {
@@ -11,9 +12,9 @@ namespace Asteroids.Scripts.Spawning.Enemies.Pooling
     {
         public event Action<GameObject, IEnemy> OnEnemyKilled; 
         
-        private readonly IPoolableLifecycleManager<IPoolable> _poolLifecycle;
+        private readonly IPoolableLifecycleManager<Pooling_IPoolable> _poolLifecycle;
 
-        public EnemyLifecycleManager(IPoolableLifecycleManager<IPoolable> poolLifecycle)
+        public EnemyLifecycleManager(IPoolableLifecycleManager<Pooling_IPoolable> poolLifecycle)
         {
             _poolLifecycle = poolLifecycle;
             _poolLifecycle.OnDespawned += OnPoolableDespawned;
@@ -37,7 +38,7 @@ namespace Asteroids.Scripts.Spawning.Enemies.Pooling
             OnEnemyKilled?.Invoke(killer, enemy);
         }
 
-        private void OnPoolableDespawned(IPoolable poolable)
+        private void OnPoolableDespawned(Pooling_IPoolable poolable)
         {
             if (poolable is IEnemy enemy)
             {

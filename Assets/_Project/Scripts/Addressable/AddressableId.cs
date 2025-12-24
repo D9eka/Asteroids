@@ -6,6 +6,9 @@
         MainScreen,
         GameplayScreen,
         ReviveScreen,
-        Projectile
+        Projectile,
+        Asteroid,
+        AsteroidFragment,
+        Ufo
     }
 }

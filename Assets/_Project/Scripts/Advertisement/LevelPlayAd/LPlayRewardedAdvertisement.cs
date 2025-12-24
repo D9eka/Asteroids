@@ -3,7 +3,7 @@ using UniRx;
 using Unity.Services.LevelPlay;
 using UnityEngine;
 
-namespace _Project.Scripts.Advertisement
+namespace Asteroids.Scripts.Advertisement.LevelPlayAd
 {
     public class LPlayRewardedAdvertisement : IDisposable
     {

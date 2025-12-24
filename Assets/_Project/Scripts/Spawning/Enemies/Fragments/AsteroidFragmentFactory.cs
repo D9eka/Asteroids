@@ -1,8 +1,8 @@
-﻿using Asteroids.Scripts.Enemies;
+﻿using Asteroids.Scripts.Configs.Snapshot.Enemies.SpawnConfig;
+using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Movement.DirectionProviders;
 using Asteroids.Scripts.Movement.RotationProviders;
 using Asteroids.Scripts.Spawning.Common.Core;
-using Asteroids.Scripts.Spawning.Enemies.Config;
 using Asteroids.Scripts.Spawning.Enemies.Initialization;
 using Asteroids.Scripts.Spawning.Enemies.Movement;
 using Asteroids.Scripts.Spawning.Enemies.Providers;
@@ -50,7 +50,7 @@ namespace Asteroids.Scripts.Spawning.Enemies.Fragments
             if (direction == Vector2.zero) direction = Random.insideUnitSphere.normalized;
             float speed = asteroidSpeed * spawnConfig.FragmentSpeedMultiplier;
 
-            Vector2 pos = center + randomOffset * spawnConfig.FragmentPositionOffsetModefier;
+            Vector2 pos = center + randomOffset * spawnConfig.FragmentPositionOffsetModifier;
             AsteroidFragment fragment = _enemyProvider.Spawn(pos);
             _initializer.Initialize(fragment, spawnConfig.Config);
 

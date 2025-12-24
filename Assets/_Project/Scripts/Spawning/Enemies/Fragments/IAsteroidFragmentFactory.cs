@@ -1,4 +1,4 @@
-﻿using Asteroids.Scripts.Spawning.Enemies.Config;
+﻿using Asteroids.Scripts.Configs.Snapshot.Enemies.SpawnConfig;
 using UnityEngine;
 
 namespace Asteroids.Scripts.Spawning.Enemies.Fragments

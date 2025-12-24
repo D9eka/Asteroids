@@ -1,5 +1,5 @@
-﻿using Asteroids.Scripts.Enemies;
-using Asteroids.Scripts.Enemies.Config;
+﻿using Asteroids.Scripts.Configs.Snapshot.Enemies;
+using Asteroids.Scripts.Enemies;
 
 namespace Asteroids.Scripts.Spawning.Enemies.Initialization
 {

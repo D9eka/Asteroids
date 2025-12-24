@@ -1,6 +1,6 @@
-﻿using Asteroids.Scripts.Enemies;
-using Asteroids.Scripts.Enemies.Config;
-using Asteroids.Scripts.Spawning.Enemies.Config;
+﻿using Asteroids.Scripts.Configs.Snapshot.Enemies;
+using Asteroids.Scripts.Configs.Snapshot.Enemies.SpawnConfig;
+using Asteroids.Scripts.Enemies;
 using Zenject;
 
 namespace Asteroids.Scripts.Spawning.Enemies.Initialization

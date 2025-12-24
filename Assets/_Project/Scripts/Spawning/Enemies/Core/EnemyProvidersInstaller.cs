@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Asteroids.Scripts.Configs.Snapshot.Enemies;
+using Asteroids.Scripts.Configs.Snapshot.Enemies.SpawnConfig;
+using Asteroids.Scripts.ConfigsProvider;
 using Asteroids.Scripts.Enemies;
-using Asteroids.Scripts.Enemies.Config;
 using Asteroids.Scripts.Pause;
-using Asteroids.Scripts.Spawning.Enemies.Config;
 using Asteroids.Scripts.Spawning.Enemies.Fragments;
 using Asteroids.Scripts.Spawning.Enemies.Initialization;
 using Asteroids.Scripts.Spawning.Enemies.Providers;
@@ -15,13 +16,13 @@ namespace Asteroids.Scripts.Spawning.Enemies.Core
     {
         private readonly IPauseSystem _pauseSystem;
         private readonly DiContainer _container;
-        private readonly EnemySpawnConfig _spawnConfig;
+        private readonly GameConfigProvider _gameConfigProvider;
 
-        public EnemyProvidersInstaller(DiContainer container, IPauseSystem pauseSystem, EnemySpawnConfig spawnConfig)
+        public EnemyProvidersInstaller(DiContainer container, IPauseSystem pauseSystem, GameConfigProvider gameConfigProvider)
         {
             _container = container;
             _pauseSystem = pauseSystem;
-            _spawnConfig = spawnConfig;
+            _gameConfigProvider = gameConfigProvider;
         }
         
         public async void Initialize()
@@ -44,7 +45,7 @@ namespace Asteroids.Scripts.Spawning.Enemies.Core
         {
             List<IEnemyProvider> providers = new List<IEnemyProvider>();
 
-            foreach (EnemyTypeSpawnConfig spawnConfig in _spawnConfig.Enemies)
+            foreach (EnemyTypeSpawnConfig spawnConfig in _gameConfigProvider.ConfigData.EnemySpawnConfig.Enemies)
             {
                 Task<IEnemyProvider> createProviderTask = CreateProvider(spawnConfig);
                 await createProviderTask;
@@ -63,7 +64,7 @@ namespace Asteroids.Scripts.Spawning.Enemies.Core
             EnemyType enemyType = spawnConfig.Config.Type;
 
             IEnemyProviderFactory factory = _container.ResolveId<IEnemyProviderFactory>(enemyType);
-            var createProviderTask = factory.Create(spawnConfig);
+            Task<IEnemyProvider> createProviderTask = factory.Create(spawnConfig);
             await createProviderTask;
             return createProviderTask.Result;
         }

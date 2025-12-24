@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Asteroids.Scripts.Spawning.Enemies.Config;
+using Asteroids.Scripts.Configs.Snapshot.Enemies.SpawnConfig;
 
 namespace Asteroids.Scripts.Spawning.Enemies.Providers
 {

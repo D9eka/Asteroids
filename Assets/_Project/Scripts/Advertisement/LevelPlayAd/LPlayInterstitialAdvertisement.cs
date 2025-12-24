@@ -3,7 +3,7 @@ using Unity.Services.LevelPlay;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Advertisement
+namespace Asteroids.Scripts.Advertisement.LevelPlayAd
 {
     public class LPlayInterstitialAdvertisement : IInitializable, IDisposable
     {

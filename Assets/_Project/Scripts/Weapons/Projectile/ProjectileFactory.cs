@@ -1,10 +1,12 @@
 ﻿using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Configs.Snapshot.Weapons.Projectile;
 using Asteroids.Scripts.Damage;
 using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Spawning.Common.Pooling;
 using UnityEngine;
 using Zenject;
 using IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
+using Pooling_IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
 
 namespace Asteroids.Scripts.Weapons.Projectile
 {
@@ -28,11 +30,11 @@ namespace Asteroids.Scripts.Weapons.Projectile
         }
 
         public void Create(Vector2 position, Quaternion rotation, 
-            ProjectileData data, DamageInfo damageInfo, ICollisionService collisionService)
+            ProjectileConfig config, DamageInfo damageInfo, ICollisionService collisionService)
         {
             if (_pool == null) return;
             
-            Projectile projectile = _pool.Spawn(position, rotation, data, damageInfo, collisionService);
+            Projectile projectile = _pool.Spawn(position, rotation, config, damageInfo, collisionService);
             _pauseSystem.Register(projectile);
             _lifecycleManager.Register(projectile, _pool);
         }

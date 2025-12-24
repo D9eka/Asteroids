@@ -373,11 +373,11 @@ MonoBehaviour:
   _camera: {fileID: 519420031}
   _boundsMargin: 1
   _playerSpawnPosition: {x: 0, y: -3}
-  _movementData: {fileID: 11400000, guid: 7bd75cd04e84bd24d86c92b276c7ae93, type: 2}
-  _bulletGunConfig: {fileID: 11400000, guid: 2079401626a983c48809c0389d85064b, type: 2}
-  _laserGunConfig: {fileID: 11400000, guid: 04ea9f0568b33794180b0bd6e0996f69, type: 2}
-  _enemySpawnConfig: {fileID: 11400000, guid: 6190ea4ae7db7f149a5fd8f0cf57e33b, type: 2}
-  _scoreConfig: {fileID: 11400000, guid: 32b55e0377d37c348accf9c3eba9563f, type: 2}
+  _movementDataSo: {fileID: 11400000, guid: 7bd75cd04e84bd24d86c92b276c7ae93, type: 2}
+  _bulletGunConfigSo: {fileID: 11400000, guid: 2079401626a983c48809c0389d85064b, type: 2}
+  _laserGunConfigSo: {fileID: 11400000, guid: 04ea9f0568b33794180b0bd6e0996f69, type: 2}
+  _enemySpawnConfigSo: {fileID: 11400000, guid: 6190ea4ae7db7f149a5fd8f0cf57e33b, type: 2}
+  _scoreConfigSo: {fileID: 11400000, guid: 32b55e0377d37c348accf9c3eba9563f, type: 2}
   _adAppId: 24909ccbd
   _interstitialAdId: nxmgttjw7s7d7a8b
   _revivalAdId: ac19ok4bjjhitjek

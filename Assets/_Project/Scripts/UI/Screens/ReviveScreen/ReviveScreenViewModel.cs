@@ -1,10 +1,9 @@
 ﻿using System;
-using _Project.Scripts.Advertisement;
+using Asteroids.Scripts.Advertisement;
 using Asteroids.Scripts.GameState;
 using UniRx;
-using Zenject;
 
-namespace Asteroids.Scripts.UI.Screens.EndGameScreen
+namespace Asteroids.Scripts.UI.Screens.ReviveScreen
 {
     public class ReviveScreenViewModel : IDisposable
     {

@@ -1,5 +1,5 @@
-﻿using Asteroids.Scripts.Enemies;
-using Asteroids.Scripts.Spawning.Enemies.Config;
+﻿using Asteroids.Scripts.Configs.Snapshot.Enemies.SpawnConfig;
+using Asteroids.Scripts.Enemies;
 using UnityEngine;
 
 namespace Asteroids.Scripts.Spawning.Enemies.Providers

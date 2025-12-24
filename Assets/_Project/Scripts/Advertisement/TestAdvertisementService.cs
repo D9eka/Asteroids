@@ -3,7 +3,7 @@ using Asteroids.Scripts.GameState.GameplaySession;
 using UniRx;
 using UnityEngine;
 
-namespace _Project.Scripts.Advertisement
+namespace Asteroids.Scripts.Advertisement
 {
     public class TestAdvertisementService : IAdvertisementService
     {

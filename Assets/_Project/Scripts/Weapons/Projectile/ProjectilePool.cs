@@ -1,17 +1,18 @@
 ﻿using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Configs.Snapshot.Weapons.Projectile;
 using Asteroids.Scripts.Damage;
 using UnityEngine;
 using Zenject;
 
 namespace Asteroids.Scripts.Weapons.Projectile
 {
-    public class ProjectilePool<T> : MonoMemoryPool<Vector3, Quaternion, ProjectileData, DamageInfo, ICollisionService, T>
+    public class ProjectilePool<T> : MonoMemoryPool<Vector3, Quaternion, ProjectileConfig, DamageInfo, ICollisionService, T>
         where T : Component, IProjectile
     {
-        protected override void Reinitialize(Vector3 position, Quaternion rotation, ProjectileData data, 
+        protected override void Reinitialize(Vector3 position, Quaternion rotation, ProjectileConfig config, 
             DamageInfo damageInfo, ICollisionService collisionService, T item)
         {
-            if (item == null || data == null || collisionService == null)
+            if (item == null || config == null || collisionService == null)
             {
                 Debug.LogError("Invalid parameters in ProjectilePool.Reinitialize");
                 return;
@@ -19,7 +20,7 @@ namespace Asteroids.Scripts.Weapons.Projectile
 
             item.transform.position = position;
             item.transform.rotation = rotation;
-            item.Initialize(data, damageInfo, collisionService);
+            item.Initialize(config, damageInfo, collisionService);
         }
 
         protected override void OnDespawned(T item)

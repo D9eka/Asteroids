@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace _Project.Scripts.Advertisement
+namespace Asteroids.Scripts.Advertisement
 {
     public interface IAdvertisementService
     {

@@ -1,8 +1,8 @@
 ﻿using System;
 using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Configs.Snapshot.Enemies;
+using Asteroids.Scripts.Configs.Snapshot.Enemies.SpawnConfig;
 using Asteroids.Scripts.Damage;
-using Asteroids.Scripts.Enemies.Config;
-using Asteroids.Scripts.Spawning.Enemies.Config;
 using Asteroids.Scripts.Spawning.Enemies.Fragments;
 using Asteroids.Scripts.WarpSystem;
 using UnityEngine;

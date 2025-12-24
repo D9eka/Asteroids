@@ -1,11 +1,11 @@
 ﻿using System;
 using Asteroids.Scripts.Camera;
+using Asteroids.Scripts.Configs.Snapshot.Enemies;
+using Asteroids.Scripts.Configs.Snapshot.Movement.Direction;
+using Asteroids.Scripts.Configs.Snapshot.Movement.Rotation;
 using Asteroids.Scripts.Enemies;
-using Asteroids.Scripts.Enemies.Config;
 using Asteroids.Scripts.Movement.DirectionProviders;
-using Asteroids.Scripts.Movement.DirectionProviders.Config;
 using Asteroids.Scripts.Movement.RotationProviders;
-using Asteroids.Scripts.Movement.RotationProviders.Config;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -33,13 +33,11 @@ namespace Asteroids.Scripts.Spawning.Enemies.Movement
             Vector2 max = _cameraBoundsUpdater.MaxBounds;
             Vector2 direction = GetRandomInwardDirection(spawnPos, min, max);
 
-            DirectionProviderConfig directionProviderConfig = config.DirectionProviderConfig ??
-                ScriptableObject.CreateInstance<LinearDirectionProviderConfig>();
+            DirectionProviderConfig directionProviderConfig = config.DirectionProviderConfig;
             IDirectionProvider directionProvider = CreateDirectionProvider(directionProviderConfig, direction);
             float speed = Random.Range(directionProviderConfig.MinSpeed, directionProviderConfig.MaxSpeed);
             
-            RotationProviderConfig rotationConfig = config.RotationProviderConfig ??
-                ScriptableObject.CreateInstance<MovementBasedRotationProviderConfig>();
+            RotationProviderConfig rotationConfig = config.RotationProviderConfig;
             IRotationProvider rotationProvider = CreateRotationProvider(rotationConfig, enemy.Transform);
 
             enemy.Movement.SetDirectionProvider(directionProvider);
@@ -47,26 +45,26 @@ namespace Asteroids.Scripts.Spawning.Enemies.Movement
             enemy.Movement.SetRotationProvider(rotationProvider);
         }
 
-        public IDirectionProvider CreateDirectionProvider(DirectionProviderConfig parameters, Vector2 direction)
+        public IDirectionProvider CreateDirectionProvider(DirectionProviderConfig config, Vector2 direction)
         {
-            return parameters switch
+            return config switch
             {
                 LinearDirectionProviderConfig => new LinearDirectionProvider(direction),
-                TargetDirectionProviderConfig movementParameters => new TargetDirectionProvider(
-                    direction, _playerTransform, movementParameters.UpdateInterval),
-                _ => throw new NotSupportedException($"Unsupported movement parameters type: {parameters.GetType().Name}")
+                TargetDirectionProviderConfig targetDirectionProviderConfig => new TargetDirectionProvider(direction,
+                    _playerTransform, targetDirectionProviderConfig.UpdateInterval),
+                _ => throw new NotSupportedException($"Unsupported movement parameters type: {config.GetType().Name}")
             };
         }
 
-        public IRotationProvider CreateRotationProvider(RotationProviderConfig parameters, Transform self)
+        public IRotationProvider CreateRotationProvider(RotationProviderConfig config, Transform self)
         {
-            return parameters switch
+            return config switch
             {
                 MovementBasedRotationProviderConfig => new MovementDirectionRotationProvider(
                     self.gameObject.GetComponent<Rigidbody2D>()),
                 TargetBasedRotationProviderConfig rotationParameters => new TargetDirectionRotationProvider(self,
                     _playerTransform, rotationParameters.RotationSpeed),
-                _ => throw new NotSupportedException($"Unsupported movement parameters type: {parameters.GetType().Name}")
+                _ => throw new NotSupportedException($"Unsupported rotation parameters type: {config.GetType().Name}")
             };
         }
 

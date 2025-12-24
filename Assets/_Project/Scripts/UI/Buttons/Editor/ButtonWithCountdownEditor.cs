@@ -1,5 +1,5 @@
-﻿using UnityEditor;
-using Asteroids.Scripts.UI.Buttons;
+﻿using Asteroids.Scripts.UI.Buttons;
+using UnityEditor;
 
 [CustomEditor(typeof(ButtonWithCountdown))]
 public class ButtonWithCountdownEditor : UnityEditor.UI.ButtonEditor

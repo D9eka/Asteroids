@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace Asteroids.Scripts.UI.Screens.EndGameScreen
+namespace Asteroids.Scripts.UI.Screens.ReviveScreen
 {
     public class ReviveScreenView : BaseView
     {

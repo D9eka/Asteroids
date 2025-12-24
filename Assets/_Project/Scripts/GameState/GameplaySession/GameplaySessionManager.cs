@@ -10,6 +10,7 @@ using Asteroids.Scripts.UI.Screens;
 using UniRx;
 using UnityEngine;
 using Zenject;
+using IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
 using Pooling_IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
 
 namespace Asteroids.Scripts.GameState.GameplaySession

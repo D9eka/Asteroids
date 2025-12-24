@@ -1,5 +1,6 @@
 ﻿using System;
 using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Configs.Snapshot.Weapons.BulletGun;
 using Asteroids.Scripts.Damage;
 using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Projectile;
@@ -35,7 +36,7 @@ namespace Asteroids.Scripts.Weapons.Types.BulletGun
         {
             if (!CanShoot || _firePoint == null) return;
             _projectileFactory.Create(_firePoint.position, _firePoint.rotation,
-                _config.ProjectileData, _damageInfo, _collisionService);
+                _config.ProjectileConfig, _damageInfo, _collisionService);
             _cooldown = _config.FireRate;
             OnShoot?.Invoke();
         }

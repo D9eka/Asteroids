@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Asteroids.Scripts.Configs.Authoring.Score;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Player;
 using Asteroids.Scripts.Spawning.Enemies.Pooling;
@@ -18,9 +19,9 @@ namespace Asteroids.Scripts.Score
 
         public IReadOnlyReactiveProperty<int> TotalScore => _totalScore;
 
-        public ScoreService(ScoreConfig config, IEnemyLifecycleManager enemyLifecycleManager)
+        public ScoreService(ScoreConfigSo configSo, IEnemyLifecycleManager enemyLifecycleManager)
         {
-            _config = config.ScoreByConfig;
+            _config = configSo.ScoreByConfig;
             _enemyLifecycleManager = enemyLifecycleManager;
         }
 

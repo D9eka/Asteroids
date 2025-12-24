@@ -1,44 +1,49 @@
 ﻿using System;
-using _Project.Scripts.Advertisement;
 using Asteroids.Scripts.Addressable;
+using Asteroids.Scripts.Advertisement;
 using Asteroids.Scripts.Analytics;
 using Asteroids.Scripts.Camera;
 using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Configs.Authoring.Enemies.SpawnConfig;
+using Asteroids.Scripts.Configs.Authoring.Player;
+using Asteroids.Scripts.Configs.Authoring.Score;
+using Asteroids.Scripts.Configs.Authoring.Weapons.BulletGun;
+using Asteroids.Scripts.Configs.Authoring.Weapons.LaserGun;
+using Asteroids.Scripts.Configs.Mapping;
+using Asteroids.Scripts.Configs.Snapshot.Enemies;
+using Asteroids.Scripts.ConfigsProvider;
 using Asteroids.Scripts.Core.GameExit;
 using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Enemies;
-using Asteroids.Scripts.Enemies.Config;
 using Asteroids.Scripts.GameState;
 using Asteroids.Scripts.GameState.GameplaySession;
 using Asteroids.Scripts.Input;
 using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Player;
 using Asteroids.Scripts.Player.Input;
-using Asteroids.Scripts.Player.Movement;
 using Asteroids.Scripts.Player.Weapons;
+using Asteroids.Scripts.RemoteConfigs;
 using Asteroids.Scripts.SaveService;
 using Asteroids.Scripts.Score;
 using Asteroids.Scripts.Spawning.Common.Core;
 using Asteroids.Scripts.Spawning.Common.Pooling;
-using Asteroids.Scripts.Spawning.Enemies.Config;
 using Asteroids.Scripts.Spawning.Enemies.Core;
 using Asteroids.Scripts.Spawning.Enemies.Initialization;
 using Asteroids.Scripts.Spawning.Enemies.Movement;
 using Asteroids.Scripts.Spawning.Enemies.Pooling;
 using Asteroids.Scripts.Spawning.Enemies.Providers;
 using Asteroids.Scripts.UI;
-using Asteroids.Scripts.UI.Screens.EndGameScreen;
 using Asteroids.Scripts.UI.Screens.GameplayScreen;
 using Asteroids.Scripts.UI.Screens.MainScreen;
+using Asteroids.Scripts.UI.Screens.ReviveScreen;
 using Asteroids.Scripts.WarpSystem;
 using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Projectile;
 using Asteroids.Scripts.Weapons.Services.Raycast;
-using Asteroids.Scripts.Weapons.Types.BulletGun;
-using Asteroids.Scripts.Weapons.Types.Laser;
 using UnityEngine;
 using Zenject;
 using IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
+using Pooling_IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
 
 namespace Asteroids.Scripts.Installers
 {
@@ -53,15 +58,15 @@ namespace Asteroids.Scripts.Installers
         [Space]
         [Header("Player")]
         [SerializeField] private Vector2 _playerSpawnPosition;
-        [SerializeField] private PlayerMovementData _movementData;
-        [SerializeField] private BulletGunConfig _bulletGunConfig;
-        [SerializeField] private LaserGunConfig _laserGunConfig;
+        [SerializeField] private PlayerMovementDataSo _movementDataSo;
+        [SerializeField] private BulletGunConfigSo _bulletGunConfigSo;
+        [SerializeField] private LaserGunConfigSo _laserGunConfigSo;
         [Space]
         [Header("Enemies")]
-        [SerializeField] private EnemySpawnConfig _enemySpawnConfig;
+        [SerializeField] private EnemySpawnConfigSo _enemySpawnConfigSo;
         [Space]
         [Header("Score")]
-        [SerializeField] private ScoreConfig _scoreConfig;
+        [SerializeField] private ScoreConfigSo _scoreConfigSo;
         [Space] 
         [Header("Advertisement")] 
         [SerializeField] private string _adAppId;
@@ -73,6 +78,10 @@ namespace Asteroids.Scripts.Installers
             Container.Bind<UnityEngine.Camera>().FromInstance(_camera).AsSingle();
 
             Container.BindInterfacesTo<UnityAddressableLoader>().AsSingle();
+            Container.BindInterfacesTo<FirebaseRemoteConfigService>().AsSingle();
+            Container.Bind<ConfigDataMapper>().AsSingle();
+            Container.BindInterfacesAndSelfTo<GameConfigProvider>().AsSingle()
+                .WithArguments(_movementDataSo, _bulletGunConfigSo, _laserGunConfigSo, _enemySpawnConfigSo, _scoreConfigSo);
             
             InstallAdvertisementSystem();
             InstallBoundsSystem();
@@ -116,7 +125,7 @@ namespace Asteroids.Scripts.Installers
         {
             Container.BindInterfacesTo<PlayerInputReader>().AsSingle();
             Container.BindInterfacesAndSelfTo<PlayerInputHandler>().AsSingle();
-            Container.Bind<PlayerMovementData>().FromInstance(_movementData).AsSingle();
+            Container.Bind<PlayerMovementDataSo>().FromInstance(_movementDataSo).AsSingle();
             
             Container.Bind<ICollisionService>()
                 .WithId(CollisionServiceInjectId.Player)
@@ -136,22 +145,13 @@ namespace Asteroids.Scripts.Installers
 
         private void BindPlayerWeapons()
         {
-            Container.Bind<BulletGunConfig>()
-                .FromInstance(_bulletGunConfig)
-                .AsSingle()
-                .WhenInjectedInto<PlayerWeaponsInitializer>();
-            Container.Bind<LaserGunConfig>()
-                .FromInstance(_laserGunConfig)
-                .AsSingle()
-                .WhenInjectedInto<PlayerWeaponsInitializer>();
-            
             Container.BindInterfacesTo<WeaponUpdater>().AsSingle();
             Container.BindInterfacesAndSelfTo<RaycastService>().AsSingle();
         }
 
         private void InstallEnemies()
         {
-            Container.Bind<EnemySpawnConfig>().FromInstance(_enemySpawnConfig).AsSingle();
+            Container.Bind<EnemySpawnConfigSo>().FromInstance(_enemySpawnConfigSo).AsSingle();
             
             Container.Bind<ICollisionService>().To<EnemyCollisionService>().AsSingle();
 
@@ -191,7 +191,7 @@ namespace Asteroids.Scripts.Installers
 
         private void InstallScoreSystem()
         {
-            Container.BindInterfacesTo<ScoreService>().AsSingle().WithArguments(_scoreConfig);
+            Container.BindInterfacesTo<ScoreService>().AsSingle().WithArguments(_scoreConfigSo);
             Container.BindInterfacesTo<ScoreTracker>().AsSingle();
         }
 

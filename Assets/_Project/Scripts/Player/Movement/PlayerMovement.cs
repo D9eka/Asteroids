@@ -1,4 +1,5 @@
-﻿using Asteroids.Scripts.Movement.Core;
+﻿using Asteroids.Scripts.Configs.Snapshot.Player;
+using Asteroids.Scripts.Movement.Core;
 using UnityEngine;
 
 namespace Asteroids.Scripts.Player.Movement
@@ -8,7 +9,7 @@ namespace Asteroids.Scripts.Player.Movement
         private float _thrustForce;
         private float _rotationSpeed;
 
-        public void Initialize(PlayerMovementData data)
+        public void Initialize(PlayerMovementConfig data)
         {
             _thrustForce = data.ThrustForce;
             _rotationSpeed = data.RotationSpeed;

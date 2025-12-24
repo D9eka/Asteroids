@@ -1,7 +1,6 @@
 ﻿using System;
 using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Damage;
-using Asteroids.Scripts.Spawning.Enemies.Config;
 using Asteroids.Scripts.Spawning.Enemies.Core;
 using UnityEngine;
 
@@ -15,7 +14,6 @@ namespace Asteroids.Scripts.Enemies
         [field: SerializeField] public Movement.Core.Movement Movement { get; private set; }
         
         private IEnemyFactory _fragmentsFactory;
-        private AsteroidFragmentTypeSpawnConfig _spawnConfig;
         
         public Transform Transform => transform;
         public EnemyType Type { get; private set; }

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Asteroids.Scripts.Addressable;
+using Asteroids.Scripts.Configs.Snapshot.Enemies;
+using Asteroids.Scripts.Configs.Snapshot.Enemies.SpawnConfig;
 using Asteroids.Scripts.Enemies;
-using Asteroids.Scripts.Enemies.Config;
 using Asteroids.Scripts.Spawning.Common.Pooling;
-using Asteroids.Scripts.Spawning.Enemies.Config;
 using Asteroids.Scripts.Spawning.Enemies.Pooling;
 using UnityEngine;
 using Zenject;
