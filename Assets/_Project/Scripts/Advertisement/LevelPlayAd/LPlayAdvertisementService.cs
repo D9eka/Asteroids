@@ -7,7 +7,7 @@ using Zenject;
 
 namespace _Project.Scripts.Advertisement
 {
-    public class LPlayAdvertisementSystem : IAdvertisementSystem, IInitializable, IDisposable
+    public class LPlayAdvertisementService : IAdvertisementService, IInitializable, IDisposable
     {
         private Subject<bool> _revivalRewardGranted = new();
         
@@ -23,7 +23,7 @@ namespace _Project.Scripts.Advertisement
         public IObservable<bool> RevivalRewardGranted => _revivalRewardGranted;
         public bool CanRevive => _revivalAd.CanGiveReward();
 
-        public LPlayAdvertisementSystem(IGameplaySessionManager gameplaySessionManager,
+        public LPlayAdvertisementService(IGameplaySessionManager gameplaySessionManager,
             string appKey, string interstitialAdId, string revivalAdId)
         {
             _gameplaySessionManager = gameplaySessionManager;
@@ -53,10 +53,10 @@ namespace _Project.Scripts.Advertisement
             _interstitialAd.Show();
         }
 
-        public void ShowRevivalAd()
+        public void ShowRevivalAd(Action<bool> onComplete)
         {
             if (!_isReady || !_revivalAd.IsLoaded) return;
-            _revivalAd.Show();
+            _revivalAd.Show(onComplete);
         }
 
         private void LevelPlayOnInitFailed(LevelPlayInitError obj)

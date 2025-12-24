@@ -6,27 +6,22 @@ using Zenject;
 
 namespace Asteroids.Scripts.UI.Screens.EndGameScreen
 {
-    public class ReviveScreenViewModel : IInitializable, IDisposable
+    public class ReviveScreenViewModel : IDisposable
     {
         private readonly IGameStateController _gameStateController;
         private readonly IUIController _uiController;
-        private readonly IAdvertisementSystem _advertisementSystem;
+        private readonly IAdvertisementService _advertisementService;
         
         private readonly CompositeDisposable _disposables = new CompositeDisposable();
 
         private bool _interstitialAdShowed;
 
         public ReviveScreenViewModel(IGameStateController gameStateController, IUIController uiController, 
-            IAdvertisementSystem advertisementSystem)
+            IAdvertisementService advertisementService)
         {
             _gameStateController = gameStateController;
             _uiController = uiController;
-            _advertisementSystem = advertisementSystem;
-        }
-
-        public void Initialize()
-        {
-            _advertisementSystem.RevivalRewardGranted.Subscribe(AdvertisementSystemOnRevivalAdRewardGranted);
+            _advertisementService = advertisementService;
         }
 
         public void Dispose()
@@ -36,7 +31,7 @@ namespace Asteroids.Scripts.UI.Screens.EndGameScreen
 
         public void OnAdvertisementButtonClicked()
         {
-            _advertisementSystem.ShowRevivalAd();
+            _advertisementService.ShowRevivalAd(AdvertisementSystemOnRevivalAdRewardGranted);
         }
 
         public void OnCloseAdvertisementButtonClicked(IView view)
@@ -44,7 +39,7 @@ namespace Asteroids.Scripts.UI.Screens.EndGameScreen
             if (!_interstitialAdShowed)
             {
                 _interstitialAdShowed = true;
-                _advertisementSystem.ShowInterstitialAd();
+                _advertisementService.ShowInterstitialAd();
             }
             _uiController.CloseScreen(view);
         }

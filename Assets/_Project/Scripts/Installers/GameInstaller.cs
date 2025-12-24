@@ -89,10 +89,10 @@ namespace Asteroids.Scripts.Installers
         private void InstallAdvertisementSystem()
         {
 #if UNITY_EDITOR
-            Container.BindInterfacesTo<TestAdvertisementSystem>()
+            Container.BindInterfacesTo<TestAdvertisementService>()
                 .AsSingle();
 #else
-            Container.BindInterfacesTo<LPlayAdvertisementSystem>()
+            Container.BindInterfacesTo<LPlayAdvertisementService>()
                 .AsSingle()
                 .WithArguments(_adAppId, _interstitialAdId, _revivalAdId);
 #endif

@@ -2,13 +2,13 @@
 
 namespace _Project.Scripts.Advertisement
 {
-    public interface IAdvertisementSystem
+    public interface IAdvertisementService
     {
         public IObservable<bool> RevivalRewardGranted { get; }
         
         public bool CanRevive { get; }
         
         public void ShowInterstitialAd();
-        public void ShowRevivalAd();
+        public void ShowRevivalAd(Action<bool> onComplete);
     }
 }

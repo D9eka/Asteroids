@@ -9,22 +9,22 @@ namespace Asteroids.Scripts.UI.Screens.EndGameScreen
     {
         private readonly IGameStateController _gameStateController;
         private readonly IUIController _uiController;
-        private readonly IAdvertisementSystem _advertisementSystem;
+        private readonly IAdvertisementService _advertisementService;
         
         private ReviveScreenView _reviveScreenView;
 
         public ReviveFlowController(IGameStateController gameStateController, IUIController uiController, 
-            IAdvertisementSystem advertisementSystem)
+            IAdvertisementService advertisementService)
         {
             _gameStateController = gameStateController;
             _uiController = uiController;
-            _advertisementSystem = advertisementSystem;
+            _advertisementService = advertisementService;
         }
 
         public void Initialize()
         {
             _gameStateController.PlayerDeath.Subscribe(_ => ActivateEndGameScreen());
-            _advertisementSystem.RevivalRewardGranted.Subscribe(_ => DisableRevivalScreen());
+            _advertisementService.RevivalRewardGranted.Subscribe(_ => DisableRevivalScreen());
         }
 
         public void Initialize(ReviveScreenView reviveScreenView)
@@ -34,7 +34,7 @@ namespace Asteroids.Scripts.UI.Screens.EndGameScreen
 
         private void ActivateEndGameScreen()
         {
-            if (_advertisementSystem.CanRevive)
+            if (_advertisementService.CanRevive)
             {
                 _uiController.OpenScreen(_reviveScreenView);
             }

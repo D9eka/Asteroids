@@ -12,6 +12,7 @@ namespace _Project.Scripts.Advertisement
 
         private LevelPlayRewardedAd _ad;
         private bool _isRewardGiven;
+        private Action<bool> _callback;
         
         public bool IsLoaded { get; private set; }
         public IObservable<bool> RewardGranted => _rewardGranted;
@@ -38,10 +39,11 @@ namespace _Project.Scripts.Advertisement
             return IsLoaded && !_isRewardGiven;
         }
 
-        public void Show()
+        public void Show(Action<bool> callback)
         {
             if (!CanGiveReward()) return;
             IsLoaded = false;
+            _callback = callback;
             _ad.ShowAd();
         }
 
@@ -55,6 +57,8 @@ namespace _Project.Scripts.Advertisement
             _ad.OnAdLoaded -= AdOnAdLoaded;
             _ad.OnAdLoadFailed -= AdOnAdLoadFailed;
             _ad.OnAdClosed -= AdOnAdClosed;
+            _ad.OnAdRewarded -= AdOnAdRewarded;
+            _ad.OnAdDisplayFailed -= AdOnAdDisplayFailed;
         }
 
         private void AdOnAdLoaded(LevelPlayAdInfo obj)
@@ -75,6 +79,8 @@ namespace _Project.Scripts.Advertisement
         private void AdOnAdRewarded(LevelPlayAdInfo arg1, LevelPlayReward arg2)
         {
             _rewardGranted.OnNext(true);
+            _callback?.Invoke(true);
+            _callback = null;
             _isRewardGiven = true;
             _ad.LoadAd();
         }
@@ -82,6 +88,8 @@ namespace _Project.Scripts.Advertisement
         private void AdOnAdDisplayFailed(LevelPlayAdInfo arg1, LevelPlayAdError arg2)
         {
             _rewardGranted.OnNext(false);
+            _callback?.Invoke(false);
+            _callback = null;
             _ad.LoadAd();
         }
     }

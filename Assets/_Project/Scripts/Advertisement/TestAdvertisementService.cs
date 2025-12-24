@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace _Project.Scripts.Advertisement
 {
-    public class TestAdvertisementSystem : IAdvertisementSystem
+    public class TestAdvertisementService : IAdvertisementService
     {
         private readonly Subject<bool> _rewardGranted = new Subject<bool>();
         
@@ -14,7 +14,7 @@ namespace _Project.Scripts.Advertisement
         public bool CanRevive { get; private set; } = true;
         public IObservable<bool> RevivalRewardGranted => _rewardGranted;
         
-        public TestAdvertisementSystem(IGameplaySessionManager gameplaySessionManager)
+        public TestAdvertisementService(IGameplaySessionManager gameplaySessionManager)
         {
             _gameplaySessionManager = gameplaySessionManager;
         }
@@ -29,10 +29,11 @@ namespace _Project.Scripts.Advertisement
             Debug.Log("Show Interstitial Ad");
         }
 
-        public void ShowRevivalAd()
+        public void ShowRevivalAd(Action<bool> onComplete)
         {
             Debug.Log("Reward granted");
             _rewardGranted.OnNext(true);
+            onComplete?.Invoke(true);
             CanRevive = false;
         }
     }
