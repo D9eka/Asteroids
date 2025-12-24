@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf72c8f6ae6d44d5a849c333a6b3ad6e, type: 3}
   m_Name: AsteroidTypeSpawnConfig
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Spawning.Enemies.Config.EnemyTypeSpawnConfig
-  <Config>k__BackingField: {fileID: 11400000, guid: c523ec5e6a8d27c47b60beae2d8ce366, type: 2}
+  <ConfigSo>k__BackingField: {fileID: 11400000, guid: c523ec5e6a8d27c47b60beae2d8ce366, type: 2}
   <SpawnProbability>k__BackingField: 0.9
   <SpawnInterval>k__BackingField: 2
   <SpawnDistanceOutsideBounds>k__BackingField: 3

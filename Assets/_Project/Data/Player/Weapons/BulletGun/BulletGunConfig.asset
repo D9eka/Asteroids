@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Weapons.BulletGunConfig
   <DamageType>k__BackingField: 0
   <FireRate>k__BackingField: 0.35
-  <ProjectileData>k__BackingField: {fileID: 11400000, guid: c9c94375d3f1f5844a7ad479fa37f9ed, type: 2}
+  <ProjectileConfig>k__BackingField: {fileID: 11400000, guid: c9c94375d3f1f5844a7ad479fa37f9ed, type: 2}

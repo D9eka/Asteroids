@@ -15,6 +15,6 @@ MonoBehaviour:
   <PrefabId>k__BackingField: 7
   <Type>k__BackingField: 3
   <Score>k__BackingField: 80
-  <DirectionProviderConfig>k__BackingField: {fileID: 11400000, guid: dfb25e39626317148b7f5197fff24ace, type: 2}
-  <RotationProviderConfig>k__BackingField: {fileID: 11400000, guid: 033ff51209945434fb619823ee119b64, type: 2}
-  <BulletGunConfig>k__BackingField: {fileID: 11400000, guid: 3535280851d4a44479a0c1b7b577cdf0, type: 2}
+  <DirectionProviderConfigSo>k__BackingField: {fileID: 11400000, guid: dfb25e39626317148b7f5197fff24ace, type: 2}
+  <RotationProviderConfigSo>k__BackingField: {fileID: 11400000, guid: 033ff51209945434fb619823ee119b64, type: 2}
+  <BulletGunConfigSo>k__BackingField: {fileID: 11400000, guid: 3535280851d4a44479a0c1b7b577cdf0, type: 2}

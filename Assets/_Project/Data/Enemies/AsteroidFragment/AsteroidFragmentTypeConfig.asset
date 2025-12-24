@@ -15,5 +15,5 @@ MonoBehaviour:
   <PrefabId>k__BackingField: 6
   <Type>k__BackingField: 2
   <Score>k__BackingField: 20
-  <DirectionProviderConfig>k__BackingField: {fileID: 11400000, guid: 99728c0ecb9a49d40a5204684d0492c7, type: 2}
-  <RotationProviderConfig>k__BackingField: {fileID: 11400000, guid: 22603b7230b161345980b0620f049318, type: 2}
+  <DirectionProviderConfigSo>k__BackingField: {fileID: 11400000, guid: 99728c0ecb9a49d40a5204684d0492c7, type: 2}
+  <RotationProviderConfigSo>k__BackingField: {fileID: 11400000, guid: 22603b7230b161345980b0620f049318, type: 2}

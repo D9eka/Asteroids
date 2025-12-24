@@ -15,6 +15,6 @@ MonoBehaviour:
   <PrefabId>k__BackingField: 5
   <Type>k__BackingField: 1
   <Score>k__BackingField: 40
-  <DirectionProviderConfig>k__BackingField: {fileID: 11400000, guid: 82a40822b129f84449436623a97b422b, type: 2}
-  <RotationProviderConfig>k__BackingField: {fileID: 11400000, guid: 99a62eec33ee78d478e93249f2354dca, type: 2}
-  <AsteroidFragmentSpawnConfig>k__BackingField: {fileID: 11400000, guid: 59e7354db2c97e14fb9b005baec1e1a7, type: 2}
+  <DirectionProviderConfigSo>k__BackingField: {fileID: 11400000, guid: 82a40822b129f84449436623a97b422b, type: 2}
+  <RotationProviderConfigSo>k__BackingField: {fileID: 11400000, guid: 99a62eec33ee78d478e93249f2354dca, type: 2}
+  <AsteroidFragmentSpawnConfigSo>k__BackingField: {fileID: 11400000, guid: 59e7354db2c97e14fb9b005baec1e1a7, type: 2}

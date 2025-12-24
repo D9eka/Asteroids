@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf72c8f6ae6d44d5a849c333a6b3ad6e, type: 3}
   m_Name: UfoTypeSpawnConfig
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Spawning.Enemies.Config.EnemyTypeSpawnConfig
-  <Config>k__BackingField: {fileID: 11400000, guid: 5ddc986f41bc8e2449e6c75c6b8e2f66, type: 2}
+  <ConfigSo>k__BackingField: {fileID: 11400000, guid: 5ddc986f41bc8e2449e6c75c6b8e2f66, type: 2}
   <SpawnProbability>k__BackingField: 0.5
   <SpawnInterval>k__BackingField: 5
   <SpawnDistanceOutsideBounds>k__BackingField: 2
