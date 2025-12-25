@@ -35,8 +35,6 @@ namespace Asteroids.Scripts.Configs.Runtime
         {
             _configData = configDataMapper.Map(movementDataSo, bulletGunConfigSo, laserGunConfigSo, enemySpawnConfigSo, scoreConfigSo);
             _remoteConfigService = remoteConfigService;
-            //var str = JsonUtility.ToJson(_configData);
-            //Debug.Log(str);
         }
 
         public void Initialize()
