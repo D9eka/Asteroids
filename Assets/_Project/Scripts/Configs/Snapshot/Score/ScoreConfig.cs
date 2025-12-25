@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Asteroids.Scripts.Enemies;
 using UnityEngine;
 
 namespace Asteroids.Scripts.Configs.Snapshot.Score
@@ -8,10 +9,29 @@ namespace Asteroids.Scripts.Configs.Snapshot.Score
     public class ScoreConfig
     {
         [field:SerializeField] public List<ScoreValue> Scores { get; private set; } = new List<ScoreValue>();
+        
+        private Dictionary<EnemyType, int> _cache;
+        public IReadOnlyDictionary<EnemyType, int> ScoreByConfig
+        {
+            get
+            {
+                if (_cache == null) BuildCache();
+                return _cache;
+            }
+        }
 
         public ScoreConfig(List<ScoreValue> scores)
         {
             Scores = scores;
+        }
+
+        private void BuildCache()
+        {
+            _cache = new Dictionary<EnemyType, int> { { EnemyType.None, 0 } };
+            foreach (ScoreValue scoreValue in Scores)
+            {
+                _cache[scoreValue.EnemyType] = scoreValue.Score;
+            }
         }
     }
 }

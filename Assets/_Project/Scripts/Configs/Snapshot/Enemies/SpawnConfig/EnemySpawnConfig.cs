@@ -7,7 +7,7 @@ namespace Asteroids.Scripts.Configs.Snapshot.Enemies.SpawnConfig
     [Serializable]
     public class EnemySpawnConfig
     {
-        [field:SerializeField] public List<EnemyTypeSpawnConfig> Enemies { get; private set; }
+        [field:SerializeReference] public List<EnemyTypeSpawnConfig> Enemies { get; private set; }
 
         public EnemySpawnConfig(List<EnemyTypeSpawnConfig> enemies)
         {

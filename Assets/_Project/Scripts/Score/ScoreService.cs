@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Asteroids.Scripts.Configs.Authoring.Score;
+using Asteroids.Scripts.Configs.Snapshot.Score;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Player;
 using Asteroids.Scripts.Spawning.Enemies.Pooling;
@@ -13,15 +13,15 @@ namespace Asteroids.Scripts.Score
 {
     public class ScoreService : IScoreService, IInitializable, IDisposable
     {
-        private readonly IReadOnlyDictionary<EnemyType, int> _config;
         private readonly ReactiveProperty<int> _totalScore = new ReactiveProperty<int>(0);
         private readonly IEnemyLifecycleManager _enemyLifecycleManager;
 
+        private IReadOnlyDictionary<EnemyType, int> _config;
+        
         public IReadOnlyReactiveProperty<int> TotalScore => _totalScore;
 
-        public ScoreService(ScoreConfigSo configSo, IEnemyLifecycleManager enemyLifecycleManager)
+        public ScoreService(IEnemyLifecycleManager enemyLifecycleManager)
         {
-            _config = configSo.ScoreByConfig;
             _enemyLifecycleManager = enemyLifecycleManager;
         }
 
@@ -33,6 +33,11 @@ namespace Asteroids.Scripts.Score
         public void Dispose()
         {
             _enemyLifecycleManager.OnEnemyKilled -= AddScore;
+        }
+        
+        public void ApplyConfig(ScoreConfig scoreConfig)
+        {
+            _config = scoreConfig.ScoreByConfig;
         }
 
         public void AddScore(GameObject killer, IEnemy enemy)

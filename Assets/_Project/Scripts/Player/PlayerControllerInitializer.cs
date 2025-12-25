@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Asteroids.Scripts.Addressable;
 using Asteroids.Scripts.Collision;
-using Asteroids.Scripts.ConfigsProvider;
+using Asteroids.Scripts.Configs.Runtime;
 using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.GameState;
 using Asteroids.Scripts.GameState.GameplaySession;
@@ -27,7 +27,7 @@ namespace Asteroids.Scripts.Player
         private readonly IAddressableLoader _addressableLoader;
         private readonly Vector2 _playerSpawnPosition;
         private readonly ICollisionService _collisionService;
-        private readonly GameConfigProvider _gameConfigProvider;
+        private readonly IPlayerConfigProvider _playerConfigProvider;
         private readonly IEnemyMovementConfigurator _enemyMovementConfigurator;
         private readonly IGameStateController _gameStateController;
         private readonly IBoundsManager _boundsManager;
@@ -40,7 +40,7 @@ namespace Asteroids.Scripts.Player
         public PlayerControllerInitializer(DiContainer container, IAddressableLoader addressableLoader, 
             [Inject(Id = Vector2InjectId.PlayerStartPos)] Vector2 playerSpawnPosition, 
             [Inject(Id = CollisionServiceInjectId.Player)] ICollisionService collisionService,
-            GameConfigProvider gameConfigProvider, IEnemyMovementConfigurator enemyMovementConfigurator, 
+            IPlayerConfigProvider playerConfigProvider, IEnemyMovementConfigurator enemyMovementConfigurator, 
             IGameStateController gameStateController, IBoundsManager boundsManager, IPauseSystem pauseSystem, 
             IGameplaySessionManager gameplaySessionManager, IPlayerParamsService playerParamsService, 
             PlayerInputHandler playerInputHandler, PlayerWeaponsInitializer weaponsInitializer)
@@ -49,7 +49,7 @@ namespace Asteroids.Scripts.Player
             _addressableLoader = addressableLoader;
             _playerSpawnPosition = playerSpawnPosition;
             _collisionService = collisionService;
-            _gameConfigProvider = gameConfigProvider;
+            _playerConfigProvider = playerConfigProvider;
             _enemyMovementConfigurator = enemyMovementConfigurator;
             _gameStateController = gameStateController;
             _boundsManager = boundsManager;
@@ -75,7 +75,7 @@ namespace Asteroids.Scripts.Player
                 PlayerMovement playerMovement = playerGo.GetComponent<PlayerMovement>();
             
                 playerController.GetComponent<CollisionHandler>().Initialize(_collisionService);
-                playerMovement.Initialize(_gameConfigProvider.ConfigData.PlayerConfig.MovementConfig);
+                playerMovement.Initialize(_playerConfigProvider);
             
                 playerController.Initialize(playerMovement, new PlayerWeaponsHandler(playerWeapons));
                 _enemyMovementConfigurator.Initialize(playerGo.transform);

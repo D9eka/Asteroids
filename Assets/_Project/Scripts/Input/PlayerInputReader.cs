@@ -1,5 +1,4 @@
 ﻿using System;
-using Asteroids.Scripts.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;

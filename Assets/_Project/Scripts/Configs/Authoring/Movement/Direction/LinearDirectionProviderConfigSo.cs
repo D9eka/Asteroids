@@ -8,7 +8,7 @@ namespace Asteroids.Scripts.Configs.Authoring.Movement.Direction
     {
         public LinearDirectionProviderConfigSo()
         {
-            DirectionProviderType = Scripts.Movement.DirectionProviders.DirectionProviderType.Linear;
+            DirectionProviderType = DirectionProviderType.Linear;
         }
     }
 }

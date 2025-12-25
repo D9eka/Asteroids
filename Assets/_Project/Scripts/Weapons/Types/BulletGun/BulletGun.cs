@@ -51,5 +51,10 @@ namespace Asteroids.Scripts.Weapons.Types.BulletGun
         {
             return _damageInfo;
         }
+
+        public void ApplyConfig(BulletGunConfig config)
+        {
+            _config = config;
+        }
     }
 }

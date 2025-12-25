@@ -1,5 +1,4 @@
-﻿using Asteroids.Scripts.Movement.DirectionProviders;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Asteroids.Scripts.Configs.Authoring.Movement.Direction
 {

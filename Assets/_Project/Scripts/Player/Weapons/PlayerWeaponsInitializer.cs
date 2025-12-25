@@ -1,8 +1,8 @@
 ﻿using Asteroids.Scripts.Analytics;
 using Asteroids.Scripts.Collision;
+using Asteroids.Scripts.Configs.Runtime;
 using Asteroids.Scripts.Configs.Snapshot.Weapons.BulletGun;
 using Asteroids.Scripts.Configs.Snapshot.Weapons.LaserGun;
-using Asteroids.Scripts.ConfigsProvider;
 using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Projectile;
 using Asteroids.Scripts.Weapons.Services.Raycast;
@@ -19,16 +19,19 @@ namespace Asteroids.Scripts.Player.Weapons
         private readonly IAnalyticsCollector _analyticsCollector;
         private readonly IProjectileFactory _projectileFactory;
         private readonly IRaycastService _raycastService;
-        private readonly GameConfigProvider _gameConfigProvider;
+        private readonly IPlayerConfigProvider _playerConfigProvider;
+        private readonly PlayerWeaponsConfigRuntime _playerWeaponsConfigRuntime;
 
         public PlayerWeaponsInitializer(IWeaponUpdater weaponUpdater, IAnalyticsCollector analyticsCollector,
-            IProjectileFactory projectileFactory, IRaycastService raycastService, GameConfigProvider gameConfigProvider)
+            IProjectileFactory projectileFactory, IRaycastService raycastService, IPlayerConfigProvider playerConfigProvider,
+            PlayerWeaponsConfigRuntime playerWeaponsConfigRuntime)
         {
             _weaponUpdater = weaponUpdater;
             _analyticsCollector = analyticsCollector;
             _projectileFactory = projectileFactory;
             _raycastService = raycastService;
-            _gameConfigProvider = gameConfigProvider;
+            _playerConfigProvider = playerConfigProvider;
+            _playerWeaponsConfigRuntime = playerWeaponsConfigRuntime;
         }
 
         public void Initialize(GameObject damageInstigator, ICollisionService playerCollisionService, IWeapon[] weapons, 
@@ -40,19 +43,20 @@ namespace Asteroids.Scripts.Player.Weapons
                 if (weapon is BulletGun bulletGun)
                 {
                     BulletGunConfig bulletGunConfig =
-                        _gameConfigProvider.ConfigData.PlayerConfig.BulletGunConfig;
+                        _playerConfigProvider.PlayerConfig.BulletGunConfig;
                     bulletGun.Initialize(damageInstigator, playerCollisionService, bulletGunConfig, _projectileFactory);
                     _analyticsCollector.Initialize(bulletGun);
                 }
                 if (weapon is LaserGun laserGun)
                 {
-                    LaserGunConfig laserGunConfig = _gameConfigProvider.ConfigData.PlayerConfig.LaserGunConfig;
+                    LaserGunConfig laserGunConfig = _playerConfigProvider.PlayerConfig.LaserGunConfig;
                     _raycastService.Initialize(laserGun.gameObject);
                     laserGun.Initialize(damageInstigator, laserGunConfig, laserGunLineRenderer, _raycastService,
                         playerCollisionService);
                     _analyticsCollector.Initialize(laserGun);
                 }
             }
+            _playerWeaponsConfigRuntime.Initialize(weapons);
         }
     }
 }

@@ -71,6 +71,16 @@ namespace Asteroids.Scripts.Weapons.Types.Laser
                 }
             }
         }
+        
+        public DamageInfo GetDamageInfo()
+        {
+            return _damageInfo;
+        }
+
+        public void ApplyConfig(LaserGunConfig config)
+        {
+            _config = config;
+        }
 
         private void UpdateLaser(float deltaTime)
         {
@@ -95,9 +105,5 @@ namespace Asteroids.Scripts.Weapons.Types.Laser
             }
         }
 
-        public DamageInfo GetDamageInfo()
-        {
-            return _damageInfo;
-        }
     }
 }

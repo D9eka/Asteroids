@@ -1,5 +1,4 @@
-﻿using Asteroids.Scripts.Movement.RotationProviders;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Asteroids.Scripts.Configs.Authoring.Movement.Rotation
 {
