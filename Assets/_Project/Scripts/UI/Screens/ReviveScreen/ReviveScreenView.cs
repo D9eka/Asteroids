@@ -1,4 +1,5 @@
 ﻿using Asteroids.Scripts.UI.Buttons;
+using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,7 @@ namespace Asteroids.Scripts.UI.Screens.ReviveScreen
 {
     public class ReviveScreenView : BaseView
     {
+        [SerializeField] private TMP_Text _header;
         [SerializeField] private ButtonWithCountdown _reviveButton;
         [SerializeField] private Button _exitButton;
         
@@ -23,6 +25,10 @@ namespace Asteroids.Scripts.UI.Screens.ReviveScreen
 
         private void Awake()
         {
+            _screenViewModel.ScreenTitle
+                .Subscribe(title => _header.text = title)
+                .AddTo(_disposables);
+            
             _reviveButton.onClick.AsObservable()
                 .Subscribe(_ => _screenViewModel.OnAdvertisementButtonClicked())
                 .AddTo(_disposables);

@@ -18,6 +18,8 @@ namespace Asteroids.Scripts.UI.Screens.MainScreen
         [SerializeField] private TextMeshProUGUI _previousScoreText;
         [SerializeField] private TextMeshProUGUI _highestScoreText;
 
+        [SerializeField] private Button _removeAdButton;
+
         private readonly CompositeDisposable _disposables = new CompositeDisposable();
         
         private MainScreenViewModel _screenViewModel;
@@ -44,6 +46,14 @@ namespace Asteroids.Scripts.UI.Screens.MainScreen
             
             _screenViewModel.HighestScore
                 .Subscribe(UpdateHighestScoreText)
+                .AddTo(_disposables);
+            
+            _removeAdButton.onClick.AsObservable()
+                .Subscribe(_ => _screenViewModel.OnRemoveAdClicked())
+                .AddTo(_disposables);
+
+            _screenViewModel.ShowRemoveAdButton
+                .Subscribe(canShow => _removeAdButton.gameObject.SetActive(canShow))
                 .AddTo(_disposables);
         }
 

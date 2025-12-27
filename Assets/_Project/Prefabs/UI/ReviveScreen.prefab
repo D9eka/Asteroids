@@ -471,6 +471,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2932d563c8fd4cdb89332da6abf6c1f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Asteroids.Scripts.UI.Screens.EndGameScreen.ReviveScreenView
+  _header: {fileID: 2253689906480635652}
   _reviveButton: {fileID: 1404683440094348491}
   _exitButton: {fileID: 3982794044486418438}
 --- !u!223 &8091681978032400360
@@ -606,7 +607,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 1
+  m_FillAmount: 0.14133334
   m_FillClockwise: 1
   m_FillOrigin: 2
   m_UseSpriteMesh: 0

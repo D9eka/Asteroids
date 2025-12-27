@@ -1,8 +1,10 @@
 ﻿using System;
+using _Project.Scripts.PurchasesService;
 using Asteroids.Scripts.Core.GameExit;
 using Asteroids.Scripts.GameState.GameplaySession;
 using Asteroids.Scripts.SaveService;
 using UniRx;
+using UnityEngine.Purchasing;
 using Zenject;
 
 namespace Asteroids.Scripts.UI.Screens.MainScreen
@@ -12,19 +14,24 @@ namespace Asteroids.Scripts.UI.Screens.MainScreen
         private readonly IScoreTracker _scoreTracker;
         private readonly IGameplaySessionManager _gameplaySessionManager;
         private readonly IGameExitService _gameExitService;
+        private readonly AdTracker _adTracker;
+        private readonly IPurchasesService _purchaseService;
 
         private readonly CompositeDisposable _disposables = new CompositeDisposable();
         
         public ReactiveProperty<int> PreviousScore { get; } = new ReactiveProperty<int>(0);
         public ReactiveProperty<int> HighestScore { get; } = new ReactiveProperty<int>(0);
-
+        
+        public ReactiveProperty<bool> ShowRemoveAdButton { get; } = new ReactiveProperty<bool>(true);
         
         public MainScreenViewModel(IScoreTracker scoreTracker, IGameplaySessionManager gameplaySessionManager, 
-            IGameExitService gameExitService)
+            IGameExitService gameExitService, AdTracker adTracker, IPurchasesService purchaseService)
         {
             _scoreTracker = scoreTracker;
             _gameplaySessionManager = gameplaySessionManager;
             _gameExitService = gameExitService;
+            _adTracker = adTracker;
+            _purchaseService = purchaseService;
         }
 
         public void Initialize()
@@ -36,6 +43,10 @@ namespace Asteroids.Scripts.UI.Screens.MainScreen
             _scoreTracker.HighestScore
                 .Subscribe(score => HighestScore.Value = score)
                 .AddTo(_disposables);
+
+            _adTracker.IsAdFree
+                .Subscribe(isAdFree => ShowRemoveAdButton.Value = !isAdFree)
+                .AddTo(_disposables);
         }
 
         public void OnStartClicked()
@@ -46,6 +57,11 @@ namespace Asteroids.Scripts.UI.Screens.MainScreen
         public void OnExitClicked()
         {
             _gameExitService.Exit();
+        }
+
+        public void OnRemoveAdClicked()
+        {
+            _purchaseService.Purchase(PurchaseId.AdFree);
         }
 
         public void Dispose()
