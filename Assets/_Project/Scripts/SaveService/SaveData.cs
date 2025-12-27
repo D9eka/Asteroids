@@ -5,5 +5,7 @@
     {
         public int PreviousScore;
         public int HighestScore;
+
+        public bool IsAdFree;
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
+using _Project.Scripts.PurchasesService;
 using Asteroids.Scripts.Addressable;
 using Asteroids.Scripts.Advertisement;
+using Asteroids.Scripts.Advertisement.LevelPlayAd;
 using Asteroids.Scripts.Analytics;
 using Asteroids.Scripts.Camera;
 using Asteroids.Scripts.Collision;
@@ -77,6 +79,8 @@ namespace Asteroids.Scripts.Installers
             Container.Bind<UnityEngine.Camera>().FromInstance(_camera).AsSingle();
 
             Container.BindInterfacesTo<UnityAddressableLoader>().AsSingle();
+            
+            Container.BindInterfacesTo<UnityPurchasesService>().AsSingle();
 
             InstallRemoteConfigService();
             InstallAdvertisementService();
@@ -101,6 +105,7 @@ namespace Asteroids.Scripts.Installers
 
         private void InstallAdvertisementService()
         {
+            Container.BindInterfacesAndSelfTo<AdTracker>().AsSingle();
 #if UNITY_EDITOR
             Container.BindInterfacesTo<TestAdvertisementService>()
                 .AsSingle();
