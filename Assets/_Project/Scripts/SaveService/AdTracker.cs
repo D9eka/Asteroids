@@ -18,9 +18,10 @@ namespace Asteroids.Scripts.SaveService
             _purchaseService = purchaseService;
         }
 
-        public void Initialize()
+        public async void Initialize()
         {
-            bool isAdFree = _saveService.Load().IsAdFree;
+            SaveData data = await _saveService.Load();
+            bool isAdFree = data.IsAdFree;
             IsAdFree.Value = isAdFree;
             
             _purchaseService.OnSuccessfullyPurchased += PurchaseServiceOnSuccessfullyPurchased;
@@ -35,10 +36,10 @@ namespace Asteroids.Scripts.SaveService
             _purchaseService.OnSuccessfullyPurchased -= PurchaseServiceOnSuccessfullyPurchased;
         }
 
-        private void SetAdFree(bool isAdFree)
+        private async void SetAdFree(bool isAdFree)
         {
             IsAdFree.Value = isAdFree;
-            SaveData saveData = _saveService.Load();
+            SaveData saveData = await _saveService.Load();
             saveData.IsAdFree = isAdFree;
             _saveService.Save(saveData);
         }

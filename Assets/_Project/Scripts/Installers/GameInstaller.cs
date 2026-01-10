@@ -177,7 +177,11 @@ namespace Asteroids.Scripts.Installers
 
         private void InstallSaveSystem()
         {
-            Container.BindInterfacesTo<PlayerPrefsSaveService>().AsSingle();
+            Container.Bind<ISaveService>().WithId(SaveServiceInjectId.Local)
+                .To<PlayerPrefsSaveService>().AsCached().WhenInjectedInto<SaveResolver>();
+            Container.Bind<ISaveService>().WithId(SaveServiceInjectId.Cloud)
+                .To<UnityCloudSaveService>().AsCached().WhenInjectedInto<SaveResolver>();
+            Container.BindInterfacesTo<SaveResolver>().AsSingle().NonLazy();
         }
 
         private void InstallScoreSystem()

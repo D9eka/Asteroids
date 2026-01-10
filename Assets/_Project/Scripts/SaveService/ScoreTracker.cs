@@ -1,5 +1,6 @@
 ﻿using System;
 using Asteroids.Scripts.Score;
+using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -24,13 +25,13 @@ namespace Asteroids.Scripts.SaveService
             _scoreService = scoreService;
         }
 
-        public void Initialize()
+        public async void Initialize()
         {
             _scoreService.TotalScore
                 .Subscribe(UpdateProgress)
                 .AddTo(_disposables);
-            
-            SaveData data = _saveService.Load();
+
+            SaveData data = await _saveService.Load();
             _previousScore.Value = data.PreviousScore;
             _highestScore.Value = data.HighestScore;
         }
@@ -40,9 +41,9 @@ namespace Asteroids.Scripts.SaveService
             _disposables.Dispose();
         }
 
-        public void SaveCurrentScore()
+        public async void SaveCurrentScore()
         {
-            SaveData saveData = _saveService.Load();
+            SaveData saveData = await _saveService.Load();
             saveData.PreviousScore = _previousScore.Value;
             saveData.HighestScore = _highestScore.Value;
             

@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace Asteroids.Scripts.SaveService
 {
@@ -6,7 +9,7 @@ namespace Asteroids.Scripts.SaveService
     {
         private const string SAVE_KEY = "player_save";
 
-        public SaveData Load()
+        public async UniTask<SaveData> Load()
         {
             if (!PlayerPrefs.HasKey(SAVE_KEY))
             {
@@ -15,14 +18,17 @@ namespace Asteroids.Scripts.SaveService
 
             string json = PlayerPrefs.GetString(SAVE_KEY);
             SaveData data = JsonUtility.FromJson<SaveData>(json);
+            Debug.Log($"[PlayerPrefsSave] LOADED! {SAVE_KEY} value: {json}");
             return data;
         }
 
         public void Save(SaveData saveData)
         {
+            saveData.SaveTime = DateTime.UtcNow.Ticks;
             string json = JsonUtility.ToJson(saveData);
             PlayerPrefs.SetString(SAVE_KEY, json);
             PlayerPrefs.Save();
+            Debug.Log($"[PlayerPrefsSave] SAVED! {SAVE_KEY} value: {json}");
         }
     }
 }

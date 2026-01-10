@@ -1,8 +1,11 @@
-﻿namespace Asteroids.Scripts.SaveService
+﻿using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
+
+namespace Asteroids.Scripts.SaveService
 {
     public interface ISaveService
     {
-        SaveData Load();
+        UniTask<SaveData> Load();
         void Save(SaveData saveData);
     }
 }
