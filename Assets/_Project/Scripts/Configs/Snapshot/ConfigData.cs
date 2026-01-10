@@ -19,5 +19,12 @@ namespace Asteroids.Scripts.Configs.Snapshot
             EnemySpawnConfig = enemySpawnConfig;
             ScoreConfig = scoreConfig;
         }
+
+        public ConfigData()
+        {
+            PlayerConfig = new PlayerConfig();
+            EnemySpawnConfig = new EnemySpawnConfig();
+            ScoreConfig = new ScoreConfig();
+        }
     }
 }

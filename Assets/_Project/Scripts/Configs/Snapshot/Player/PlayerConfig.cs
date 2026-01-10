@@ -1,6 +1,8 @@
 ﻿using System;
 using Asteroids.Scripts.Configs.Snapshot.Weapons.BulletGun;
 using Asteroids.Scripts.Configs.Snapshot.Weapons.LaserGun;
+using Asteroids.Scripts.Configs.Snapshot.Weapons.Projectile;
+using Asteroids.Scripts.Damage;
 using UnityEngine;
 
 namespace Asteroids.Scripts.Configs.Snapshot.Player
@@ -17,6 +19,13 @@ namespace Asteroids.Scripts.Configs.Snapshot.Player
             MovementConfig = movementConfig;
             BulletGunConfig = bulletGunConfig;
             LaserGunConfig = laserGunConfig;
+        }
+
+        public PlayerConfig()
+        {
+            MovementConfig = new PlayerMovementConfig();
+            BulletGunConfig = new BulletGunConfig(DamageType.Bullet, 0.35f, new ProjectileConfig(7f, 5f));
+            LaserGunConfig = new LaserGunConfig(DamageType.Laser, 0.3f, 0.5f, 1f, 3, 15f);
         }
     }
 }

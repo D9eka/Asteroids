@@ -4,7 +4,6 @@ using Asteroids.Scripts.Core.GameExit;
 using Asteroids.Scripts.GameState.GameplaySession;
 using Asteroids.Scripts.SaveService;
 using UniRx;
-using UnityEngine.Purchasing;
 using Zenject;
 
 namespace Asteroids.Scripts.UI.Screens.MainScreen

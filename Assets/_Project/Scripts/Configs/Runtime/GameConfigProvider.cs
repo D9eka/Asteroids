@@ -1,16 +1,9 @@
 ﻿using System;
-using Asteroids.Scripts.Configs.Authoring.Enemies.SpawnConfig;
-using Asteroids.Scripts.Configs.Authoring.Player;
-using Asteroids.Scripts.Configs.Authoring.Score;
-using Asteroids.Scripts.Configs.Authoring.Weapons.BulletGun;
-using Asteroids.Scripts.Configs.Authoring.Weapons.LaserGun;
-using Asteroids.Scripts.Configs.Mapping;
 using Asteroids.Scripts.Configs.Snapshot;
 using Asteroids.Scripts.Configs.Snapshot.Enemies.SpawnConfig;
 using Asteroids.Scripts.Configs.Snapshot.Player;
 using Asteroids.Scripts.Configs.Snapshot.Score;
 using Asteroids.Scripts.RemoteConfigs;
-using UnityEngine;
 using Zenject;
 
 namespace Asteroids.Scripts.Configs.Runtime
@@ -29,11 +22,9 @@ namespace Asteroids.Scripts.Configs.Runtime
         public EnemySpawnConfig EnemySpawnConfig => _configData.EnemySpawnConfig;
         public ScoreConfig ScoreConfig => _configData.ScoreConfig;
         
-        public GameConfigProvider(ConfigDataMapper configDataMapper, PlayerMovementDataSo movementDataSo, 
-            BulletGunConfigSo bulletGunConfigSo, LaserGunConfigSo laserGunConfigSo,
-            EnemySpawnConfigSo enemySpawnConfigSo, ScoreConfigSo scoreConfigSo, IRemoteConfigService remoteConfigService)
+        public GameConfigProvider(IRemoteConfigService remoteConfigService)
         {
-            _configData = configDataMapper.Map(movementDataSo, bulletGunConfigSo, laserGunConfigSo, enemySpawnConfigSo, scoreConfigSo);
+            _configData = new ConfigData();
             _remoteConfigService = remoteConfigService;
         }
 

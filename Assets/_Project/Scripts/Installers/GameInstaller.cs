@@ -6,12 +6,6 @@ using Asteroids.Scripts.Advertisement.LevelPlayAd;
 using Asteroids.Scripts.Analytics;
 using Asteroids.Scripts.Camera;
 using Asteroids.Scripts.Collision;
-using Asteroids.Scripts.Configs.Authoring.Enemies.SpawnConfig;
-using Asteroids.Scripts.Configs.Authoring.Player;
-using Asteroids.Scripts.Configs.Authoring.Score;
-using Asteroids.Scripts.Configs.Authoring.Weapons.BulletGun;
-using Asteroids.Scripts.Configs.Authoring.Weapons.LaserGun;
-using Asteroids.Scripts.Configs.Mapping;
 using Asteroids.Scripts.Configs.Runtime;
 using Asteroids.Scripts.Configs.Snapshot.Enemies;
 using Asteroids.Scripts.Core.GameExit;
@@ -59,15 +53,6 @@ namespace Asteroids.Scripts.Installers
         [Space]
         [Header("Player")]
         [SerializeField] private Vector2 _playerSpawnPosition;
-        [SerializeField] private PlayerMovementDataSo _movementDataSo;
-        [SerializeField] private BulletGunConfigSo _bulletGunConfigSo;
-        [SerializeField] private LaserGunConfigSo _laserGunConfigSo;
-        [Space]
-        [Header("Enemies")]
-        [SerializeField] private EnemySpawnConfigSo _enemySpawnConfigSo;
-        [Space]
-        [Header("Score")]
-        [SerializeField] private ScoreConfigSo _scoreConfigSo;
         [Space] 
         [Header("Advertisement")] 
         [SerializeField] private string _adAppId;
@@ -98,9 +83,7 @@ namespace Asteroids.Scripts.Installers
         private void InstallRemoteConfigService()
         {
             Container.BindInterfacesTo<FirebaseRemoteConfigService>().AsSingle();
-            Container.Bind<ConfigDataMapper>().AsSingle();
-            Container.BindInterfacesAndSelfTo<GameConfigProvider>().AsSingle()
-                .WithArguments(_movementDataSo, _bulletGunConfigSo, _laserGunConfigSo, _enemySpawnConfigSo, _scoreConfigSo);
+            Container.BindInterfacesAndSelfTo<GameConfigProvider>().AsSingle();
         }
 
         private void InstallAdvertisementService()
@@ -160,8 +143,6 @@ namespace Asteroids.Scripts.Installers
 
         private void InstallEnemies()
         {
-            Container.Bind<EnemySpawnConfigSo>().FromInstance(_enemySpawnConfigSo).AsSingle();
-            
             Container.Bind<ICollisionService>().To<EnemyCollisionService>().AsSingle();
 
             Container.BindInterfacesTo<PoolableLifecycleManager<Pooling_IPoolable>>().AsSingle();

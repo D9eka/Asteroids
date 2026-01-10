@@ -13,12 +13,19 @@ namespace Asteroids.Scripts.Configs.Snapshot.Enemies
     {
         [field: SerializeField] public AsteroidFragmentTypeSpawnConfig AsteroidFragmentSpawnConfig { get; private set; }
 
-        public AsteroidTypeConfig(AddressableId prefabId, EnemyType type, int score, 
+        public AsteroidTypeConfig(AddressableId prefabId, EnemyType type,
             DirectionProviderConfig directionProviderConfig, RotationProviderConfig rotationProviderConfig, 
             AsteroidFragmentTypeSpawnConfig asteroidFragmentSpawnConfig) : 
-            base(prefabId, type, score, directionProviderConfig, rotationProviderConfig)
+            base(prefabId, type, directionProviderConfig, rotationProviderConfig)
         {
             AsteroidFragmentSpawnConfig = asteroidFragmentSpawnConfig;
+        }
+        
+        public AsteroidTypeConfig() : 
+            base(AddressableId.Asteroid, EnemyType.Asteroid, 
+                new LinearDirectionProviderConfig(2, 5), new MovementBasedRotationProviderConfig())
+        {
+            AsteroidFragmentSpawnConfig = new AsteroidFragmentTypeSpawnConfig();
         }
     }
 }

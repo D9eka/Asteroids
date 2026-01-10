@@ -25,6 +25,16 @@ namespace Asteroids.Scripts.Configs.Snapshot.Score
             Scores = scores;
         }
 
+        public ScoreConfig()
+        {
+            Scores = new List<ScoreValue>
+            {
+                new ScoreValue(EnemyType.Asteroid, 40),
+                new ScoreValue(EnemyType.Ufo, 80),
+                new ScoreValue(EnemyType.AsteroidFragment, 20)
+            };
+        }
+
         private void BuildCache()
         {
             _cache = new Dictionary<EnemyType, int> { { EnemyType.None, 0 } };
