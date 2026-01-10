@@ -1,6 +1,5 @@
 ﻿using System;
 using Asteroids.Scripts.Score;
-using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 using Zenject;

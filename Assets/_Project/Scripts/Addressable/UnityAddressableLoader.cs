@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -13,7 +13,7 @@ namespace Asteroids.Scripts.Addressable
         
         private readonly Dictionary<AddressableId, AsyncOperationHandle> _handles = new();
         
-        public async Task<T> Load<T>(AddressableId addressableId)
+        public async UniTask<T> Load<T>(AddressableId addressableId)
         {
             if (TryGetItemFromDictionary(addressableId, out T result))
             {

@@ -68,9 +68,8 @@ namespace Asteroids.Scripts.UI
         private async Task BindScreen<TView>(AddressableId screenAddressableId, ScreenInjectId screenId)
             where TView : IView
         {
-            Task<GameObject> task = _addressableLoader.Load<GameObject>(screenAddressableId);
-            await task;
-            GameObject screenGo = _container.InstantiatePrefab(task.Result);
+            GameObject screenPrefab = await _addressableLoader.Load<GameObject>(screenAddressableId);
+            GameObject screenGo = _container.InstantiatePrefab(screenPrefab);
             
             TView screen = screenGo.GetComponent<TView>();
             _screens.Add(screen);

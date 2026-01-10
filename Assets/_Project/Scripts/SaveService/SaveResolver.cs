@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Asteroids.Scripts.Core.InjectIds;
+﻿using Asteroids.Scripts.Core.InjectIds;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;

@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Asteroids.Scripts.Addressable;
 using Asteroids.Scripts.Configs.Snapshot.Enemies;
 using Asteroids.Scripts.Configs.Snapshot.Enemies.SpawnConfig;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Spawning.Common.Pooling;
 using Asteroids.Scripts.Spawning.Enemies.Pooling;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
@@ -27,18 +27,17 @@ namespace Asteroids.Scripts.Spawning.Enemies.Providers
             _lifecycleManager = lifecycleManager;
         }
 
-        public async Task<IEnemyProvider> Create(EnemyTypeSpawnConfig spawnConfig)
+        public async UniTask<IEnemyProvider> Create(EnemyTypeSpawnConfig spawnConfig)
         {
             TConfig typedConfig = spawnConfig.Config as TConfig;
             if (typedConfig == null)
                 throw new ArgumentException($"Config is not of type {typeof(TConfig)}");
             
-            Task<GameObject> task = _addressableLoader.Load<GameObject>(spawnConfig.Config.PrefabId);
-            await task;
+            GameObject enemyPrefab = await _addressableLoader.Load<GameObject>(spawnConfig.Config.PrefabId);
 
             _container.BindMemoryPool<TEnemy, ObjectPool<TEnemy>>()
                 .WithInitialSize(spawnConfig.PoolSize)
-                .FromComponentInNewPrefab(task.Result)
+                .FromComponentInNewPrefab(enemyPrefab)
                 .UnderTransformGroup($"{typeof(TEnemy).Name}s");
 
             var pool = _container.Resolve<ObjectPool<TEnemy>>();

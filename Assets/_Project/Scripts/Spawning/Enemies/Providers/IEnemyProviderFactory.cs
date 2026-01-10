@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
-using Asteroids.Scripts.Configs.Snapshot.Enemies.SpawnConfig;
+﻿using Asteroids.Scripts.Configs.Snapshot.Enemies.SpawnConfig;
+using Cysharp.Threading.Tasks;
 
 namespace Asteroids.Scripts.Spawning.Enemies.Providers
 {
     public interface IEnemyProviderFactory
     {
-        public Task<IEnemyProvider> Create(EnemyTypeSpawnConfig spawnConfig);
+        public UniTask<IEnemyProvider> Create(EnemyTypeSpawnConfig spawnConfig);
     }
 }

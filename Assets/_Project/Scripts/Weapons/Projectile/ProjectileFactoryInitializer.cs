@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Asteroids.Scripts.Addressable;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
@@ -33,16 +33,14 @@ namespace Asteroids.Scripts.Weapons.Projectile
             }
         }
 
-        private async Task CreatePool()
+        private async UniTask CreatePool()
         {
-            Task<GameObject> task = _addressableLoader.Load<GameObject>(AddressableId.Projectile);
-            await task;
+            GameObject projectilePrefab = await _addressableLoader.Load<GameObject>(AddressableId.Projectile);
             _container.BindMemoryPool<Projectile, ProjectilePool<Projectile>>()
                 .WithInitialSize(20)
-                .FromComponentInNewPrefab(task.Result.GetComponent<Projectile>())
+                .FromComponentInNewPrefab(projectilePrefab.GetComponent<Projectile>())
                 .UnderTransformGroup("Projectiles");
-            
-            await Task.CompletedTask;
+            await UniTask.CompletedTask;
         }
     }
 }

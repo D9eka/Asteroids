@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Asteroids.Scripts.Addressable;
 using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Configs.Runtime;
@@ -16,6 +15,7 @@ using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Types.BulletGun;
 using Asteroids.Scripts.Weapons.Types.Laser;
 using Asteroids.Scripts.Weapons.Types.Laser.LineRenderer;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
@@ -95,11 +95,10 @@ namespace Asteroids.Scripts.Player
             }
         }
 
-        private async Task<GameObject> SpawnPlayer()
+        private async UniTask<GameObject> SpawnPlayer()
         {
-            Task<GameObject> task = _addressableLoader.Load<GameObject>(AddressableId.Player);
-            await task;
-            var playerGo = _container.InstantiatePrefab(task.Result);
+            GameObject playerPrefab = await _addressableLoader.Load<GameObject>(AddressableId.Player);
+            var playerGo = _container.InstantiatePrefab(playerPrefab);
             return playerGo;
         }
     }

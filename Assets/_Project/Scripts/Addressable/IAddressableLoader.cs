@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 
 namespace Asteroids.Scripts.Addressable
 {
     public interface IAddressableLoader
     {
-        public Task<T> Load<T>(AddressableId addressableId);
+        public UniTask<T> Load<T>(AddressableId addressableId);
         public void Unload(AddressableId addressableId);
     }
 }
