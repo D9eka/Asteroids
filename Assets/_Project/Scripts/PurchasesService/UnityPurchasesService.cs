@@ -10,19 +10,17 @@ namespace _Project.Scripts.PurchasesService
 {
     public class UnityPurchasesService : IPurchasesService, IInitializable, IDisposable
     {
-        private bool m_IsPurchaseInProgress;
-
-        private StoreController m_StoreController;
-
         public event Action<PurchaseId> OnSuccessfullyPurchased;
         
+        private bool _mIsPurchaseInProgress;
+        private StoreController _mStoreController;
         private List<PurchaseId> _confirmedPurchaseIds = new List<PurchaseId>();
-        
         
         public void Initialize()
         {
             InitializeIAPAsync();
         }
+        
         public void Dispose()
         {
             UnsubscribeIAPEvents();
@@ -30,24 +28,24 @@ namespace _Project.Scripts.PurchasesService
         
         public void Purchase(PurchaseId id)
         {
-            if (m_IsPurchaseInProgress)
+            if (_mIsPurchaseInProgress)
             {
                 Debug.LogWarning("[IAP] Purchase already in progress.");
                 return;
             }
-            m_IsPurchaseInProgress = true;
+            _mIsPurchaseInProgress = true;
             string purchaseId = id.ToString();
-            m_StoreController.PurchaseProduct(purchaseId);
+            _mStoreController.PurchaseProduct(purchaseId);
         }
         
         private async void InitializeIAPAsync()
         {
-            m_StoreController = UnityIAPServices.StoreController();
+            _mStoreController = UnityIAPServices.StoreController();
             SubscribeIAPEvents();
 
             try
             {
-                await m_StoreController.Connect();
+                await _mStoreController.Connect();
                 Debug.Log("[IAP] Connected to store.");
 
                 List<ProductDefinition> productDefs = BuildProductsWithCatalog();
@@ -56,7 +54,7 @@ namespace _Project.Scripts.PurchasesService
                     return;
                 }
 
-                m_StoreController.FetchProducts(productDefs);
+                _mStoreController.FetchProducts(productDefs);
             }
             catch (Exception e)
             {
@@ -66,19 +64,19 @@ namespace _Project.Scripts.PurchasesService
         
         private void SubscribeIAPEvents()
         {
-            if (m_StoreController == null) return;
+            if (_mStoreController == null) return;
 
-            m_StoreController.OnProductsFetched += OnProductsFetched;
-            m_StoreController.OnProductsFetchFailed += OnProductsFetchFailed;
+            _mStoreController.OnProductsFetched += OnProductsFetched;
+            _mStoreController.OnProductsFetchFailed += OnProductsFetchFailed;
 
-            m_StoreController.OnPurchasesFetched += OnPurchasesFetched;
-            m_StoreController.OnPurchasesFetchFailed += OnPurchasesFetchFailed;
+            _mStoreController.OnPurchasesFetched += OnPurchasesFetched;
+            _mStoreController.OnPurchasesFetchFailed += OnPurchasesFetchFailed;
 
-            m_StoreController.OnPurchasePending += OnPurchasePending;       
-            m_StoreController.OnPurchaseConfirmed += OnPurchaseConfirmed;
-            m_StoreController.OnPurchaseFailed += OnPurchaseFailed;         
+            _mStoreController.OnPurchasePending += OnPurchasePending;       
+            _mStoreController.OnPurchaseConfirmed += OnPurchaseConfirmed;
+            _mStoreController.OnPurchaseFailed += OnPurchaseFailed;         
             
-            m_StoreController.OnStoreDisconnected += OnStoreDisconnected;
+            _mStoreController.OnStoreDisconnected += OnStoreDisconnected;
         }
         
         private List<ProductDefinition> BuildProductsWithCatalog()
@@ -106,24 +104,24 @@ namespace _Project.Scripts.PurchasesService
 
         private void UnsubscribeIAPEvents()
         {
-            if (m_StoreController == null) return;
+            if (_mStoreController == null) return;
 
-            m_StoreController.OnProductsFetched -= OnProductsFetched;
-            m_StoreController.OnProductsFetchFailed -= OnProductsFetchFailed;
+            _mStoreController.OnProductsFetched -= OnProductsFetched;
+            _mStoreController.OnProductsFetchFailed -= OnProductsFetchFailed;
 
-            m_StoreController.OnPurchasesFetched -= OnPurchasesFetched;
-            m_StoreController.OnPurchasesFetchFailed -= OnPurchasesFetchFailed;
+            _mStoreController.OnPurchasesFetched -= OnPurchasesFetched;
+            _mStoreController.OnPurchasesFetchFailed -= OnPurchasesFetchFailed;
 
-            m_StoreController.OnPurchasePending -= OnPurchasePending;
-            m_StoreController.OnPurchaseConfirmed -= OnPurchaseConfirmed;
-            m_StoreController.OnPurchaseFailed -= OnPurchaseFailed;
+            _mStoreController.OnPurchasePending -= OnPurchasePending;
+            _mStoreController.OnPurchaseConfirmed -= OnPurchaseConfirmed;
+            _mStoreController.OnPurchaseFailed -= OnPurchaseFailed;
 
-            m_StoreController.OnStoreDisconnected -= OnStoreDisconnected;
+            _mStoreController.OnStoreDisconnected -= OnStoreDisconnected;
         }
         
         private void OnProductsFetched(List<Product> products)
         {
-            m_StoreController.FetchPurchases();
+            _mStoreController.FetchPurchases();
 
             LogProductsFetched(products);
         }
@@ -181,7 +179,7 @@ namespace _Project.Scripts.PurchasesService
                     return;
                 }
 
-                Product product = m_StoreController?.GetProductById(pid);
+                Product product = _mStoreController?.GetProductById(pid);
                 if (product == null)
                 {
                     Debug.LogError($"[IAP] Product not found in controller: {pid}");
@@ -195,7 +193,7 @@ namespace _Project.Scripts.PurchasesService
                     OnSuccessfullyPurchased?.Invoke(id);
                 }
                 
-                m_StoreController.ConfirmPurchase(pending);
+                _mStoreController.ConfirmPurchase(pending);
                 Debug.Log($"[IAP] Confirmed purchase: {product.definition.id}");
             }
             catch (Exception e)
@@ -205,7 +203,7 @@ namespace _Project.Scripts.PurchasesService
         }
         private void OnPurchaseConfirmed(Order order)
         {
-            m_IsPurchaseInProgress = false;
+            _mIsPurchaseInProgress = false;
             
             Product purchasedProduct = order.CartOrdered.Items().FirstOrDefault()?.Product;
             Debug.Log($"[IAP] Purchase confirmed: {purchasedProduct?.definition.id} | Tx: {order.Info?.TransactionID}");
@@ -213,7 +211,7 @@ namespace _Project.Scripts.PurchasesService
 
         private void OnPurchaseFailed(FailedOrder failed)
         {
-            m_IsPurchaseInProgress = false;
+            _mIsPurchaseInProgress = false;
 
             Debug.LogError($"[IAP] Purchase failed: {failed.FailureReason.ToString()}");
         }
