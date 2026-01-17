@@ -6,7 +6,7 @@ using UnityEngine.Purchasing;
 using Zenject;
 
 
-namespace _Project.Scripts.PurchasesService
+namespace Asteroids.Scripts.PurchasesService
 {
     public class UnityPurchasesService : IPurchasesService, IInitializable, IDisposable
     {

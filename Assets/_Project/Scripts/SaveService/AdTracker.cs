@@ -1,5 +1,5 @@
 ﻿using System;
-using _Project.Scripts.PurchasesService;
+using Asteroids.Scripts.PurchasesService;
 using UniRx;
 using Zenject;
 

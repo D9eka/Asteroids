@@ -1,5 +1,5 @@
 ﻿using System;
-using _Project.Scripts.PurchasesService;
+using Asteroids.Scripts.PurchasesService;
 using Asteroids.Scripts.Core.GameExit;
 using Asteroids.Scripts.GameState.GameplaySession;
 using Asteroids.Scripts.SaveService;

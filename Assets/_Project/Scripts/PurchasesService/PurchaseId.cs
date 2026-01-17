@@ -1,4 +1,4 @@
-﻿namespace _Project.Scripts.PurchasesService
+﻿namespace Asteroids.Scripts.PurchasesService
 {
     public enum PurchaseId
     {

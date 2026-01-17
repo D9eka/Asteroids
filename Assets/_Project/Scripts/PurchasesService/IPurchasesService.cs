@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace _Project.Scripts.PurchasesService
+namespace Asteroids.Scripts.PurchasesService
 {
     public interface IPurchasesService
     {

@@ -9,6 +9,7 @@
         Projectile,
         Asteroid,
         AsteroidFragment,
-        Ufo
+        Ufo,
+        AudioSound
     }
 }

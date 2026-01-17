@@ -1,5 +1,6 @@
 ﻿using System;
 using _Project.Scripts.PurchasesService;
+using Asteroids.Scripts.Audio;
 using Asteroids.Scripts.Addressable;
 using Asteroids.Scripts.Advertisement;
 using Asteroids.Scripts.Advertisement.LevelPlayAd;
@@ -58,6 +59,8 @@ namespace Asteroids.Scripts.Installers
         [SerializeField] private string _adAppId;
         [SerializeField] private string _interstitialAdId;
         [SerializeField] private string _revivalAdId;
+        [Header("Audio")]
+        [SerializeField] private BackgroundMusicData _backgroundMusicData;
         
         public override void InstallBindings()
         {
@@ -78,6 +81,7 @@ namespace Asteroids.Scripts.Installers
             InstallAnalyticsSystem();
             InstallGameplaySystems();
             InstallUI();
+            InstallAudioSystem();
         }
 
         private void InstallRemoteConfigService()
@@ -222,6 +226,11 @@ namespace Asteroids.Scripts.Installers
                 .AsSingle()
                 .WithArguments(typeof(MainScreenView))
                 .NonLazy();
+        }
+
+        private void InstallAudioSystem()
+        {
+            Container.BindInterfacesTo<BackgroundMusicSystem>().AsSingle().WithArguments(_audioSource, _backgroundMusicData);
         }
     }
 }
