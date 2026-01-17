@@ -1,4 +1,5 @@
 ﻿using System;
+using _Project.Scripts.Effects.Explosion;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Spawning.Common.Pooling;
 using UnityEngine;
@@ -7,15 +8,22 @@ using Pooling_IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
 
 namespace Asteroids.Scripts.Spawning.Enemies.Pooling
 {
-    public class EnemyLifecycleManager : IEnemyLifecycleManager, IDisposable
+    public class EnemyLifecycleManager : IEnemyLifecycleManager, IInitializable, IDisposable
     {
         public event Action<GameObject, IEnemy> OnEnemyKilled; 
         
         private readonly IPoolableLifecycleManager<Pooling_IPoolable> _poolLifecycle;
+        private readonly ExplosionEffectSpawner _explosionEffectSpawner;
 
-        public EnemyLifecycleManager(IPoolableLifecycleManager<Pooling_IPoolable> poolLifecycle)
+        public EnemyLifecycleManager(IPoolableLifecycleManager<Pooling_IPoolable> poolLifecycle,
+            ExplosionEffectSpawner explosionEffectSpawner)
         {
             _poolLifecycle = poolLifecycle;
+            _explosionEffectSpawner = explosionEffectSpawner;
+        }
+
+        public void Initialize()
+        {
             _poolLifecycle.OnDespawned += OnPoolableDespawned;
         }
         
@@ -29,6 +37,7 @@ namespace Asteroids.Scripts.Spawning.Enemies.Pooling
         {
             enemy.OnKilled += HandleEnemyKilled;
             _poolLifecycle.Register(enemy, pool);
+            _explosionEffectSpawner.AddEnemy(enemy);
         }
 
         private void HandleEnemyKilled(GameObject killer, IEnemy enemy)

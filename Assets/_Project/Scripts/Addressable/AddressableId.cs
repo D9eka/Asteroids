@@ -11,6 +11,7 @@
         AsteroidFragment,
         Ufo,
         AudioSound,
-        BulletGunEffect
+        BulletGunEffect,
+        ExplosionEffect
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using _Project.Scripts.Effects;
+using _Project.Scripts.Effects.Explosion;
 using Asteroids.Scripts.Audio.Sounds;
 using Asteroids.Scripts.Audio.Sounds.Weapon;
 using Asteroids.Scripts.Audio;
@@ -66,6 +67,7 @@ namespace Asteroids.Scripts.Installers
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private BackgroundMusicData _backgroundMusicData;
         [SerializeField] private WeaponAudioData _weaponAudioData;
+        [SerializeField] private ExplosionSoundData _explosionSoundData;
         
         public override void InstallBindings()
         {
@@ -177,11 +179,19 @@ namespace Asteroids.Scripts.Installers
                 .To<EnemyMovementConfigurator>()
                 .AsSingle();
             
+            BindExplosionEffects();
             BindEnemy<Ufo, UfoTypeConfig>(EnemyType.Ufo, typeof(UfoInitializer));
             BindEnemy<Asteroid, AsteroidTypeConfig>(EnemyType.Asteroid, typeof(AsteroidInitializer));
 
             Container.BindInterfacesAndSelfTo<EnemySpawnConfigRuntime>().AsSingle();
             Container.BindInterfacesTo<EnemyProvidersInstaller>().AsSingle().NonLazy();
+        }
+        
+        private void BindExplosionEffects()
+        {
+            Container.BindInterfacesAndSelfTo<ExplosionEffectFactory>().AsSingle();
+            Container.BindInterfacesAndSelfTo<ExplosionEffectSpawner>().AsSingle().WithArguments(_explosionSoundData);
+            Container.BindInterfacesTo<ExplosionEffectInitializer>().AsSingle();
         }
 
         private void BindEnemy<TEnemy, TConfig>(

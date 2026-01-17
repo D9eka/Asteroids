@@ -477,6 +477,7 @@ MonoBehaviour:
   _audioSource: {fileID: 519420033}
   _backgroundMusicData: {fileID: 11400000, guid: 8913ca5f21a825140984ff8bd4b8ba43, type: 2}
   _weaponAudioData: {fileID: 11400000, guid: e459c31964da27c4b85a5b9f02b0ef7f, type: 2}
+  _explosionSoundData: {fileID: 11400000, guid: 3f03d964893e4d44dbc65434b254a134, type: 2}
 --- !u!114 &1525026507
 MonoBehaviour:
   m_ObjectHideFlags: 0

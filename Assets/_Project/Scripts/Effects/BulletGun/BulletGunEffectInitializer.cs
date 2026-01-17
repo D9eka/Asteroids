@@ -36,10 +36,10 @@ namespace _Project.Scripts.Effects
         
         private async UniTask CreatePool()
         {
-            GameObject audioSoundPrefab = await _addressableLoader.Load<GameObject>(AddressableId.BulletGunEffect);
+            GameObject bulletGunEffect = await _addressableLoader.Load<GameObject>(AddressableId.BulletGunEffect);
             _container.BindMemoryPool<BulletGunEffect, BulletGunEffectPool>()
                 .WithInitialSize(5)
-                .FromComponentInNewPrefab(audioSoundPrefab.GetComponent<BulletGunEffect>())
+                .FromComponentInNewPrefab(bulletGunEffect.GetComponent<BulletGunEffect>())
                 .UnderTransformGroup("BulletGunEffects");
             await UniTask.CompletedTask;
         }

@@ -9,7 +9,7 @@ namespace _Project.Scripts.Effects
         {
             if (item == null)
             {
-                Debug.LogError("Invalid parameters in AudioSourcePool.Reinitialize");
+                Debug.LogError("Invalid parameters in BulletGunEffectPool.Reinitialize");
                 return;
             }
 
