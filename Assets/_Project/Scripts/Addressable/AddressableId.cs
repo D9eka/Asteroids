@@ -10,6 +10,7 @@
         Asteroid,
         AsteroidFragment,
         Ufo,
-        AudioSound
+        AudioSound,
+        BulletGunEffect
     }
 }

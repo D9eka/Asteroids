@@ -414,6 +414,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 3489348642441802899}
     m_Modifications:
     - target: {fileID: 3105589920486604700, guid: 9cc2284faeb1cbb4a941211e2349cff1, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3105589920486604700, guid: 9cc2284faeb1cbb4a941211e2349cff1, type: 3}
       propertyPath: m_Name
       value: BulletGun
       objectReference: {fileID: 0}

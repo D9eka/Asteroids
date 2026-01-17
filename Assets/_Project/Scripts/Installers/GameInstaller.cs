@@ -1,4 +1,5 @@
 ﻿using System;
+using _Project.Scripts.Effects;
 using Asteroids.Scripts.Audio.Sounds;
 using Asteroids.Scripts.Audio.Sounds.Weapon;
 using Asteroids.Scripts.Audio;
@@ -151,9 +152,17 @@ namespace Asteroids.Scripts.Installers
         private void BindPlayerWeapons()
         {
             Container.BindInterfacesTo<WeaponUpdater>().AsSingle();
+            BindBulletGunEffects();
             Container.BindInterfacesAndSelfTo<RaycastService>().AsSingle();
             Container.BindInterfacesAndSelfTo<PlayerWeaponsConfigRuntime>().AsSingle();
             Container.Bind<PlayerWeaponsInitializer>().AsSingle();
+        }
+
+        private void BindBulletGunEffects()
+        {
+            Container.BindInterfacesAndSelfTo<BulletGunEffectFactory>().AsSingle();
+            Container.BindInterfacesAndSelfTo<BulletGunEffectSpawner>().AsSingle();
+            Container.BindInterfacesTo<BulletGunEffectInitializer>().AsSingle();
         }
 
         private void InstallEnemies()

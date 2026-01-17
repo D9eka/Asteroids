@@ -1,4 +1,5 @@
-﻿using Asteroids.Scripts.Audio.Sounds.Weapon;
+﻿using _Project.Scripts.Effects;
+using Asteroids.Scripts.Audio.Sounds.Weapon;
 using Asteroids.Scripts.Audio;
 using Asteroids.Scripts.Analytics;
 using Asteroids.Scripts.Collision;
@@ -24,10 +25,12 @@ namespace Asteroids.Scripts.Player.Weapons
         private readonly IPlayerConfigProvider _playerConfigProvider;
         private readonly PlayerWeaponsConfigRuntime _playerWeaponsConfigRuntime;
         private readonly WeaponShotAudioSpawner _weaponShotAudioSpawner;
+        private readonly BulletGunEffectSpawner _bulletGunEffectSpawner;
 
         public PlayerWeaponsInitializer(IWeaponUpdater weaponUpdater, IAnalyticsCollector analyticsCollector,
             IProjectileFactory projectileFactory, IRaycastService raycastService, IPlayerConfigProvider playerConfigProvider,
-            PlayerWeaponsConfigRuntime playerWeaponsConfigRuntime, WeaponShotAudioSpawner weaponShotAudioSpawner)
+            PlayerWeaponsConfigRuntime playerWeaponsConfigRuntime, WeaponShotAudioSpawner weaponShotAudioSpawner,
+            BulletGunEffectSpawner bulletGunEffectSpawner)
         {
             _weaponUpdater = weaponUpdater;
             _analyticsCollector = analyticsCollector;
@@ -36,6 +39,7 @@ namespace Asteroids.Scripts.Player.Weapons
             _playerConfigProvider = playerConfigProvider;
             _playerWeaponsConfigRuntime = playerWeaponsConfigRuntime;
             _weaponShotAudioSpawner = weaponShotAudioSpawner;
+            _bulletGunEffectSpawner = bulletGunEffectSpawner;
         }
 
         public void Initialize(GameObject damageInstigator, ICollisionService playerCollisionService, IWeapon[] weapons, 
@@ -47,6 +51,7 @@ namespace Asteroids.Scripts.Player.Weapons
                 _weaponShotAudioSpawner.AddWeapon(weapon);
                 if (weapon is BulletGun bulletGun)
                 {
+                    _bulletGunEffectSpawner.AddWeapon(bulletGun);
                     BulletGunConfig bulletGunConfig =
                         _playerConfigProvider.PlayerConfig.BulletGunConfig;
                     bulletGun.Initialize(damageInstigator, playerCollisionService, bulletGunConfig, _projectileFactory);

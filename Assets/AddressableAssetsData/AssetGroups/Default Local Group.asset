@@ -20,6 +20,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2a040a4fa1a999443941143d3eed5195
+    m_Address: BulletGunEffect
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 35d5608be1f57694fb45fddabe24cb97
     m_Address: Projectile
     m_ReadOnly: 0
