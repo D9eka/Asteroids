@@ -37,7 +37,10 @@ namespace Asteroids.Scripts.Spawning.Common.Pooling
         {
             foreach (var kvp in _activeObjects)
             {
-                kvp.Value.Despawn(kvp.Key);
+                if (kvp.Key.Enabled)
+                {
+                    kvp.Value.Despawn(kvp.Key);
+                }
             }
 
             _activeObjects.Clear();

@@ -1,6 +1,8 @@
 ﻿using System;
-using _Project.Scripts.PurchasesService;
+using Asteroids.Scripts.Audio.Sounds;
+using Asteroids.Scripts.Audio.Sounds.Weapon;
 using Asteroids.Scripts.Audio;
+using Asteroids.Scripts.PurchasesService;
 using Asteroids.Scripts.Addressable;
 using Asteroids.Scripts.Advertisement;
 using Asteroids.Scripts.Advertisement.LevelPlayAd;
@@ -60,7 +62,9 @@ namespace Asteroids.Scripts.Installers
         [SerializeField] private string _interstitialAdId;
         [SerializeField] private string _revivalAdId;
         [Header("Audio")]
+        [SerializeField] private AudioSource _audioSource;
         [SerializeField] private BackgroundMusicData _backgroundMusicData;
+        [SerializeField] private WeaponAudioData _weaponAudioData;
         
         public override void InstallBindings()
         {
@@ -74,6 +78,7 @@ namespace Asteroids.Scripts.Installers
             InstallAdvertisementService();
             InstallBoundsSystem();
             InstallProjectilePool();
+            InstallWeaponsAudioSystem();
             InstallPlayer();
             InstallEnemies();
             InstallSaveSystem();
@@ -115,6 +120,12 @@ namespace Asteroids.Scripts.Installers
         {
             Container.BindInterfacesTo<ProjectileFactory>().AsSingle();
             Container.BindInterfacesTo<ProjectileFactoryInitializer>().AsSingle();
+        }
+        
+        private void InstallWeaponsAudioSystem()
+        {
+            Container.Bind<AudioSoundFactory>().AsSingle();
+            Container.BindInterfacesAndSelfTo<WeaponShotAudioSpawner>().AsSingle().WithArguments(_weaponAudioData);
         }
 
         private void InstallPlayer()
@@ -231,6 +242,7 @@ namespace Asteroids.Scripts.Installers
         private void InstallAudioSystem()
         {
             Container.BindInterfacesTo<BackgroundMusicSystem>().AsSingle().WithArguments(_audioSource, _backgroundMusicData);
+            Container.BindInterfacesTo<AudioInitializer>().AsSingle();
         }
     }
 }

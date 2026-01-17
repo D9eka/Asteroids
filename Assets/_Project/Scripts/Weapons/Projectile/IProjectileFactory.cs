@@ -7,7 +7,7 @@ namespace Asteroids.Scripts.Weapons.Projectile
 {
     public interface IProjectileFactory
     {
-        public void Initialize(ProjectilePool<Projectile> pool);
+        public void Initialize(ProjectilePool pool);
         
         public void Create(Vector2 position, Quaternion rotation, 
             ProjectileConfig config, DamageInfo damageInfo, ICollisionService collisionService);

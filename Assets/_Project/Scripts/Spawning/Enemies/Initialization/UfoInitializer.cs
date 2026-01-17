@@ -1,4 +1,6 @@
-﻿using Asteroids.Scripts.Collision;
+﻿using Asteroids.Scripts.Audio.Sounds.Weapon;
+using Asteroids.Scripts.Audio;
+using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Configs.Snapshot.Enemies;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Pause;
@@ -14,15 +16,17 @@ namespace Asteroids.Scripts.Spawning.Enemies.Initialization
     {
         private readonly IProjectileFactory _projectileFactory;
         private readonly IWeaponUpdater _weaponUpdater;
+        private readonly WeaponShotAudioSpawner _weaponShotAudioSpawner;
 
         [Inject]
         public UfoInitializer(ICollisionService collisionService, IEnemyMovementConfigurator movementConfigurator,
             ISpawnBoundaryTracker spawnBoundaryTracker, IPauseSystem pauseSystem, IProjectileFactory projectileFactory, 
-            IWeaponUpdater weaponUpdater)
+            IWeaponUpdater weaponUpdater, WeaponShotAudioSpawner weaponShotAudioSpawner)
             : base(collisionService, movementConfigurator, spawnBoundaryTracker, pauseSystem)
         {
             _projectileFactory = projectileFactory;
             _weaponUpdater = weaponUpdater;
+            _weaponShotAudioSpawner = weaponShotAudioSpawner;
         }
 
         public override void Initialize(Ufo ufo, UfoTypeConfig config)
@@ -31,6 +35,7 @@ namespace Asteroids.Scripts.Spawning.Enemies.Initialization
             if (ufo.Initialized) return;
             ufo.BulletGun.Initialize(ufo.gameObject, CollisionService, config.BulletGunConfig, _projectileFactory);
             _weaponUpdater.AddWeapon(ufo.BulletGun);
+            _weaponShotAudioSpawner.AddWeapon(ufo.BulletGun);
             ufo.Initialized = true;
         }
     }

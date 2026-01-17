@@ -66,12 +66,12 @@ namespace Asteroids.Scripts.Analytics
             }
         }
 
-        private void PlayerBulletGunOnShoot()
+        private void PlayerBulletGunOnShoot(IWeapon weapon)
         {
             Analytics.ShoutsCount++;
         }
 
-        private void PlayerLaserGunOnShoot()
+        private void PlayerLaserGunOnShoot(IWeapon weapon)
         {
             Analytics.LaserUsageCount++;
             OnLaserUsed?.Invoke();

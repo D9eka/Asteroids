@@ -25,7 +25,7 @@ namespace Asteroids.Scripts.Weapons.Projectile
             try
             {
                 await CreatePool();
-                _projectileFactory.Initialize(_container.Resolve<ProjectilePool<Projectile>>());
+                _projectileFactory.Initialize(_container.Resolve<ProjectilePool>());
             }
             catch (Exception e)
             {
@@ -36,7 +36,7 @@ namespace Asteroids.Scripts.Weapons.Projectile
         private async UniTask CreatePool()
         {
             GameObject projectilePrefab = await _addressableLoader.Load<GameObject>(AddressableId.Projectile);
-            _container.BindMemoryPool<Projectile, ProjectilePool<Projectile>>()
+            _container.BindMemoryPool<Projectile, ProjectilePool>()
                 .WithInitialSize(20)
                 .FromComponentInNewPrefab(projectilePrefab.GetComponent<Projectile>())
                 .UnderTransformGroup("Projectiles");

@@ -16,6 +16,7 @@ namespace Asteroids.Scripts.Enemies
         private IEnemyFactory _fragmentsFactory;
         
         public Transform Transform => transform;
+        public bool Enabled => gameObject.activeSelf;
         public EnemyType Type { get; private set; }
 
         public void SetType(EnemyType type)

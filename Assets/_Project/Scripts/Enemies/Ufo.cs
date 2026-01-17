@@ -17,6 +17,7 @@ namespace Asteroids.Scripts.Enemies
         private bool _isPaused; 
         
         public Transform Transform => transform;
+        public bool Enabled => gameObject.activeSelf;
         public bool Initialized { get; set; }
         public EnemyType Type { get; private set; }
 

@@ -2,6 +2,7 @@
 using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Configs.Snapshot.Weapons.LaserGun;
 using Asteroids.Scripts.Damage;
+using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Services.Raycast;
 using Asteroids.Scripts.Weapons.Types.Laser.LineRenderer;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace Asteroids.Scripts.Weapons.Types.Laser
 {
     public class LaserGun : MonoBehaviour, ILaserGun
     {
-        public event Action OnShoot;
+        public event Action<IWeapon> OnShoot;
         
         [SerializeField] private Transform _laserStartPoint;
         
@@ -26,6 +27,7 @@ namespace Asteroids.Scripts.Weapons.Types.Laser
         public int CurrentCharges { get; private set; }
         public float ShootCooldown { get; private set; }
 
+        public Transform Transform => transform;
         public bool CanShoot => CurrentCharges > 0 && ShootCooldown <= 0 && !_isShooting;
         
         public void Initialize(GameObject damageInstigator, LaserGunConfig config, ILineRenderer lineRenderer, 
@@ -50,7 +52,7 @@ namespace Asteroids.Scripts.Weapons.Types.Laser
             _isShooting = true;
             _laserTime = _config.LaserDuration;
             _lineRenderer.Enable();
-            OnShoot?.Invoke();
+            OnShoot?.Invoke(this);
         }
 
         public void Recharge(float deltaTime)

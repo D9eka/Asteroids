@@ -5,9 +5,10 @@ using UnityEngine;
 
 namespace Asteroids.Scripts.Weapons.Projectile
 {
-    [RequireComponent(typeof(Rigidbody2D), typeof(CollisionHandler), typeof(SpriteRenderer))]
+    [RequireComponent(typeof(Rigidbody2D), typeof(CollisionHandler))]
     public class Projectile : MonoBehaviour, IProjectile, IDamageable
     {
+        private ProjectilePool _pool;
         private float _speed;
         private float _lifeTime;
         private bool _isEnabled;
@@ -15,13 +16,13 @@ namespace Asteroids.Scripts.Weapons.Projectile
         
         private Rigidbody2D _rb;
         private CollisionHandler _collisionHandler;
-        private SpriteRenderer _spriteRenderer;
+        
+        public bool Enabled => gameObject.activeSelf;
 
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
             _collisionHandler = GetComponent<CollisionHandler>();
-            _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
         private void Update()
@@ -30,14 +31,15 @@ namespace Asteroids.Scripts.Weapons.Projectile
             
             _lifeTime -= Time.deltaTime;
             if (_lifeTime <= 0)
-                OnDespawned();
+                _pool.Despawn(this);
         }
 
-        public void Initialize(ProjectileConfig config, DamageInfo damageInfo, ICollisionService collisionService)
+        public void Initialize(ProjectilePool pool,
+            ProjectileConfig config, DamageInfo damageInfo, ICollisionService collisionService)
         {
+            _pool = pool;
             _speed = config.Speed;
             _lifeTime = config.LifeTime;
-            //_spriteRenderer.sprite = data.Sprite;
             _damageInfo = damageInfo;
             _collisionHandler.Initialize(collisionService);
             
@@ -51,7 +53,7 @@ namespace Asteroids.Scripts.Weapons.Projectile
 
         public void TakeDamage(DamageInfo damageInfo)
         {
-            OnDespawned();
+            _pool.Despawn(this);
         }
 
         public DamageInfo GetDamageInfo()

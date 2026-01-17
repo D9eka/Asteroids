@@ -10,7 +10,7 @@ namespace Asteroids.Scripts.Weapons.Types.BulletGun
 {
     public class BulletGun : MonoBehaviour, IWeapon
     {
-        public event Action OnShoot;
+        public event Action<IWeapon> OnShoot;
         
         [SerializeField] private Transform _firePoint;
         
@@ -20,6 +20,8 @@ namespace Asteroids.Scripts.Weapons.Types.BulletGun
         private DamageInfo _damageInfo;
         private float _cooldown;
 
+        
+        public Transform Transform => transform;
         public bool CanShoot => _cooldown <= 0f;
         
         public void Initialize(GameObject damageInstigator,
@@ -38,7 +40,7 @@ namespace Asteroids.Scripts.Weapons.Types.BulletGun
             _projectileFactory.Create(_firePoint.position, _firePoint.rotation,
                 _config.ProjectileConfig, _damageInfo, _collisionService);
             _cooldown = _config.FireRate;
-            OnShoot?.Invoke();
+            OnShoot?.Invoke(this);
         }
 
         public void Recharge(float deltaTime)

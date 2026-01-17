@@ -19,6 +19,7 @@ namespace Asteroids.Scripts.Enemies
         private AsteroidFragmentTypeSpawnConfig _fragmentSpawnConfig;
         
         public Transform Transform => transform;
+        public bool Enabled => gameObject.activeSelf;
         public bool Initialized { get; set; }
         public EnemyType Type { get; private set; }
         

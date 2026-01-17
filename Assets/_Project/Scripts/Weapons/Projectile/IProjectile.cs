@@ -8,6 +8,7 @@ namespace Asteroids.Scripts.Weapons.Projectile
 {
     public interface IProjectile : IDamageSource, IPoolable, IPausable
     {
-        public void Initialize(ProjectileConfig config, DamageInfo damageInfo, ICollisionService collisionService);
+        public void Initialize(ProjectilePool pool,
+            ProjectileConfig config, DamageInfo damageInfo, ICollisionService collisionService);
     }
 }

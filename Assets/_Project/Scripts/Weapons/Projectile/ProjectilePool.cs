@@ -6,11 +6,10 @@ using Zenject;
 
 namespace Asteroids.Scripts.Weapons.Projectile
 {
-    public class ProjectilePool<T> : MonoMemoryPool<Vector3, Quaternion, ProjectileConfig, DamageInfo, ICollisionService, T>
-        where T : Component, IProjectile
+    public class ProjectilePool : MonoMemoryPool<Vector3, Quaternion, ProjectileConfig, DamageInfo, ICollisionService, Projectile>
     {
         protected override void Reinitialize(Vector3 position, Quaternion rotation, ProjectileConfig config, 
-            DamageInfo damageInfo, ICollisionService collisionService, T item)
+            DamageInfo damageInfo, ICollisionService collisionService, Projectile item)
         {
             if (item == null || config == null || collisionService == null)
             {
@@ -20,16 +19,16 @@ namespace Asteroids.Scripts.Weapons.Projectile
 
             item.transform.position = position;
             item.transform.rotation = rotation;
-            item.Initialize(config, damageInfo, collisionService);
+            item.Initialize(this, config, damageInfo, collisionService);
         }
 
-        protected override void OnDespawned(T item)
+        protected override void OnDespawned(Projectile item)
         {
             base.OnDespawned(item);
             item?.OnDespawned();
         }
 
-        protected override void OnSpawned(T item)
+        protected override void OnSpawned(Projectile item)
         {
             base.OnSpawned(item);
             item?.OnSpawned();

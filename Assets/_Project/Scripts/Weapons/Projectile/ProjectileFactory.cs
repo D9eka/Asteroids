@@ -14,7 +14,7 @@ namespace Asteroids.Scripts.Weapons.Projectile
         private readonly IPauseSystem _pauseSystem;
         private readonly IPoolableLifecycleManager<IPoolable> _lifecycleManager;
         
-        private ProjectilePool<Projectile> _pool;
+        private ProjectilePool _pool;
 
         [Inject]
         public ProjectileFactory(IPauseSystem pauseSystem, IPoolableLifecycleManager<IPoolable> lifecycleManager)
@@ -23,7 +23,7 @@ namespace Asteroids.Scripts.Weapons.Projectile
             _lifecycleManager = lifecycleManager;
         }
 
-        public void Initialize(ProjectilePool<Projectile> pool)
+        public void Initialize(ProjectilePool pool)
         {
             _pool = pool;
         }

@@ -1,4 +1,6 @@
-﻿using Asteroids.Scripts.Analytics;
+﻿using Asteroids.Scripts.Audio.Sounds.Weapon;
+using Asteroids.Scripts.Audio;
+using Asteroids.Scripts.Analytics;
 using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Configs.Runtime;
 using Asteroids.Scripts.Configs.Snapshot.Weapons.BulletGun;
@@ -21,10 +23,11 @@ namespace Asteroids.Scripts.Player.Weapons
         private readonly IRaycastService _raycastService;
         private readonly IPlayerConfigProvider _playerConfigProvider;
         private readonly PlayerWeaponsConfigRuntime _playerWeaponsConfigRuntime;
+        private readonly WeaponShotAudioSpawner _weaponShotAudioSpawner;
 
         public PlayerWeaponsInitializer(IWeaponUpdater weaponUpdater, IAnalyticsCollector analyticsCollector,
             IProjectileFactory projectileFactory, IRaycastService raycastService, IPlayerConfigProvider playerConfigProvider,
-            PlayerWeaponsConfigRuntime playerWeaponsConfigRuntime)
+            PlayerWeaponsConfigRuntime playerWeaponsConfigRuntime, WeaponShotAudioSpawner weaponShotAudioSpawner)
         {
             _weaponUpdater = weaponUpdater;
             _analyticsCollector = analyticsCollector;
@@ -32,6 +35,7 @@ namespace Asteroids.Scripts.Player.Weapons
             _raycastService = raycastService;
             _playerConfigProvider = playerConfigProvider;
             _playerWeaponsConfigRuntime = playerWeaponsConfigRuntime;
+            _weaponShotAudioSpawner = weaponShotAudioSpawner;
         }
 
         public void Initialize(GameObject damageInstigator, ICollisionService playerCollisionService, IWeapon[] weapons, 
@@ -40,6 +44,7 @@ namespace Asteroids.Scripts.Player.Weapons
             foreach (IWeapon weapon in weapons)
             {
                 _weaponUpdater.AddWeapon(weapon);
+                _weaponShotAudioSpawner.AddWeapon(weapon);
                 if (weapon is BulletGun bulletGun)
                 {
                     BulletGunConfig bulletGunConfig =
