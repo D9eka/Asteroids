@@ -25,12 +25,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2363886054288414609}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8022668117835803081}
+  m_Father: {fileID: 5157132924762377664}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -273,7 +273,7 @@ GameObject:
   - component: {fileID: 5511732065261863571}
   - component: {fileID: 3982794044486418438}
   m_Layer: 5
-  m_Name: CloseGameButton
+  m_Name: CloseScreenButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -390,13 +390,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5157132924762377664}
+  - component: {fileID: 1352086625325128544}
   m_Layer: 5
-  m_Name: GameplayScreen
+  m_Name: ReviveScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5157132924762377664
 RectTransform:
   m_ObjectHideFlags: 0
@@ -411,6 +412,7 @@ RectTransform:
   m_Children:
   - {fileID: 4913058332465939368}
   - {fileID: 6666670863182870022}
+  - {fileID: 6866441116091561589}
   m_Father: {fileID: 8022668117835803081}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -418,6 +420,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1352086625325128544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3726121150518513301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2932d563c8fd4cdb89332da6abf6c1f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Asteroids.Scripts.UI.Screens.EndGameScreen.ReviveScreenView
+  _header: {fileID: 2253689906480635652}
+  _reviveButton: {fileID: 1404683440094348491}
+  _exitButton: {fileID: 3982794044486418438}
 --- !u!1 &3739920957608490655
 GameObject:
   m_ObjectHideFlags: 0
@@ -427,12 +444,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8022668117835803081}
-  - component: {fileID: 6934514751566374065}
   - component: {fileID: 8091681978032400360}
   - component: {fileID: 3015740988361058867}
   - component: {fileID: 430505218216265620}
   m_Layer: 5
-  m_Name: ReviveScreen
+  m_Name: ReviveScreenCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -451,7 +467,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5157132924762377664}
-  - {fileID: 6866441116091561589}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -459,21 +474,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &6934514751566374065
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3739920957608490655}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2932d563c8fd4cdb89332da6abf6c1f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Asteroids.Scripts.UI.Screens.EndGameScreen.ReviveScreenView
-  _header: {fileID: 2253689906480635652}
-  _reviveButton: {fileID: 1404683440094348491}
-  _exitButton: {fileID: 3982794044486418438}
 --- !u!223 &8091681978032400360
 Canvas:
   m_ObjectHideFlags: 0
@@ -607,7 +607,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 0.14133334
+  m_FillAmount: 0.09705877
   m_FillClockwise: 1
   m_FillOrigin: 2
   m_UseSpriteMesh: 0

@@ -30,8 +30,10 @@ namespace Asteroids.Scripts.UI.Screens.MainScreen
             _screenViewModel = screenViewModel;
         }
         
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+            
             _startButton.onClick.AsObservable()
                 .Subscribe(_ => _screenViewModel.OnStartClicked())
                 .AddTo(_disposables);

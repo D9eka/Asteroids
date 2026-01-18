@@ -667,8 +667,9 @@ GameObject:
   - component: {fileID: 7933420702152248495}
   - component: {fileID: 1507454660244840039}
   - component: {fileID: 8482549481562529123}
+  - component: {fileID: 6378915191749979445}
   m_Layer: 5
-  m_Name: MainScreent
+  m_Name: MainScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -734,6 +735,23 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6378915191749979445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6388116225171841461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66d7785a24a949ce9a22f3c7e2ea5a90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Asteroids.Scripts.UI.Main.MainScreenUIView
+  _startButton: {fileID: 3859078832370724250}
+  _exitGameButton: {fileID: 4194299422012237122}
+  _previousScoreText: {fileID: 2679127745263528410}
+  _highestScoreText: {fileID: 7282947629869529021}
+  _removeAdButton: {fileID: 5298683960942953890}
 --- !u!1 &6822090423721289099
 GameObject:
   m_ObjectHideFlags: 0
@@ -818,7 +836,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1118328848476017557}
-  - component: {fileID: 9105209200323443848}
   - component: {fileID: 3742215507643730063}
   - component: {fileID: 8170378779139002676}
   - component: {fileID: 4752981144255317994}
@@ -849,23 +866,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &9105209200323443848
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8000915669972742622}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66d7785a24a949ce9a22f3c7e2ea5a90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Asteroids.Scripts.UI.Main.MainScreenUIView
-  _startButton: {fileID: 3859078832370724250}
-  _exitGameButton: {fileID: 4194299422012237122}
-  _previousScoreText: {fileID: 2679127745263528410}
-  _highestScoreText: {fileID: 7282947629869529021}
-  _removeAdButton: {fileID: 5298683960942953890}
 --- !u!223 &3742215507643730063
 Canvas:
   m_ObjectHideFlags: 0

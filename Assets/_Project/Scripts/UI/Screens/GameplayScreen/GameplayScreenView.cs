@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using DG.Tweening;
+using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,8 +23,10 @@ namespace Asteroids.Scripts.UI.Screens.GameplayScreen
             _screenViewModel = screenViewModel;
         }
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+            
             _screenViewModel.CurrentScore
                 .Subscribe(UpdateScoreText)
                 .AddTo(_disposables);
@@ -65,8 +68,30 @@ namespace Asteroids.Scripts.UI.Screens.GameplayScreen
 
         private void SetRestartButtonsActive(bool isActive)
         {
-            _restartButton.gameObject.SetActive(isActive);
-            _exitButton.gameObject.SetActive(isActive);
+            if (isActive)
+            {
+                ShowButton(_restartButton);
+                ShowButton(_exitButton);
+            }
+            else
+            {
+                HideButton(_restartButton);
+                HideButton(_exitButton);
+            }
+        }
+
+        private void ShowButton(Button button)
+        {
+            button.gameObject.SetActive(true);
+            Transform buttonTransform = button.gameObject.transform;
+            buttonTransform.DOScale(Vector3.one, 0.3f);
+        }
+
+        private void HideButton(Button button)
+        {
+            Transform buttonTransform = button.gameObject.transform;
+            buttonTransform.DOScale(Vector3.zero, 0.3f)
+                .OnComplete(() => button.gameObject.SetActive(false));
         }
     }
 }

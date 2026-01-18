@@ -31,7 +31,6 @@ namespace _Project.Scripts.Effects.Explosion
             foreach (ParticleSystem ps in _particleSystems)
             {
                 ps.Play();
-                Debug.Log(ps.name);
             }
             StartCoroutine(ReturnWhenFinished());
         }

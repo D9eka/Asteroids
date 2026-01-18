@@ -530,13 +530,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5157132924762377664}
+  - component: {fileID: 7802216366299798565}
   m_Layer: 5
   m_Name: GameplayScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5157132924762377664
 RectTransform:
   m_ObjectHideFlags: 0
@@ -561,6 +562,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7802216366299798565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3726121150518513301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89a14790071d4bef827fdcffbfe3d265, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Asteroids.Scripts.UI.GameUIView
+  _scoreText: {fileID: 1046641149245372652}
+  _paramsText: {fileID: 4939658617624853085}
+  _restartButton: {fileID: 918466892899883359}
+  _exitButton: {fileID: 3982794044486418438}
 --- !u!1 &3739920957608490655
 GameObject:
   m_ObjectHideFlags: 0
@@ -570,7 +587,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8022668117835803081}
-  - component: {fileID: 4992146458691577293}
   - component: {fileID: 8091681978032400360}
   - component: {fileID: 3015740988361058867}
   - component: {fileID: 430505218216265620}
@@ -580,7 +596,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8022668117835803081
 RectTransform:
   m_ObjectHideFlags: 0
@@ -601,22 +617,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &4992146458691577293
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3739920957608490655}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89a14790071d4bef827fdcffbfe3d265, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Asteroids.Scripts.UI.GameUIView
-  _scoreText: {fileID: 1046641149245372652}
-  _paramsText: {fileID: 4939658617624853085}
-  _restartButton: {fileID: 918466892899883359}
-  _exitButton: {fileID: 3982794044486418438}
 --- !u!223 &8091681978032400360
 Canvas:
   m_ObjectHideFlags: 0

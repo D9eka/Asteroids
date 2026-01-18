@@ -23,8 +23,10 @@ namespace Asteroids.Scripts.UI.Screens.ReviveScreen
             _screenViewModel = screenViewModel;
         }
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+            
             _screenViewModel.ScreenTitle
                 .Subscribe(title => _header.text = title)
                 .AddTo(_disposables);
