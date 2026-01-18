@@ -1,4 +1,4 @@
-﻿using _Project.Scripts.Effects;
+﻿using Asteroids.Scripts.Effects;
 using Asteroids.Scripts.Audio.Sounds.Weapon;
 using Asteroids.Scripts.Audio;
 using Asteroids.Scripts.Collision;

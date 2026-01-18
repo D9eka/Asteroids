@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _Project.Scripts.Effects
+namespace Asteroids.Scripts.Effects
 {
     public class BulletGunEffectFactory
     {

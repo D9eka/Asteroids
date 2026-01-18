@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Types.BulletGun;
 
-namespace _Project.Scripts.Effects
+namespace Asteroids.Scripts.Effects
 {
     public class BulletGunEffectSpawner : IDisposable
     {

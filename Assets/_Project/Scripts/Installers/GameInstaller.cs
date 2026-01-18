@@ -1,6 +1,6 @@
 ﻿using System;
-using _Project.Scripts.Effects;
-using _Project.Scripts.Effects.Explosion;
+using Asteroids.Scripts.Effects;
+using Asteroids.Scripts.Effects.Explosion;
 using Asteroids.Scripts.Audio.Sounds;
 using Asteroids.Scripts.Audio.Sounds.Weapon;
 using Asteroids.Scripts.Audio;
@@ -101,7 +101,8 @@ namespace Asteroids.Scripts.Installers
         private void InstallAdvertisementService()
         {
             Container.BindInterfacesAndSelfTo<AdTracker>().AsSingle();
-#if UNITY_EDITOR
+
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
             Container.BindInterfacesTo<TestAdvertisementService>()
                 .AsSingle();
 #else

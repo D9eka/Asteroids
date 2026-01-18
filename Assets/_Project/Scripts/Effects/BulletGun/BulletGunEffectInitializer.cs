@@ -5,7 +5,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Effects
+namespace Asteroids.Scripts.Effects
 {
     public class BulletGunEffectInitializer : IInitializable
     {

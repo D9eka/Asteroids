@@ -3,7 +3,7 @@ using Asteroids.Scripts.Audio.Sounds;
 using Asteroids.Scripts.Spawning.Common.Pooling;
 using UnityEngine;
 
-namespace _Project.Scripts.Effects.Explosion
+namespace Asteroids.Scripts.Effects.Explosion
 {
     [RequireComponent(typeof(AudioSource))]
     public class ExplosionEffect : MonoBehaviour, IPoolable

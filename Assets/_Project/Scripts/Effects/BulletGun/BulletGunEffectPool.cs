@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Effects
+namespace Asteroids.Scripts.Effects
 {
     public class BulletGunEffectPool : MemoryPool<Transform, BulletGunEffect>
     {

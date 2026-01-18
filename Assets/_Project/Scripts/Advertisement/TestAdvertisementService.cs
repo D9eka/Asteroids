@@ -7,12 +7,14 @@ using Zenject;
 
 namespace Asteroids.Scripts.Advertisement
 {
-    public class TestAdvertisementService : IAdvertisementService, IInitializable
+    public class TestAdvertisementService : IAdvertisementService, IInitializable, IDisposable
     {
         private readonly Subject<bool> _rewardGranted = new Subject<bool>();
         
         private readonly IGameplaySessionManager _gameplaySessionManager;
         private readonly AdTracker _adTracker;
+        
+        private readonly CompositeDisposable _disposables = new CompositeDisposable();
 
         private bool _skipAd;
         
@@ -27,8 +29,15 @@ namespace Asteroids.Scripts.Advertisement
         
         public void Initialize()
         {
-            _gameplaySessionManager.GameStarted.Subscribe(_ => CanRevive = true);
-            _adTracker.IsAdFree.Subscribe(isAdFree => _skipAd = isAdFree);
+            _gameplaySessionManager.GameStarted.Subscribe(_ => CanRevive = true)
+                .AddTo(_disposables);
+            _adTracker.IsAdFree.Subscribe(isAdFree => _skipAd = isAdFree)
+                .AddTo(_disposables);
+        }
+        
+        public void Dispose()
+        {
+            _disposables.Dispose();
         }
         
         public void ShowInterstitialAd()

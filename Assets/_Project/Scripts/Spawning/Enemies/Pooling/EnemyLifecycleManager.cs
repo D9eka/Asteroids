@@ -1,5 +1,5 @@
 ﻿using System;
-using _Project.Scripts.Effects.Explosion;
+using Asteroids.Scripts.Effects.Explosion;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Spawning.Common.Pooling;
 using UnityEngine;

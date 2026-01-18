@@ -3,7 +3,7 @@ using System.Collections;
 using Asteroids.Scripts.Spawning.Common.Pooling;
 using UnityEngine;
 
-namespace _Project.Scripts.Effects
+namespace Asteroids.Scripts.Effects
 {
     [RequireComponent(typeof(ParticleSystem))]
     public class BulletGunEffect : MonoBehaviour, IPoolable

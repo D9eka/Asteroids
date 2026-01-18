@@ -4,7 +4,7 @@ using Asteroids.Scripts.Enemies;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace _Project.Scripts.Effects.Explosion
+namespace Asteroids.Scripts.Effects.Explosion
 {
     public class ExplosionEffectSpawner : IDisposable
     {

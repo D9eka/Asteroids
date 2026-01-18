@@ -15,4 +15,4 @@ MonoBehaviour:
   <BulletGunShoutSounds>k__BackingField:
   - {fileID: 8300000, guid: 7ab927468ded51746a86dbeef35cf9cc, type: 3}
   <LaserGunShoutSounds>k__BackingField:
-  - {fileID: 8300000, guid: 7ab927468ded51746a86dbeef35cf9cc, type: 3}
+  - {fileID: 8300000, guid: 3cde56ce315a9f34a8fae9a4c0aca18f, type: 3}

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _Project.Scripts.Effects.Explosion
+namespace Asteroids.Scripts.Effects.Explosion
 {
     [CreateAssetMenu(menuName = "Asteroids/ExplosionSoundData", fileName = "ExplosionSoundData")]
     public class ExplosionSoundData : ScriptableObject

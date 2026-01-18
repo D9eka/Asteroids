@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Effects.Explosion
+namespace Asteroids.Scripts.Effects.Explosion
 {
     public class ExplosionEffectPool : MemoryPool<Vector3, AudioClip, ExplosionEffect>
     {

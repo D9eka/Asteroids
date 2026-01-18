@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Effects.Explosion
+namespace Asteroids.Scripts.Effects.Explosion
 {
     public class ExplosionEffectInitializer : IInitializable
     {
