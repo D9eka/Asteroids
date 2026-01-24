@@ -18,11 +18,11 @@ namespace Asteroids.Scripts.SaveService
         private bool _isTryToInitialize = false;
         private bool _isInitialized = false;
         
-        public async void Initialize()
+        public void Initialize()
         {
             if (_isStartTryToInitialize) return;
             _isStartTryToInitialize = true;
-            await SetupAndSignIn();
+            SetupAndSignIn().Forget();
         }
         
         private async UniTask SetupAndSignIn()

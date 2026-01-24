@@ -1,6 +1,7 @@
-﻿using Firebase;
+﻿using System;
+using Cysharp.Threading.Tasks;
+using Firebase;
 using Firebase.Analytics;
-using Firebase.Extensions;
 using UnityEngine;
 using Zenject;
 
@@ -13,17 +14,34 @@ namespace Asteroids.Scripts.Analytics
 
         public void Initialize()
         {
-            FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => {
-                var dependencyStatus = task.Result;
-                if (dependencyStatus == DependencyStatus.Available) {
-                    _firebaseApp = FirebaseApp.DefaultInstance;
-                    _isFirebaseInitialized = true;
-                } 
-                else 
-                {
-                    Debug.LogError($"Could not resolve all Firebase dependencies: {dependencyStatus}");
-                }
-            });
+            InitializeFirebaseAsync().Forget();
+        }
+        
+        private async UniTask InitializeFirebaseAsync()
+        {
+            DependencyStatus dependencyStatus;
+            
+            try
+            {
+                dependencyStatus = await FirebaseApp.CheckAndFixDependenciesAsync();
+            }
+            catch (Exception e)
+            {
+                await UniTask.SwitchToMainThread();
+                Debug.LogException(e);
+                return;
+            }
+            
+            await UniTask.SwitchToMainThread();
+            if (dependencyStatus == DependencyStatus.Available)
+            {
+                _firebaseApp = FirebaseApp.DefaultInstance;
+                _isFirebaseInitialized = true;
+            }
+            else
+            {
+                Debug.LogError($"Could not resolve all Firebase dependencies: {dependencyStatus}");
+            }
         }
 
         public void SendStartGameEvent()

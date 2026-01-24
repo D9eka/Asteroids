@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using Asteroids.Scripts.Configs.Snapshot;
-using Firebase.Extensions;
+using Cysharp.Threading.Tasks;
 using Firebase.RemoteConfig;
 using UnityEngine;
 using Zenject;
@@ -13,18 +12,19 @@ namespace Asteroids.Scripts.RemoteConfigs
     {
         public event Action OnConfigLoaded;
         public event Action OnConfigUpdated;
-        
+
         private const string CONFIG_KEY = "Config";
 
         private FirebaseRemoteConfig _firebaseRemoteConfig;
-        
-        public async void Initialize()
+
+        public void Initialize()
         {
             _firebaseRemoteConfig = FirebaseRemoteConfig.DefaultInstance;
             _firebaseRemoteConfig.OnConfigUpdateListener += ConfigUpdateListenerEventHandler;
-            
-            await FetchDataAsync();
+
+            InitializeRemoteConfigAsync().Forget();
         }
+
         public void Dispose()
         {
             _firebaseRemoteConfig.OnConfigUpdateListener -= ConfigUpdateListenerEventHandler;
@@ -49,9 +49,9 @@ namespace Asteroids.Scripts.RemoteConfigs
             return true;
         }
 
-        private void ConfigUpdateListenerEventHandler(object sender, ConfigUpdateEventArgs args) 
+        private void ConfigUpdateListenerEventHandler(object sender, ConfigUpdateEventArgs args)
         {
-            if (args.Error != RemoteConfigError.None) 
+            if (args.Error != RemoteConfigError.None)
             {
                 Debug.Log(String.Format("Error occurred while listening: {0}", args.Error));
                 return;
@@ -59,30 +59,60 @@ namespace Asteroids.Scripts.RemoteConfigs
             Debug.Log("Updated keys: " + string.Join(", ", args.UpdatedKeys));
             OnConfigUpdated?.Invoke();
         }
-        
-        private Task FetchDataAsync() {
-            Debug.Log("Fetching data...");
-            Task fetchTask = _firebaseRemoteConfig.FetchAsync( TimeSpan.Zero);
-            return fetchTask.ContinueWithOnMainThread(FetchComplete);
+
+
+
+        private async UniTask InitializeRemoteConfigAsync()
+        {
+            try
+            {
+                await FetchDataAsync();
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
         }
-        
-        private void FetchComplete(Task fetchTask) {
-            if (!fetchTask.IsCompleted) {
-                Debug.LogError("Retrieval hasn't finished.");
+
+        private async UniTask FetchDataAsync()
+        {
+            Debug.Log("Fetching data...");
+            try
+            {
+                await _firebaseRemoteConfig.FetchAsync(TimeSpan.Zero);
+            }
+            catch (Exception e)
+            {
+                await UniTask.SwitchToMainThread();
+                Debug.LogException(e);
+                return;
+            }
+            await ApplyFetchedConfigAsync();
+        }
+
+        private async UniTask ApplyFetchedConfigAsync()
+        {
+            await UniTask.SwitchToMainThread();
+
+            ConfigInfo info = _firebaseRemoteConfig.Info;
+            if (info.LastFetchStatus != LastFetchStatus.Success)
+            {
+                Debug.LogError(
+                    $"{nameof(FetchDataAsync)} was unsuccessful\n{nameof(info.LastFetchStatus)}: {info.LastFetchStatus}");
                 return;
             }
 
-            var info = _firebaseRemoteConfig.Info;
-            if (info.LastFetchStatus != LastFetchStatus.Success) {
-                Debug.LogError($"{nameof(FetchComplete)} was unsuccessful\n{nameof(info.LastFetchStatus)}: {info.LastFetchStatus}");
+            try
+            {
+                await _firebaseRemoteConfig.ActivateAsync();
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
                 return;
             }
-
-            _firebaseRemoteConfig.ActivateAsync()
-                .ContinueWithOnMainThread(
-                    task => {
-                        Debug.Log($"Remote data loaded and ready for use. Last fetch time {info.FetchTime}.");
-                    });
+            await UniTask.SwitchToMainThread();
+            Debug.Log($"Remote data loaded and ready for use. Last fetch time {info.FetchTime}.");
             OnConfigLoaded?.Invoke();
         }
     }

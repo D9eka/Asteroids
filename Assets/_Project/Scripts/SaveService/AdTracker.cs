@@ -1,5 +1,6 @@
 ﻿using System;
 using Asteroids.Scripts.PurchasesService;
+using Cysharp.Threading.Tasks;
 using UniRx;
 using Zenject;
 
@@ -18,22 +19,28 @@ namespace Asteroids.Scripts.SaveService
             _purchaseService = purchaseService;
         }
 
-        public async void Initialize()
+        public void Initialize()
         {
-            SaveData data = await _saveService.Load();
-            bool isAdFree = data.IsAdFree;
-            IsAdFree.Value = isAdFree;
+            InitializeAsync().Forget();
             
             _purchaseService.OnSuccessfullyPurchased += PurchaseServiceOnSuccessfullyPurchased;
-        }
-        private void PurchaseServiceOnSuccessfullyPurchased(PurchaseId purchaseId)
-        {
-            SetAdFree(true);
         }
         
         public void Dispose()
         {
             _purchaseService.OnSuccessfullyPurchased -= PurchaseServiceOnSuccessfullyPurchased;
+        }
+
+        private async UniTask InitializeAsync()
+        {
+            SaveData data = await _saveService.Load();
+            bool isAdFree = data.IsAdFree;
+            IsAdFree.Value = isAdFree;
+        }
+        
+        private void PurchaseServiceOnSuccessfullyPurchased(PurchaseId purchaseId)
+        {
+            SetAdFree(true);
         }
 
         private async void SetAdFree(bool isAdFree)

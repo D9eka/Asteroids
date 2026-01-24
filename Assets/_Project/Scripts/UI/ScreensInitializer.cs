@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Asteroids.Scripts.Addressable;
 using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.GameState.GameplaySession;
@@ -8,6 +7,7 @@ using Asteroids.Scripts.UI.Screens;
 using Asteroids.Scripts.UI.Screens.GameplayScreen;
 using Asteroids.Scripts.UI.Screens.MainScreen;
 using Asteroids.Scripts.UI.Screens.ReviveScreen;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
@@ -65,7 +65,7 @@ namespace Asteroids.Scripts.UI
             }
         }
         
-        private async Task BindScreen<TView>(AddressableId screenAddressableId, ScreenInjectId screenId)
+        private async UniTask BindScreen<TView>(AddressableId screenAddressableId, ScreenInjectId screenId)
             where TView : IView
         {
             GameObject screenPrefab = await _addressableLoader.Load<GameObject>(screenAddressableId);
@@ -81,8 +81,6 @@ namespace Asteroids.Scripts.UI
                 .AsCached();
             
             screenGo.GetComponent<Canvas>().worldCamera = _camera;
-
-            await Task.CompletedTask;
         }
     }
 }
