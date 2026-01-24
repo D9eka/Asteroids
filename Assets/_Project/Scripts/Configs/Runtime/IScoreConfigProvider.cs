@@ -5,7 +5,7 @@ namespace Asteroids.Scripts.Configs.Runtime
 {
     public interface IScoreConfigProvider
     {
-        public event Action OnScoreConfigUpdated;
+        public event Action OnConfigUpdated;
         
         public ScoreConfig ScoreConfig { get; }
     }

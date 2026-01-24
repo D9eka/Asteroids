@@ -19,7 +19,7 @@ namespace Asteroids.Scripts.Configs.Runtime
         {
             _enemyProviders = enemyProviders;
             UpdateConfigs();
-            _enemyConfigProvider.OnEnemyConfigUpdated += UpdateConfigs;
+            _enemyConfigProvider.OnConfigUpdated += UpdateConfigs;
         }
         
         private void UpdateConfigs()
@@ -37,7 +37,7 @@ namespace Asteroids.Scripts.Configs.Runtime
         }
         public void Dispose()
         {
-            _enemyConfigProvider.OnEnemyConfigUpdated -= UpdateConfigs;
+            _enemyConfigProvider.OnConfigUpdated -= UpdateConfigs;
         }
     }
 }

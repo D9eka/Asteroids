@@ -5,7 +5,7 @@ namespace Asteroids.Scripts.Configs.Runtime
 {
     public interface IPlayerConfigProvider
     {
-        public event Action OnPlayerConfigUpdated;
+        public event Action OnConfigUpdated;
         
         public PlayerConfig PlayerConfig { get; }
     }

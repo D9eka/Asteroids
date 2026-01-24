@@ -5,7 +5,7 @@ namespace Asteroids.Scripts.Configs.Runtime
 {
     public interface IEnemyConfigProvider
     {
-        public event Action OnEnemyConfigUpdated;
+        public event Action OnConfigUpdated;
         
         public EnemySpawnConfig EnemySpawnConfig { get; }
     }

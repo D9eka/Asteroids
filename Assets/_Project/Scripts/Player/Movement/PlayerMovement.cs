@@ -16,7 +16,7 @@ namespace Asteroids.Scripts.Player.Movement
         {
             _playerConfigProvider = playerConfigProvider;
             ApplyConfig();
-            _playerConfigProvider.OnPlayerConfigUpdated += ApplyConfig;
+            _playerConfigProvider.OnConfigUpdated += ApplyConfig;
         }
 
         public void Move(float input)
@@ -35,7 +35,7 @@ namespace Asteroids.Scripts.Player.Movement
         
         public void Dispose()
         {
-            _playerConfigProvider.OnPlayerConfigUpdated -= ApplyConfig;
+            _playerConfigProvider.OnConfigUpdated -= ApplyConfig;
         }
 
         private void ApplyConfig()

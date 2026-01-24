@@ -19,12 +19,12 @@ namespace Asteroids.Scripts.Configs.Runtime
         {
             _scoreService.ApplyConfig(_scoreConfigProvider.ScoreConfig);
             
-            _scoreConfigProvider.OnScoreConfigUpdated += UpdateConfig;
+            _scoreConfigProvider.OnConfigUpdated += UpdateConfig;
         }
         
         public void Dispose()
         {
-            _scoreConfigProvider.OnScoreConfigUpdated -= UpdateConfig;
+            _scoreConfigProvider.OnConfigUpdated -= UpdateConfig;
         }
         
         private void UpdateConfig()

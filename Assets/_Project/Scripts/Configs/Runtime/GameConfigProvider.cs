@@ -10,9 +10,7 @@ namespace Asteroids.Scripts.Configs.Runtime
 {
     public class GameConfigProvider : IInitializable, IDisposable, IPlayerConfigProvider, IEnemyConfigProvider, IScoreConfigProvider
     {
-        public event Action OnPlayerConfigUpdated;
-        public event Action OnEnemyConfigUpdated;
-        public event Action OnScoreConfigUpdated;
+        public event Action OnConfigUpdated;
         
         private readonly IRemoteConfigService _remoteConfigService;
 
@@ -59,9 +57,7 @@ namespace Asteroids.Scripts.Configs.Runtime
         private void UpdateConfig(ConfigData configData)
         {
             _configData = configData;
-            OnPlayerConfigUpdated?.Invoke();
-            OnEnemyConfigUpdated?.Invoke();
-            OnScoreConfigUpdated?.Invoke();
+            OnConfigUpdated?.Invoke();
         }
     }
 }
