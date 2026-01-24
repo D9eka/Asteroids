@@ -3,6 +3,7 @@ using System.Linq;
 using Asteroids.Scripts.Configs.Snapshot;
 using Cysharp.Threading.Tasks;
 using Firebase.RemoteConfig;
+using Newtonsoft.Json;
 using UnityEngine;
 using Zenject;
 
@@ -45,7 +46,7 @@ namespace Asteroids.Scripts.RemoteConfigs
                 Debug.LogError($"Value {CONFIG_KEY} is empty!");
                 return false;
             }
-            config = JsonUtility.FromJson<ConfigData>(configString);
+            config = JsonConvert.DeserializeObject<ConfigData>(configString);
             return true;
         }
 

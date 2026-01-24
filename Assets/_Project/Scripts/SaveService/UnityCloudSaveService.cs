@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Newtonsoft.Json;
 using Unity.Services.Authentication;
 using Unity.Services.CloudSave;
 using Unity.Services.CloudSave.Models;
@@ -69,7 +70,7 @@ namespace Asteroids.Scripts.SaveService
             if (playerData.TryGetValue(SAVE_KEY, out var firstKey))
             {
                 string json = firstKey.Value.GetAsString();
-                SaveData data = JsonUtility.FromJson<SaveData>(json);
+                SaveData data = JsonConvert.DeserializeObject<SaveData>(json);
                 Debug.Log($"[UnityCloudSave] LOADED! {SAVE_KEY} value: {json}");
                 return data;
             }
@@ -95,7 +96,7 @@ namespace Asteroids.Scripts.SaveService
             Debug.Log(Application.internetReachability);
             
             saveData.SaveTime = DateTime.UtcNow.Ticks;
-            string json = JsonUtility.ToJson(saveData);
+            string json = JsonConvert.SerializeObject(saveData);
             Dictionary<string, object> playerData = new Dictionary<string, object>{
                 {SAVE_KEY, json}
             };

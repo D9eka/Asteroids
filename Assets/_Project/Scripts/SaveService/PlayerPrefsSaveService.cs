@@ -1,5 +1,6 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Asteroids.Scripts.SaveService
@@ -16,7 +17,7 @@ namespace Asteroids.Scripts.SaveService
             }
 
             string json = PlayerPrefs.GetString(SAVE_KEY);
-            SaveData data = JsonUtility.FromJson<SaveData>(json);
+            SaveData data = JsonConvert.DeserializeObject<SaveData>(json);
             Debug.Log($"[PlayerPrefsSave] LOADED! {SAVE_KEY} value: {json}");
             return data;
         }
@@ -24,7 +25,7 @@ namespace Asteroids.Scripts.SaveService
         public void Save(SaveData saveData)
         {
             saveData.SaveTime = DateTime.UtcNow.Ticks;
-            string json = JsonUtility.ToJson(saveData);
+            string json = JsonConvert.SerializeObject(saveData);
             PlayerPrefs.SetString(SAVE_KEY, json);
             PlayerPrefs.Save();
             Debug.Log($"[PlayerPrefsSave] SAVED! {SAVE_KEY} value: {json}");
