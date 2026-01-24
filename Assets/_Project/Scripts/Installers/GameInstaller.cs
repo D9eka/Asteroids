@@ -157,7 +157,6 @@ namespace Asteroids.Scripts.Installers
             Container.BindInterfacesTo<WeaponUpdater>().AsSingle();
             BindBulletGunEffects();
             Container.BindInterfacesAndSelfTo<RaycastService>().AsSingle();
-            Container.BindInterfacesAndSelfTo<PlayerWeaponsConfigRuntime>().AsSingle();
             Container.Bind<PlayerWeaponsInitializer>().AsSingle();
         }
 

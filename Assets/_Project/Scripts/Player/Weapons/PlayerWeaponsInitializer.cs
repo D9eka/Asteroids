@@ -23,21 +23,18 @@ namespace Asteroids.Scripts.Player.Weapons
         private readonly IProjectileFactory _projectileFactory;
         private readonly IRaycastService _raycastService;
         private readonly IPlayerConfigProvider _playerConfigProvider;
-        private readonly PlayerWeaponsConfigRuntime _playerWeaponsConfigRuntime;
         private readonly WeaponShotAudioSpawner _weaponShotAudioSpawner;
         private readonly BulletGunEffectSpawner _bulletGunEffectSpawner;
 
         public PlayerWeaponsInitializer(IWeaponUpdater weaponUpdater, IAnalyticsCollector analyticsCollector,
             IProjectileFactory projectileFactory, IRaycastService raycastService, IPlayerConfigProvider playerConfigProvider,
-            PlayerWeaponsConfigRuntime playerWeaponsConfigRuntime, WeaponShotAudioSpawner weaponShotAudioSpawner,
-            BulletGunEffectSpawner bulletGunEffectSpawner)
+            WeaponShotAudioSpawner weaponShotAudioSpawner, BulletGunEffectSpawner bulletGunEffectSpawner)
         {
             _weaponUpdater = weaponUpdater;
             _analyticsCollector = analyticsCollector;
             _projectileFactory = projectileFactory;
             _raycastService = raycastService;
             _playerConfigProvider = playerConfigProvider;
-            _playerWeaponsConfigRuntime = playerWeaponsConfigRuntime;
             _weaponShotAudioSpawner = weaponShotAudioSpawner;
             _bulletGunEffectSpawner = bulletGunEffectSpawner;
         }
@@ -55,6 +52,7 @@ namespace Asteroids.Scripts.Player.Weapons
                     BulletGunConfig bulletGunConfig =
                         _playerConfigProvider.PlayerConfig.BulletGunConfig;
                     bulletGun.Initialize(damageInstigator, playerCollisionService, bulletGunConfig, _projectileFactory);
+                    bulletGun.ApplyConfig(_playerConfigProvider.PlayerConfig.BulletGunConfig);
                     _analyticsCollector.Initialize(bulletGun);
                 }
                 if (weapon is LaserGun laserGun)
@@ -63,10 +61,10 @@ namespace Asteroids.Scripts.Player.Weapons
                     _raycastService.Initialize(laserGun.gameObject);
                     laserGun.Initialize(damageInstigator, laserGunConfig, laserGunLineRenderer, _raycastService,
                         playerCollisionService);
+                    laserGun.ApplyConfig(_playerConfigProvider.PlayerConfig.LaserGunConfig);
                     _analyticsCollector.Initialize(laserGun);
                 }
             }
-            _playerWeaponsConfigRuntime.Initialize(weapons);
         }
     }
 }
