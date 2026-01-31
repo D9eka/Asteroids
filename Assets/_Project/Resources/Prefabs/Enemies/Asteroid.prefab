@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6897543361482414975}
   - component: {fileID: 4627110628404498981}
   - component: {fileID: 5054612258758063113}
+  - component: {fileID: -7714247891488104823}
   m_Layer: 0
   m_Name: Asteroid
   m_TagString: Untagged
@@ -148,6 +149,25 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.25, y: 0.75}
   m_EdgeRadius: 0
+--- !u!114 &-7714247891488104823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4333207955263080471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
+  SortKey: 2228888071
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 956498114125087416}
+  ForceRemoteRenderTimeframe: 0
 --- !u!1 &6214886703491738463
 GameObject:
   m_ObjectHideFlags: 0

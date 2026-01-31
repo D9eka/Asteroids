@@ -5,18 +5,23 @@ using Asteroids.Scripts.Configs.Snapshot.Enemies.SpawnConfig;
 using Asteroids.Scripts.Damage;
 using Asteroids.Scripts.Spawning.Enemies.Fragments;
 using Asteroids.Scripts.WarpSystem;
+using Fusion;
 using UnityEngine;
 
 namespace Asteroids.Scripts.Enemies
 {
-    public class Asteroid : MonoBehaviour, IEnemy, IWarpable
+    public class Asteroid : NetworkBehaviour, IEnemy, IWarpable
     {
         public event Action<GameObject, IEnemy> OnKilled;
 
         [field: SerializeField] public CollisionHandler CollisionHandler { get; private set; }
         [field: SerializeField] public Movement.Core.Movement Movement { get; private set; }
+        
         private IAsteroidFragmentFactory _fragmentsFactory;
         private AsteroidFragmentTypeSpawnConfig _fragmentSpawnConfig;
+        
+        [Networked] private Vector2 NetPosition { get; set; }
+        [Networked] private float NetRotation { get; set; }
         
         public Transform Transform => transform;
         public bool Enabled => gameObject.activeSelf;
@@ -37,9 +42,29 @@ namespace Asteroids.Scripts.Enemies
             _fragmentSpawnConfig = asteroidTypeConfig.AsteroidFragmentSpawnConfig;
             Initialized = true;
         }
+        
+        public override void FixedUpdateNetwork()
+        {
+            if (!Object.HasStateAuthority)
+                return;
+
+            NetPosition = transform.position;
+            NetRotation = transform.rotation.eulerAngles.z;
+        }
+
+        public override void Render()
+        {
+            if (Object.HasStateAuthority)
+                return;
+
+            transform.SetPositionAndRotation(NetPosition, Quaternion.Euler(0f, 0f, NetRotation));
+        }
 
         public void TakeDamage(DamageInfo damageInfo)
         {
+            if (!Object.HasStateAuthority)
+                return;
+            
             if (damageInfo.Type == DamageType.Bullet)
             {
                 SpawnFragments(damageInfo.Instigator);

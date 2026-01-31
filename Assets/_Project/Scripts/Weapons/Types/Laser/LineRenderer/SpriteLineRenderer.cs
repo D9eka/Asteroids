@@ -1,10 +1,26 @@
-﻿using UnityEngine;
+﻿using Fusion;
+using UnityEngine;
 
 namespace Asteroids.Scripts.Weapons.Types.Laser.LineRenderer
 {
-    public class SpriteLineRenderer : MonoBehaviour, ILineRenderer
+    public class SpriteLineRenderer : NetworkBehaviour, ILineRenderer
     {
         [SerializeField] private SpriteRenderer _spriteRenderer;
+        
+        [Networked] private Vector3 NetScale { get; set; }
+        
+        public override void FixedUpdateNetwork()
+        {
+            NetScale = transform.localScale;
+        }
+
+        public override void Render()
+        {
+            if (Object.HasStateAuthority)
+                return;
+
+            _spriteRenderer.transform.localScale = NetScale;
+        }
 
         public void Enable() => _spriteRenderer.enabled = true;
         public void Disable() => _spriteRenderer.enabled = false;
