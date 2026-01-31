@@ -132,6 +132,7 @@ namespace _Project.Scripts.Multiplayer.Lobby
             GameObject runnerGo = Object.Instantiate(_networkRunnerPrefab.gameObject);
             Object.DontDestroyOnLoad(runnerGo);
             _runner = runnerGo.GetComponent<NetworkRunner>();
+            _runner.ProvideInput = true;
             _networkEventsRouter.AttachToRunner(_runner);
         
             SceneRef lobbySceneRef = SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex);

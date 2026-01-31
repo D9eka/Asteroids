@@ -15,6 +15,7 @@ namespace _Project.Scripts.Multiplayer
                 .FromComponentInNewPrefab(_eventsRouterPrefab)
                 .AsSingle()
                 .NonLazy();
+            Container.BindInterfacesAndSelfTo<NetworkPlayerRegistry>().AsSingle().NonLazy();
             Container.Bind<PlayerSpawner>().AsSingle().WithArguments(_networkPlayerPrefab);
         }
     }

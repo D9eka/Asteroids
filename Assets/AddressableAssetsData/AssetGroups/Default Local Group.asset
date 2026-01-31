@@ -14,47 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
   m_GroupName: Default Local Group
   m_GUID: afe7392279ab1df40b9e21e36a64212a
-  m_SerializeEntries:
-  - m_GUID: 084c90c50e504b94ea60cbd8acdd4ac3
-    m_Address: Ufo
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2a040a4fa1a999443941143d3eed5195
-    m_Address: BulletGunEffect
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 35d5608be1f57694fb45fddabe24cb97
-    m_Address: Projectile
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7e515b6dc7fd73f418fd0b1ad2dcae4a
-    m_Address: AsteroidFragment
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ac2b2bd4f28c1174ca11548409f18eb8
-    m_Address: Asteroid
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: aef5237b8f8234841ba8df59c10e525c
-    m_Address: Player
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: bcd750619a8eebf42abbe3ba6e94b049
-    m_Address: ExplosionEffect
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d034b9da5cc5b064198879ce492a717a
-    m_Address: AudioSound
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 7e5cd70f6f2218549a27b1439ddbcc01, type: 2}
   m_SchemaSet:

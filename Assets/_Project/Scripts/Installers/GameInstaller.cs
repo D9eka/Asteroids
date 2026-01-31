@@ -35,6 +35,8 @@ using Asteroids.Scripts.WarpSystem;
 using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Projectile;
 using Asteroids.Scripts.Weapons.Services.Raycast;
+using _Project.Scripts.Multiplayer;
+using Fusion;
 using UnityEngine;
 using Zenject;
 using Pooling_IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
@@ -52,11 +54,14 @@ namespace Asteroids.Scripts.Installers
         [Space]
         [Header("Player")]
         [SerializeField] private Vector2 _playerSpawnPosition;
+        [SerializeField] private Transform[] _playerSpawnPoints;
         [Header("Audio")]
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private BackgroundMusicData _backgroundMusicData;
         [SerializeField] private WeaponAudioData _weaponAudioData;
         [SerializeField] private ExplosionSoundData _explosionSoundData;
+        [Header("Multiplayer")]
+        [SerializeField] private NetworkObject _networkPlayerPrefab;
         
         public override void InstallBindings()
         {
@@ -108,6 +113,7 @@ namespace Asteroids.Scripts.Installers
         {
             Container.BindInterfacesTo<PlayerInputReader>().AsSingle();
             Container.BindInterfacesAndSelfTo<PlayerInputHandler>().AsSingle();
+            Container.BindInterfacesTo<FusionInputProvider>().AsSingle();
             
             Container.Bind<ICollisionService>()
                 .WithId(CollisionServiceInjectId.Player)
@@ -121,7 +127,10 @@ namespace Asteroids.Scripts.Installers
             
             BindPlayerWeapons();
 
-            Container.BindInterfacesTo<PlayerControllerInitializer>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<PlayerControllerInitializer>()
+                .AsSingle()
+                .WithArguments(_networkPlayerPrefab, _playerSpawnPoints)
+                .NonLazy();
         }
 
         private void BindPlayerWeapons()

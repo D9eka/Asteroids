@@ -14,22 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
   m_GroupName: UI
   m_GUID: aca5476d090837e4caec3042b0001220
-  m_SerializeEntries:
-  - m_GUID: 1448d6556f5b9ae499dd950639db89a8
-    m_Address: MainScreen
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2782a269a3a787b48a7808129d2e9193
-    m_Address: ReviveScreen
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 334054619577d9648afe58e386714d08
-    m_Address: GameplayScreen
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 7e5cd70f6f2218549a27b1439ddbcc01, type: 2}
   m_SchemaSet:
