@@ -9,14 +9,14 @@ namespace Asteroids.Scripts.Effects.Explosion
     public class ExplosionEffectInitializer : IInitializable
     {
         private readonly DiContainer _container;
-        private readonly IAddressableLoader _addressableLoader;
+        private readonly IResourcesLoader _resourcesLoader;
         private readonly ExplosionEffectFactory _explosionEffectFactory;
 
-        public ExplosionEffectInitializer(DiContainer container, IAddressableLoader addressableLoader, 
+        public ExplosionEffectInitializer(DiContainer container, IResourcesLoader resourcesLoader, 
             ExplosionEffectFactory explosionEffectFactory)
         {
             _container = container;
-            _addressableLoader = addressableLoader;
+            _resourcesLoader = resourcesLoader;
             _explosionEffectFactory = explosionEffectFactory;
         }
 
@@ -35,7 +35,7 @@ namespace Asteroids.Scripts.Effects.Explosion
         
         private async UniTask CreatePool()
         {
-            GameObject explosionEffect = await _addressableLoader.Load<GameObject>(AddressableId.ExplosionEffect);
+            GameObject explosionEffect = await _resourcesLoader.Load(ResourceObjectId.ExplosionEffect);
             _container.BindMemoryPool<ExplosionEffect, ExplosionEffectPool>()
                 .WithInitialSize(5)
                 .FromComponentInNewPrefab(explosionEffect.GetComponent<ExplosionEffect>())

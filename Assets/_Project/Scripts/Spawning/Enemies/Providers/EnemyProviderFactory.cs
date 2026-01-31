@@ -16,14 +16,14 @@ namespace Asteroids.Scripts.Spawning.Enemies.Providers
         where TConfig : EnemyTypeConfig
     {
         private readonly DiContainer _container;
-        private readonly IAddressableLoader _addressableLoader;
+        private readonly IResourcesLoader _resourcesLoader;
         private readonly IEnemyLifecycleManager _lifecycleManager;
 
-        public EnemyProviderFactory(DiContainer container, IAddressableLoader addressableLoader,
+        public EnemyProviderFactory(DiContainer container, IResourcesLoader resourcesLoader,
             IEnemyLifecycleManager lifecycleManager)
         {
             _container = container;
-            _addressableLoader = addressableLoader;
+            _resourcesLoader = resourcesLoader;
             _lifecycleManager = lifecycleManager;
         }
 
@@ -33,7 +33,7 @@ namespace Asteroids.Scripts.Spawning.Enemies.Providers
             if (typedConfig == null)
                 throw new ArgumentException($"Config is not of type {typeof(TConfig)}");
             
-            GameObject enemyPrefab = await _addressableLoader.Load<GameObject>(spawnConfig.Config.PrefabId);
+            GameObject enemyPrefab = await _resourcesLoader.Load(spawnConfig.Config.PrefabId);
 
             _container.BindMemoryPool<TEnemy, ObjectPool<TEnemy>>()
                 .WithInitialSize(spawnConfig.PoolSize)

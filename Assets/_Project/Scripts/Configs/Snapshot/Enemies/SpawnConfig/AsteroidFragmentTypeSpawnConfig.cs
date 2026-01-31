@@ -27,7 +27,7 @@ namespace Asteroids.Scripts.Configs.Snapshot.Enemies.SpawnConfig
         }
         
         public AsteroidFragmentTypeSpawnConfig() : base(
-            new EnemyTypeConfig(AddressableId.AsteroidFragment, EnemyType.AsteroidFragment, 
+            new EnemyTypeConfig(ResourceObjectId.AsteroidFragment, EnemyType.AsteroidFragment, 
                 new LinearDirectionProviderConfig(2, 5), new MovementBasedRotationProviderConfig()), 
             0.9f, 2f, 2f, 10)
         {

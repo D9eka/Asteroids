@@ -6,9 +6,6 @@ using Asteroids.Scripts.Audio.Sounds.Weapon;
 using Asteroids.Scripts.Audio;
 using Asteroids.Scripts.PurchasesService;
 using Asteroids.Scripts.Addressable;
-using Asteroids.Scripts.Advertisement;
-using Asteroids.Scripts.Advertisement.LevelPlayAd;
-using Asteroids.Scripts.Analytics;
 using Asteroids.Scripts.Camera;
 using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Configs.Runtime;
@@ -24,7 +21,6 @@ using Asteroids.Scripts.Player;
 using Asteroids.Scripts.Player.Input;
 using Asteroids.Scripts.Player.Weapons;
 using Asteroids.Scripts.RemoteConfigs;
-using Asteroids.Scripts.SaveService;
 using Asteroids.Scripts.Score;
 using Asteroids.Scripts.Spawning.Common.Core;
 using Asteroids.Scripts.Spawning.Common.Pooling;
@@ -35,8 +31,6 @@ using Asteroids.Scripts.Spawning.Enemies.Pooling;
 using Asteroids.Scripts.Spawning.Enemies.Providers;
 using Asteroids.Scripts.UI;
 using Asteroids.Scripts.UI.Screens.GameplayScreen;
-using Asteroids.Scripts.UI.Screens.MainScreen;
-using Asteroids.Scripts.UI.Screens.ReviveScreen;
 using Asteroids.Scripts.WarpSystem;
 using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Projectile;
@@ -58,11 +52,6 @@ namespace Asteroids.Scripts.Installers
         [Space]
         [Header("Player")]
         [SerializeField] private Vector2 _playerSpawnPosition;
-        [Space] 
-        [Header("Advertisement")] 
-        [SerializeField] private string _adAppId;
-        [SerializeField] private string _interstitialAdId;
-        [SerializeField] private string _revivalAdId;
         [Header("Audio")]
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private BackgroundMusicData _backgroundMusicData;
@@ -73,20 +62,17 @@ namespace Asteroids.Scripts.Installers
         {
             Container.Bind<UnityEngine.Camera>().FromInstance(_camera).AsSingle();
 
-            Container.BindInterfacesTo<UnityAddressableLoader>().AsSingle();
+            Container.BindInterfacesTo<UnityResourcesLoader>().AsSingle();
             
             Container.BindInterfacesTo<UnityPurchasesService>().AsSingle();
 
             InstallRemoteConfigService();
-            InstallAdvertisementService();
             InstallBoundsSystem();
             InstallProjectilePool();
             InstallWeaponsAudioSystem();
             InstallPlayer();
             InstallEnemies();
-            InstallSaveSystem();
             InstallScoreSystem();
-            InstallAnalyticsSystem();
             InstallGameplaySystems();
             InstallUI();
             InstallAudioSystem();
@@ -96,20 +82,6 @@ namespace Asteroids.Scripts.Installers
         {
             Container.BindInterfacesTo<FirebaseRemoteConfigService>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameConfigProvider>().AsSingle();
-        }
-
-        private void InstallAdvertisementService()
-        {
-            Container.BindInterfacesAndSelfTo<AdTracker>().AsSingle();
-
-#if UNITY_EDITOR || UNITY_STANDALONE_WIN
-            Container.BindInterfacesTo<TestAdvertisementService>()
-                .AsSingle();
-#else
-            Container.BindInterfacesTo<LPlayAdvertisementService>()
-                .AsSingle()
-                .WithArguments(_adAppId, _interstitialAdId, _revivalAdId);
-#endif
         }
 
         private void InstallBoundsSystem()
@@ -209,27 +181,10 @@ namespace Asteroids.Scripts.Installers
             Container.BindInterfacesTo<EnemyInitializerAdapter<TEnemy, TConfig>>().AsSingle();
         }
 
-        private void InstallSaveSystem()
-        {
-            Container.Bind<ISaveService>().WithId(SaveServiceInjectId.Local)
-                .To<PlayerPrefsSaveService>().AsCached().WhenInjectedInto<SaveResolver>();
-            Container.Bind<ISaveService>().WithId(SaveServiceInjectId.Cloud)
-                .To<UnityCloudSaveService>().AsCached().WhenInjectedInto<SaveResolver>();
-            Container.BindInterfacesTo<SaveResolver>().AsSingle().NonLazy();
-        }
-
         private void InstallScoreSystem()
         {
             Container.BindInterfacesTo<ScoreService>().AsSingle();
-            Container.BindInterfacesTo<ScoreTracker>().AsSingle();
             Container.BindInterfacesTo<ScoreConfigRuntime>().AsSingle().NonLazy();
-        }
-
-        private void InstallAnalyticsSystem()
-        {
-            Container.BindInterfacesTo<AnalyticsCollector>().AsSingle();
-            Container.BindInterfacesTo<FirebaseAnalyticsService>().AsSingle();
-            Container.BindInterfacesTo<AnalyticsController>().AsSingle();
         }
 
         private void InstallGameplaySystems()
@@ -244,17 +199,12 @@ namespace Asteroids.Scripts.Installers
         {
             Container.BindInterfacesTo<UIController>().AsSingle();
             Container.BindInterfacesTo<PlayerParamsService>().AsSingle().NonLazy();
-
-            Container.BindInterfacesAndSelfTo<ReviveScreenViewModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameplayScreenViewModel>().AsSingle();
-            Container.BindInterfacesAndSelfTo<MainScreenViewModel>().AsSingle();
-            
-            Container.BindInterfacesAndSelfTo<ReviveFlowController>().AsSingle();
             
             Container
                 .BindInterfacesTo<ScreensInitializer>()
                 .AsSingle()
-                .WithArguments(typeof(MainScreenView))
+                .WithArguments(typeof(GameplayScreenView))
                 .NonLazy();
         }
 

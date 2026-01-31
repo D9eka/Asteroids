@@ -58,6 +58,11 @@ namespace Asteroids.Scripts.Pause
         public void Register(ITickableSystem pausable)
         {
             _tickableSystems.Add(pausable);
+
+            // Some systems are registered after the game already started (async initialization).
+            // If the game is currently running, enable immediately so they don't stay disabled forever.
+            if (!IsPaused)
+                pausable.Enable();
         }
 
         public void Unregister(IPausable pausable)

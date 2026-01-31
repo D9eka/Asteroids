@@ -9,14 +9,14 @@ namespace Asteroids.Scripts.Weapons.Projectile
     public class ProjectileFactoryInitializer : IInitializable
     {
         private readonly DiContainer _container;
-        private readonly IAddressableLoader _addressableLoader;
+        private readonly IResourcesLoader _resourcesLoader;
         private readonly IProjectileFactory _projectileFactory;
 
         public ProjectileFactoryInitializer(DiContainer container, 
-            IAddressableLoader addressableLoader, IProjectileFactory projectileFactory)
+            IResourcesLoader resourcesLoader, IProjectileFactory projectileFactory)
         {
             _container = container;
-            _addressableLoader = addressableLoader;
+            _resourcesLoader = resourcesLoader;
             _projectileFactory = projectileFactory;
         }
 
@@ -35,7 +35,7 @@ namespace Asteroids.Scripts.Weapons.Projectile
 
         private async UniTask CreatePool()
         {
-            GameObject projectilePrefab = await _addressableLoader.Load<GameObject>(AddressableId.Projectile);
+            GameObject projectilePrefab = await _resourcesLoader.Load(ResourceObjectId.Projectile);
             _container.BindMemoryPool<Projectile, ProjectilePool>()
                 .WithInitialSize(20)
                 .FromComponentInNewPrefab(projectilePrefab.GetComponent<Projectile>())

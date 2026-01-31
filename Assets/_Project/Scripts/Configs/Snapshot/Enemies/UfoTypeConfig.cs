@@ -15,7 +15,7 @@ namespace Asteroids.Scripts.Configs.Snapshot.Enemies
     {
         [field: SerializeField] public BulletGunConfig BulletGunConfig  { get; private set; }
 
-        public UfoTypeConfig(AddressableId prefabId, EnemyType type, 
+        public UfoTypeConfig(ResourceObjectId prefabId, EnemyType type, 
             DirectionProviderConfig directionProviderConfig, RotationProviderConfig rotationProviderConfig, 
             BulletGunConfig bulletGunConfig) : base(prefabId, type, directionProviderConfig, rotationProviderConfig)
         {
@@ -23,7 +23,7 @@ namespace Asteroids.Scripts.Configs.Snapshot.Enemies
         }
 
         public UfoTypeConfig() : base(
-            AddressableId.Ufo, EnemyType.Ufo, new TargetDirectionProviderConfig(0.5f, 1f, 2f),  new TargetBasedRotationProviderConfig(2f))
+            ResourceObjectId.Ufo, EnemyType.Ufo, new TargetDirectionProviderConfig(0.5f, 1f, 2f),  new TargetBasedRotationProviderConfig(2f))
         {
             BulletGunConfig = new BulletGunConfig(DamageType.Bullet, 0.5f, new ProjectileConfig(7f, 5f));
         }

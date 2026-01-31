@@ -1,5 +1,4 @@
 ﻿using System;
-using Asteroids.Scripts.Analytics;
 using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Player;
@@ -21,7 +20,6 @@ namespace Asteroids.Scripts.GameState.GameplaySession
         private readonly IPauseSystem _pauseSystem;
         private readonly IPoolableLifecycleManager<Pooling_IPoolable> _lifecycleManager;
         private readonly IUIController _uiController;
-        private readonly IAnalyticsController _analyticsController;
         private readonly Subject<Unit> _gameStarted = new Subject<Unit>();
         
         private IPlayerController _playerController;
@@ -35,15 +33,13 @@ namespace Asteroids.Scripts.GameState.GameplaySession
             IScoreService score,
             IPauseSystem pauseSystem,
             IPoolableLifecycleManager<Pooling_IPoolable> lifecycleManager, 
-            IUIController uiController,
-            IAnalyticsController analyticsController)
+            IUIController uiController)
         {
             _playerStartPosition = playerStartPosition;
             _score = score;
             _pauseSystem = pauseSystem;
             _lifecycleManager = lifecycleManager;
             _uiController = uiController;
-            _analyticsController = analyticsController;
         }
 
         public void Initialize(IPlayerController playerController)
@@ -60,15 +56,16 @@ namespace Asteroids.Scripts.GameState.GameplaySession
         {
             _score.ResetScore();
             _pauseSystem.Resume();
-            _uiController.OpenScreen(_gameplayView);
-            _analyticsController.SendStartGameEvent();
+            if (_gameplayView != null)
+            {
+                _uiController.OpenScreen(_gameplayView);
+            }
             _gameStarted.OnNext(Unit.Default);
         }
 
         public void Reset()
         {
             _lifecycleManager.ClearAll();
-            _analyticsController.SendEndGameEvent();
             
             _playerController.Transform.position = _playerStartPosition;
             _playerController.Transform.rotation = Quaternion.identity;

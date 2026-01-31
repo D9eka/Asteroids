@@ -10,14 +10,14 @@ namespace Asteroids.Scripts.Effects
     public class BulletGunEffectInitializer : IInitializable
     {
         private readonly DiContainer _container;
-        private readonly IAddressableLoader _addressableLoader;
+        private readonly IResourcesLoader _resourcesLoader;
         private readonly BulletGunEffectFactory _bulletGunEffectFactory;
 
-        public BulletGunEffectInitializer(DiContainer container, IAddressableLoader addressableLoader, 
+        public BulletGunEffectInitializer(DiContainer container, IResourcesLoader resourcesLoader, 
             BulletGunEffectFactory bulletGunEffectFactory)
         {
             _container = container;
-            _addressableLoader = addressableLoader;
+            _resourcesLoader = resourcesLoader;
             _bulletGunEffectFactory = bulletGunEffectFactory;
         }
 
@@ -36,7 +36,7 @@ namespace Asteroids.Scripts.Effects
         
         private async UniTask CreatePool()
         {
-            GameObject bulletGunEffect = await _addressableLoader.Load<GameObject>(AddressableId.BulletGunEffect);
+            GameObject bulletGunEffect = await _resourcesLoader.Load(ResourceObjectId.BulletGunEffect);
             _container.BindMemoryPool<BulletGunEffect, BulletGunEffectPool>()
                 .WithInitialSize(5)
                 .FromComponentInNewPrefab(bulletGunEffect.GetComponent<BulletGunEffect>())

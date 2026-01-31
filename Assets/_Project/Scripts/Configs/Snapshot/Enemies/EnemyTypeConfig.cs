@@ -10,13 +10,13 @@ namespace Asteroids.Scripts.Configs.Snapshot.Enemies
     [Serializable]
     public class EnemyTypeConfig
     {
-        [field:SerializeField] public AddressableId PrefabId { get; private set; }
+        [field:SerializeField] public ResourceObjectId PrefabId { get; private set; }
         [field:SerializeField] public EnemyType Type { get; private set; }
 
         [field: SerializeReference] public DirectionProviderConfig DirectionProviderConfig { get; private set; }
         [field: SerializeReference] public RotationProviderConfig RotationProviderConfig { get; private set; }
 
-        public EnemyTypeConfig(AddressableId prefabId, EnemyType type,
+        public EnemyTypeConfig(ResourceObjectId prefabId, EnemyType type,
             DirectionProviderConfig directionProviderConfig, RotationProviderConfig rotationProviderConfig)
         {
             PrefabId = prefabId;

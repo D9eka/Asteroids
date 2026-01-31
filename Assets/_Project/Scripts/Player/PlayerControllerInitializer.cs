@@ -24,7 +24,7 @@ namespace Asteroids.Scripts.Player
     public class PlayerControllerInitializer : IInitializable
     {
         private readonly DiContainer _container;
-        private readonly IAddressableLoader _addressableLoader;
+        private readonly IResourcesLoader _resourcesLoader;
         private readonly Vector2 _playerSpawnPosition;
         private readonly ICollisionService _collisionService;
         private readonly IPlayerConfigProvider _playerConfigProvider;
@@ -37,7 +37,7 @@ namespace Asteroids.Scripts.Player
         private readonly PlayerInputHandler _playerInputHandler;
         private readonly PlayerWeaponsInitializer _weaponsInitializer;
 
-        public PlayerControllerInitializer(DiContainer container, IAddressableLoader addressableLoader, 
+        public PlayerControllerInitializer(DiContainer container, IResourcesLoader resourcesLoader, 
             [Inject(Id = Vector2InjectId.PlayerStartPos)] Vector2 playerSpawnPosition, 
             [Inject(Id = CollisionServiceInjectId.Player)] ICollisionService collisionService,
             IPlayerConfigProvider playerConfigProvider, IEnemyMovementConfigurator enemyMovementConfigurator, 
@@ -46,7 +46,7 @@ namespace Asteroids.Scripts.Player
             PlayerInputHandler playerInputHandler, PlayerWeaponsInitializer weaponsInitializer)
         {
             _container = container;
-            _addressableLoader = addressableLoader;
+            _resourcesLoader = resourcesLoader;
             _playerSpawnPosition = playerSpawnPosition;
             _collisionService = collisionService;
             _playerConfigProvider = playerConfigProvider;
@@ -97,7 +97,7 @@ namespace Asteroids.Scripts.Player
 
         private async UniTask<GameObject> SpawnPlayer()
         {
-            GameObject playerPrefab = await _addressableLoader.Load<GameObject>(AddressableId.Player);
+            GameObject playerPrefab = await _resourcesLoader.Load(ResourceObjectId.Player);
             var playerGo = _container.InstantiatePrefab(playerPrefab);
             return playerGo;
         }

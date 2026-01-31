@@ -2,8 +2,8 @@
 using Asteroids.Scripts.GameState.GameplaySession;
 using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Player;
-using Asteroids.Scripts.SaveService;
 using UniRx;
+using UnityEngine;
 using Zenject;
 
 namespace Asteroids.Scripts.GameState
@@ -11,7 +11,6 @@ namespace Asteroids.Scripts.GameState
     public class GameStateController : IGameStateController, IDisposable
     {
         private readonly IPauseSystem _pauseSystem;
-        private readonly IScoreTracker _scoreSaveHandler;
         private readonly IGameplaySessionManager _gameplaySessionManager;
         private readonly Subject<Unit> _playerDeath = new Subject<Unit>();
         private readonly Subject<Unit> _playerRevive = new Subject<Unit>();
@@ -24,11 +23,9 @@ namespace Asteroids.Scripts.GameState
         [Inject]
         public GameStateController(
             IPauseSystem pauseSystem,
-            IScoreTracker scoreSaveHandler,
             IGameplaySessionManager gameplaySessionManager)
         {
             _pauseSystem = pauseSystem;
-            _scoreSaveHandler = scoreSaveHandler;
             _gameplaySessionManager = gameplaySessionManager;
         }
 
@@ -47,6 +44,7 @@ namespace Asteroids.Scripts.GameState
         {
             _pauseSystem.Pause();
             _playerDeath.OnNext(Unit.Default);
+            QuitGame();
         }
         
         public void HandleRevivalRequest()
@@ -57,14 +55,21 @@ namespace Asteroids.Scripts.GameState
 
         public void HandleRestartRequest()
         {
-            _scoreSaveHandler.SaveCurrentScore();
             _gameplaySessionManager.Restart();
         }
 
         public void HandleExitRequest()
         {
-            _scoreSaveHandler.SaveCurrentScore();
             _gameplaySessionManager.Reset();
+        }
+
+        private static void QuitGame()
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
         }
     }
 }
