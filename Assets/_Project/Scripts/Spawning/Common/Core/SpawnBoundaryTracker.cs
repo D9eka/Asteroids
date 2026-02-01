@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Asteroids.Scripts.Spawning.Common.Pooling;
 using Asteroids.Scripts.WarpSystem;
+using Fusion;
 using UnityEngine;
 using Zenject;
 using Pooling_IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
@@ -73,6 +74,15 @@ namespace Asteroids.Scripts.Spawning.Common.Core
 
         private void DestroyObject(Transform obj)
         {
+            if (obj.TryGetComponent(out NetworkBehaviour netObj) &&
+                netObj.Object != null &&
+                netObj.Runner != null &&
+                netObj.Object.HasStateAuthority)
+            {
+                netObj.Runner.Despawn(netObj.Object);
+                return;
+            }
+
             if (obj.TryGetComponent(out Pooling_IPoolable poolable))
             {
                 _lifecycleManager.Despawn(poolable);

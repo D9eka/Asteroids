@@ -4,7 +4,6 @@ using Asteroids.Scripts.Effects.Explosion;
 using Asteroids.Scripts.Audio.Sounds;
 using Asteroids.Scripts.Audio.Sounds.Weapon;
 using Asteroids.Scripts.Audio;
-using Asteroids.Scripts.PurchasesService;
 using Asteroids.Scripts.Addressable;
 using Asteroids.Scripts.Camera;
 using Asteroids.Scripts.Collision;
@@ -36,6 +35,7 @@ using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Projectile;
 using Asteroids.Scripts.Weapons.Services.Raycast;
 using _Project.Scripts.Multiplayer;
+using _Project.Scripts.Multiplayer.InGameScene;
 using Fusion;
 using UnityEngine;
 using Zenject;
@@ -62,14 +62,13 @@ namespace Asteroids.Scripts.Installers
         [SerializeField] private ExplosionSoundData _explosionSoundData;
         [Header("Multiplayer")]
         [SerializeField] private NetworkObject _networkPlayerPrefab;
+        [SerializeField] private SceneRef _lobbySceneRef;
         
         public override void InstallBindings()
         {
             Container.Bind<UnityEngine.Camera>().FromInstance(_camera).AsSingle();
 
             Container.BindInterfacesTo<UnityResourcesLoader>().AsSingle();
-            
-            Container.BindInterfacesTo<UnityPurchasesService>().AsSingle();
 
             InstallRemoteConfigService();
             InstallBoundsSystem();
@@ -170,6 +169,7 @@ namespace Asteroids.Scripts.Installers
         
         private void BindExplosionEffects()
         {
+            Container.Bind<ExplosionSoundData>().FromInstance(_explosionSoundData).AsSingle();
             Container.BindInterfacesAndSelfTo<ExplosionEffectFactory>().AsSingle();
             Container.BindInterfacesAndSelfTo<ExplosionEffectSpawner>().AsSingle().WithArguments(_explosionSoundData);
             Container.BindInterfacesTo<ExplosionEffectInitializer>().AsSingle();
@@ -202,6 +202,8 @@ namespace Asteroids.Scripts.Installers
             Container.BindInterfacesTo<GameExitService>().AsSingle();
             Container.BindInterfacesTo<GameStateController>().AsSingle().NonLazy();
             Container.BindInterfacesTo<PauseSystem>().AsSingle();
+            Container.BindInterfacesTo<MultiplayerGameOverController>().AsSingle()
+                .WithArguments(_lobbySceneRef);
         }
 
         private void InstallUI()

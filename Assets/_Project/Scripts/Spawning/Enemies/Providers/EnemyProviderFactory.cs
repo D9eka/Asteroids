@@ -5,7 +5,9 @@ using Asteroids.Scripts.Configs.Snapshot.Enemies.SpawnConfig;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Spawning.Common.Pooling;
 using Asteroids.Scripts.Spawning.Enemies.Pooling;
+using _Project.Scripts.Multiplayer.Pooling;
 using Cysharp.Threading.Tasks;
+using Fusion;
 using UnityEngine;
 using Zenject;
 
@@ -18,13 +20,15 @@ namespace Asteroids.Scripts.Spawning.Enemies.Providers
         private readonly DiContainer _container;
         private readonly IResourcesLoader _resourcesLoader;
         private readonly IEnemyLifecycleManager _lifecycleManager;
+        private readonly NetworkObjectPoolRegistry _poolRegistry;
 
         public EnemyProviderFactory(DiContainer container, IResourcesLoader resourcesLoader,
-            IEnemyLifecycleManager lifecycleManager)
+            IEnemyLifecycleManager lifecycleManager, NetworkObjectPoolRegistry poolRegistry)
         {
             _container = container;
             _resourcesLoader = resourcesLoader;
             _lifecycleManager = lifecycleManager;
+            _poolRegistry = poolRegistry;
         }
 
         public async UniTask<IEnemyProvider> Create(EnemyTypeSpawnConfig spawnConfig)
@@ -41,7 +45,17 @@ namespace Asteroids.Scripts.Spawning.Enemies.Providers
                 .UnderTransformGroup($"{typeof(TEnemy).Name}s");
 
             var pool = _container.Resolve<ObjectPool<TEnemy>>();
-            return new PooledEnemyProvider<TEnemy, EnemyTypeSpawnConfig>(_lifecycleManager, pool, spawnConfig);
+            NetworkObject networkPrefab = enemyPrefab.GetComponent<NetworkObject>();
+            if (networkPrefab == null)
+            {
+                Debug.LogWarning($"[{nameof(EnemyProviderFactory<TEnemy, TConfig>)}] Prefab is missing NetworkObject: {enemyPrefab.name}");
+            }
+            else
+            {
+                _poolRegistry?.Register(networkPrefab, pool);
+            }
+
+            return new PooledEnemyProvider<TEnemy, EnemyTypeSpawnConfig>(_lifecycleManager, pool, spawnConfig, networkPrefab);
         }
     }
 }

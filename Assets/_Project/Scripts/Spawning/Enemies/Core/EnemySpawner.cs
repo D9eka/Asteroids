@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Spawning.Enemies.Providers;
+using _Project.Scripts.Multiplayer;
+using Fusion;
 using UnityEngine;
 using Zenject;
 
@@ -10,14 +12,16 @@ namespace Asteroids.Scripts.Spawning.Enemies.Core
     {
         private readonly IEnemyFactory _factory;
         private readonly List<IEnemyProvider> _providers;
+        private readonly NetworkEventsRouter _networkEventsRouter;
         private readonly Dictionary<IEnemyProvider, float> _timers = new();
 
         private bool _isEnabled;
 
-        public EnemySpawner(IEnemyFactory factory, List<IEnemyProvider> providers)
+        public EnemySpawner(IEnemyFactory factory, List<IEnemyProvider> providers, NetworkEventsRouter networkEventsRouter)
         {
             _factory = factory;
             _providers = providers;
+            _networkEventsRouter = networkEventsRouter;
 
             foreach (var provider in _providers)
                 _timers[provider] = 0f;
@@ -26,6 +30,10 @@ namespace Asteroids.Scripts.Spawning.Enemies.Core
         public void Tick()
         {
             if (!_isEnabled) return;
+
+            NetworkRunner runner = _networkEventsRouter.GetAttachedRunner();
+            if (runner == null || !runner.IsServer)
+                return;
             
             foreach (var provider in _providers)
             {

@@ -6,5 +6,6 @@
         void Resume();
         void Register(IPausable pausable);
         void Register(ITickableSystem pausable);
+        void Unregister(IPausable pausable);
     }
 }

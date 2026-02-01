@@ -1,5 +1,6 @@
 ﻿using Fusion;
 using UnityEngine;
+using _Project.Scripts.Multiplayer.Pooling;
 using Zenject;
 
 namespace _Project.Scripts.Multiplayer
@@ -15,7 +16,8 @@ namespace _Project.Scripts.Multiplayer
                 .FromComponentInNewPrefab(_eventsRouterPrefab)
                 .AsSingle()
                 .NonLazy();
-            Container.BindInterfacesAndSelfTo<NetworkPlayerRegistry>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<PlayerControllerRegistry>().AsSingle().NonLazy();
+            Container.Bind<NetworkObjectPoolRegistry>().AsSingle();
             Container.Bind<PlayerSpawner>().AsSingle().WithArguments(_networkPlayerPrefab);
         }
     }

@@ -6,6 +6,9 @@ using Asteroids.Scripts.Spawning.Common.Core;
 using Asteroids.Scripts.Spawning.Enemies.Initialization;
 using Asteroids.Scripts.Spawning.Enemies.Movement;
 using Asteroids.Scripts.Spawning.Enemies.Providers;
+using Asteroids.Scripts.Spawning.Enemies.Pooling;
+using _Project.Scripts.Multiplayer;
+using Fusion;
 using UnityEngine;
 using Zenject;
 
@@ -17,18 +20,24 @@ namespace Asteroids.Scripts.Spawning.Enemies.Fragments
         private readonly IEnemyMovementConfigurator _movementConfigurator;
         private readonly ISpawnBoundaryTracker _boundaryTracker;
         private readonly DefaultEnemyInitializer _initializer;
+        private readonly NetworkEventsRouter _networkEventsRouter;
+        private readonly IEnemyLifecycleManager _enemyLifecycleManager;
 
         [Inject]
         public AsteroidFragmentFactory(
             IPooledEnemyProvider<AsteroidFragment, EnemyTypeSpawnConfig> provider,
             IEnemyMovementConfigurator movementConfigurator,
             ISpawnBoundaryTracker boundaryTracker,
-            DefaultEnemyInitializer initializer)
+            DefaultEnemyInitializer initializer,
+            NetworkEventsRouter networkEventsRouter,
+            IEnemyLifecycleManager enemyLifecycleManager)
         {
             _enemyProvider = provider;
             _movementConfigurator = movementConfigurator;
             _boundaryTracker = boundaryTracker;
             _initializer = initializer;
+            _networkEventsRouter = networkEventsRouter;
+            _enemyLifecycleManager = enemyLifecycleManager;
         }
 
         public void SpawnFragments(Vector2 center, Vector2 hitDirection, float asteroidSpeed, 
@@ -44,6 +53,16 @@ namespace Asteroids.Scripts.Spawning.Enemies.Fragments
         private void SpawnFragment(Vector2 center, Vector2 hitDirection, float asteroidSpeed, 
             AsteroidFragmentTypeSpawnConfig spawnConfig)
         {
+            NetworkRunner runner = _networkEventsRouter.GetAttachedRunner();
+            if (runner == null || !runner.IsServer)
+                return;
+
+            if (_enemyProvider.Prefab == null)
+            {
+                Debug.LogWarning("[AsteroidFragmentFactory] Fragment prefab is not set.");
+                return;
+            }
+
             Vector2 randomOffset = Random.insideUnitCircle;
             Vector2 direction = (hitDirection + randomOffset).normalized;
     
@@ -51,8 +70,10 @@ namespace Asteroids.Scripts.Spawning.Enemies.Fragments
             float speed = asteroidSpeed * spawnConfig.FragmentSpeedMultiplier;
 
             Vector2 pos = center + randomOffset * spawnConfig.FragmentPositionOffsetModifier;
-            AsteroidFragment fragment = _enemyProvider.Spawn(pos);
+            NetworkObject obj = runner.Spawn(_enemyProvider.Prefab, pos, Quaternion.identity);
+            AsteroidFragment fragment = obj.GetComponent<AsteroidFragment>();
             _initializer.Initialize(fragment, spawnConfig.Config);
+            _enemyLifecycleManager.Register(fragment, null);
 
             IDirectionProvider directionProvider =
                 _movementConfigurator.CreateDirectionProvider(spawnConfig.Config.DirectionProviderConfig, direction);

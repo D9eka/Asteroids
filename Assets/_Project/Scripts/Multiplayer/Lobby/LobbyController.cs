@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using Zenject;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
+using _Project.Scripts.Multiplayer.Pooling;
 
 namespace _Project.Scripts.Multiplayer.Lobby
 {
@@ -16,19 +17,22 @@ namespace _Project.Scripts.Multiplayer.Lobby
         private readonly LobbyUI _lobbyUI;
         private readonly NetworkRunner _networkRunnerPrefab;
         private readonly SceneRef _gameSceneRef;
+        private readonly NetworkObjectPoolRegistry _poolRegistry;
         
         private NetworkRunner _runner;
         private string _nickname;
         private string _lobbyCode;
 
         public LobbyController(NetworkEventsRouter networkEventsRouter, PlayerSpawner playerSpawner,
-            LobbyUI lobbyUI, NetworkRunner networkRunnerPrefab, SceneRef gameSceneRef)
+            LobbyUI lobbyUI, NetworkRunner networkRunnerPrefab, SceneRef gameSceneRef,
+            NetworkObjectPoolRegistry poolRegistry)
         {
             _networkEventsRouter = networkEventsRouter;
             _playerSpawner = playerSpawner;
             _lobbyUI = lobbyUI;
             _networkRunnerPrefab = networkRunnerPrefab;
             _gameSceneRef = gameSceneRef;
+            _poolRegistry = poolRegistry;
         }
 
         public void Initialize()
@@ -140,13 +144,15 @@ namespace _Project.Scripts.Multiplayer.Lobby
             sceneInfo.AddSceneRef(lobbySceneRef);
 
             NetworkSceneManagerDefault sceneManager = runnerGo.AddComponent<NetworkSceneManagerDefault>();
+            NetworkObjectProviderPooled objectProvider = new NetworkObjectProviderPooled(_poolRegistry);
 
             StartGameResult result = await _runner.StartGame(new StartGameArgs
             {
                 GameMode     = mode,
                 SessionName  = sessionName,
                 Scene        = sceneInfo,
-                SceneManager = sceneManager
+                SceneManager = sceneManager,
+                ObjectProvider = objectProvider,
             });
 
             if (!result.Ok)

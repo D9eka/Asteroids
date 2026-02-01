@@ -1,7 +1,9 @@
 ﻿using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Configs.Snapshot.Weapons.Projectile;
 using Asteroids.Scripts.Damage;
+using Asteroids.Scripts.Pause;
 using Fusion;
+using Unity.Collections;
 using UnityEngine;
 
 namespace Asteroids.Scripts.Weapons.Projectile
@@ -9,11 +11,11 @@ namespace Asteroids.Scripts.Weapons.Projectile
     [RequireComponent(typeof(Rigidbody2D), typeof(CollisionHandler))]
     public class Projectile : NetworkBehaviour, IProjectile, IDamageable
     {
-        private ProjectilePool _pool;
         private float _speed;
         private float _lifeTime;
         private bool _isEnabled;
         private DamageInfo _damageInfo;
+        private IPauseSystem _pauseSystem;
         
         private Rigidbody2D _rb;
         private CollisionHandler _collisionHandler;
@@ -29,13 +31,18 @@ namespace Asteroids.Scripts.Weapons.Projectile
             _collisionHandler = GetComponent<CollisionHandler>();
         }
 
+        public void SetPauseSystem(IPauseSystem pauseSystem)
+        {
+            _pauseSystem = pauseSystem;
+        }
+
         private void Update()
         {
             if (!_isEnabled || !Object.HasStateAuthority) return;
             
             _lifeTime -= Time.deltaTime;
             if (_lifeTime <= 0)
-                _pool.Despawn(this);
+                Runner.Despawn(Object);
         }
         
         public override void FixedUpdateNetwork()
@@ -55,10 +62,8 @@ namespace Asteroids.Scripts.Weapons.Projectile
             transform.SetPositionAndRotation(NetPosition, Quaternion.Euler(0f, 0f, NetRotation));
         }
 
-        public void Initialize(ProjectilePool pool,
-            ProjectileConfig config, DamageInfo damageInfo, ICollisionService collisionService)
+        public void Initialize(ProjectileConfig config, DamageInfo damageInfo, ICollisionService collisionService)
         {
-            _pool = pool;
             _speed = config.Speed;
             _lifeTime = config.LifeTime;
             _damageInfo = damageInfo;
@@ -74,7 +79,10 @@ namespace Asteroids.Scripts.Weapons.Projectile
 
         public void TakeDamage(DamageInfo damageInfo)
         {
-            _pool.Despawn(this);
+            if (!Object.HasStateAuthority)
+                return;
+
+            Runner.Despawn(Object);
         }
 
         public DamageInfo GetDamageInfo()
@@ -85,14 +93,24 @@ namespace Asteroids.Scripts.Weapons.Projectile
         public void Pause()
         {
             _isEnabled = false;
+            if (_rb == null)
+                return;
             _rb.linearVelocity = Vector2.zero;
             _rb.angularVelocity = 0f;
         }
 
         public void Resume()
         {
+            if (_rb == null)
+                return;
             _rb.linearVelocity = transform.up * _speed;
             _isEnabled = true;
+        }
+
+        public override void Despawned(NetworkRunner runner, bool hasState)
+        {
+            _pauseSystem?.Unregister(this);
+            _isEnabled = false;
         }
     }
 }

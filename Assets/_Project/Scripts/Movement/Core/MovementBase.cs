@@ -19,6 +19,9 @@ namespace Asteroids.Scripts.Movement.Core
 
         public virtual void Pause()
         {
+            if (Rigidbody == null)
+                return;
+
             _isPaused = true;
             Rigidbody.totalForce = Vector2.zero;
             Rigidbody.linearVelocity = Vector2.zero;
@@ -27,6 +30,9 @@ namespace Asteroids.Scripts.Movement.Core
 
         public void Resume()
         {
+            if (Rigidbody == null)
+                return;
+
             _isPaused = false;
             SetVelocity(Velocity);
         }

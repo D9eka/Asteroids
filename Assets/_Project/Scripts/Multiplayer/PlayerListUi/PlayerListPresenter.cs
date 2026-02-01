@@ -1,6 +1,5 @@
 using System;
 using System.Threading;
-using _Project.Scripts.Multiplayer;
 using Cysharp.Threading.Tasks;
 using Fusion;
 using Zenject;
@@ -11,18 +10,16 @@ namespace _Project.Scripts.Multiplayer.PlayerListUi
     {
         private readonly PlayerList _playerList;
         private readonly NetworkEventsRouter _networkEventsRouter;
-        private readonly NetworkPlayerRegistry _playerRegistry;
         private readonly CancellationTokenSource _cts = new();
 
         private bool _refreshInProgress;
         private bool _refreshQueued;
         private bool _subscribed;
 
-        public PlayerListPresenter(PlayerList playerList, NetworkEventsRouter networkEventsRouter, NetworkPlayerRegistry playerRegistry)
+        public PlayerListPresenter(PlayerList playerList, NetworkEventsRouter networkEventsRouter)
         {
             _playerList = playerList;
             _networkEventsRouter = networkEventsRouter;
-            _playerRegistry = playerRegistry;
         }
 
         public void Initialize()
@@ -113,7 +110,7 @@ namespace _Project.Scripts.Multiplayer.PlayerListUi
             _playerList.Clear();
             foreach (PlayerRef playerRef in runner.CommittedPlayers)
             {
-                if (!TryGetNetworkPlayer(playerRef, out NetworkPlayer player))
+                if (!TryGetNetworkPlayer(runner, playerRef, out NetworkPlayer player))
                     continue;
 
                 string nickname = player.GetNickname();
@@ -135,7 +132,7 @@ namespace _Project.Scripts.Multiplayer.PlayerListUi
 
                 foreach (PlayerRef playerRef in runner.ActivePlayers)
                 {
-                    if (!TryGetNetworkPlayer(playerRef, out NetworkPlayer player) || !IsPlayerLoaded(player))
+                    if (!TryGetNetworkPlayer(runner, playerRef, out NetworkPlayer player) || !IsPlayerLoaded(player))
                     {
                         allLoaded = false;
                         break;
@@ -155,13 +152,17 @@ namespace _Project.Scripts.Multiplayer.PlayerListUi
             return !string.IsNullOrEmpty(player.GetNickname());
         }
 
-        private bool TryGetNetworkPlayer(PlayerRef playerRef, out NetworkPlayer player)
+        private bool TryGetNetworkPlayer(NetworkRunner runner, PlayerRef playerRef, out NetworkPlayer player)
         {
             player = null;
-            if (_playerRegistry == null)
+            if (runner == null)
                 return false;
 
-            return _playerRegistry.TryGet(playerRef, out player);
+            NetworkObject playerObject = runner.GetPlayerObject(playerRef);
+            if (playerObject == null)
+                return false;
+
+            return playerObject.TryGetComponent(out player);
         }
     }
 }

@@ -2,40 +2,51 @@
 using Asteroids.Scripts.Configs.Snapshot.Weapons.Projectile;
 using Asteroids.Scripts.Damage;
 using Asteroids.Scripts.Pause;
-using Asteroids.Scripts.Spawning.Common.Pooling;
+using _Project.Scripts.Multiplayer;
+using Fusion;
 using UnityEngine;
 using Zenject;
-using IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
 
 namespace Asteroids.Scripts.Weapons.Projectile
 {
     public class ProjectileFactory : IProjectileFactory
     {
         private readonly IPauseSystem _pauseSystem;
-        private readonly IPoolableLifecycleManager<IPoolable> _lifecycleManager;
+        private readonly NetworkEventsRouter _networkEventsRouter;
         
-        private ProjectilePool _pool;
+        private NetworkObject _projectilePrefab;
 
         [Inject]
-        public ProjectileFactory(IPauseSystem pauseSystem, IPoolableLifecycleManager<IPoolable> lifecycleManager)
+        public ProjectileFactory(IPauseSystem pauseSystem, NetworkEventsRouter networkEventsRouter)
         {
             _pauseSystem = pauseSystem;
-            _lifecycleManager = lifecycleManager;
+            _networkEventsRouter = networkEventsRouter;
         }
 
-        public void Initialize(ProjectilePool pool)
+        public void Initialize(NetworkObject projectilePrefab)
         {
-            _pool = pool;
+            _projectilePrefab = projectilePrefab;
         }
 
         public void Create(Vector2 position, Quaternion rotation, 
             ProjectileConfig config, DamageInfo damageInfo, ICollisionService collisionService)
         {
-            if (_pool == null) return;
-            
-            Projectile projectile = _pool.Spawn(position, rotation, config, damageInfo, collisionService);
-            _pauseSystem.Register(projectile);
-            _lifecycleManager.Register(projectile, _pool);
+            NetworkRunner runner = _networkEventsRouter.GetAttachedRunner();
+            if (runner == null || !runner.IsServer || _projectilePrefab == null)
+                return;
+
+            NetworkObject obj = runner.Spawn(
+                _projectilePrefab,
+                position,
+                rotation,
+                null,
+                (r, spawned) =>
+                {
+                    Projectile projectile = spawned.GetComponent<Projectile>();
+                    projectile.SetPauseSystem(_pauseSystem);
+                    projectile.Initialize(config, damageInfo, collisionService);
+                    _pauseSystem.Register(projectile);
+                });
         }
     }
 }

@@ -2,6 +2,7 @@
 using Asteroids.Scripts.Effects.Explosion;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Spawning.Common.Pooling;
+using Fusion;
 using UnityEngine;
 using Zenject;
 using Pooling_IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
@@ -36,13 +37,29 @@ namespace Asteroids.Scripts.Spawning.Enemies.Pooling
         public void Register(IEnemy enemy, IMemoryPool pool)
         {
             enemy.OnKilled += HandleEnemyKilled;
+            if (enemy is NetworkBehaviour)
+            {
+                _explosionEffectSpawner.AddEnemy(enemy);
+                return;
+            }
+
             _poolLifecycle.Register(enemy, pool);
             _explosionEffectSpawner.AddEnemy(enemy);
         }
 
         private void HandleEnemyKilled(GameObject killer, IEnemy enemy)
         {
-            _poolLifecycle.Despawn(enemy);
+            if (enemy is NetworkBehaviour netEnemy)
+            {
+                if (netEnemy.Object != null && netEnemy.Object.HasStateAuthority && netEnemy.Runner != null)
+                    netEnemy.Runner.Despawn(netEnemy.Object);
+
+                enemy.OnKilled -= HandleEnemyKilled;
+            }
+            else
+            {
+                _poolLifecycle.Despawn(enemy);
+            }
             OnEnemyKilled?.Invoke(killer, enemy);
         }
 
