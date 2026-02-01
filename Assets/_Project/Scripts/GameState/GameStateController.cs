@@ -32,12 +32,12 @@ namespace Asteroids.Scripts.GameState
         public void Initialize(IPlayerController playerController)
         {
             _playerController = playerController;
-            _playerController.OnKilled += HandlePlayerDeath;
+            //_playerController.OnKilled += HandlePlayerDeath;
         }
 
         public void Dispose()
         {
-            _playerController.OnKilled -= HandlePlayerDeath;
+            //_playerController.OnKilled -= HandlePlayerDeath;
         }
 
         public void HandlePlayerDeath()

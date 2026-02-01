@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Configs.Runtime;
 using Asteroids.Scripts.Core.InjectIds;
-using Asteroids.Scripts.GameState;
 using Asteroids.Scripts.GameState.GameplaySession;
 using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Player.Movement;
@@ -33,7 +31,7 @@ namespace Asteroids.Scripts.Player
         private readonly ICollisionService _collisionService;
         private readonly IPlayerConfigProvider _playerConfigProvider;
         private readonly IEnemyMovementConfigurator _enemyMovementConfigurator;
-        private readonly IGameStateController _gameStateController;
+        private readonly PlayerControllerRegistry _playerControllerRegistry;
         private readonly IBoundsManager _boundsManager;
         private readonly IPauseSystem _pauseSystem;
         private readonly IGameplaySessionManager _gameplaySessionManager;
@@ -51,7 +49,7 @@ namespace Asteroids.Scripts.Player
             [Inject(Id = Vector2InjectId.PlayerStartPos)] Vector2 playerSpawnPosition, 
             [Inject(Id = CollisionServiceInjectId.Player)] ICollisionService collisionService,
             IPlayerConfigProvider playerConfigProvider, IEnemyMovementConfigurator enemyMovementConfigurator, 
-            IGameStateController gameStateController, IBoundsManager boundsManager, IPauseSystem pauseSystem, 
+            PlayerControllerRegistry playerControllerRegistry, IBoundsManager boundsManager, IPauseSystem pauseSystem, 
             IGameplaySessionManager gameplaySessionManager, IPlayerParamsService playerParamsService, 
             PlayerWeaponsInitializer weaponsInitializer, NetworkEventsRouter networkEventsRouter)
         {
@@ -62,7 +60,7 @@ namespace Asteroids.Scripts.Player
             _collisionService = collisionService;
             _playerConfigProvider = playerConfigProvider;
             _enemyMovementConfigurator = enemyMovementConfigurator;
-            _gameStateController = gameStateController;
+            _playerControllerRegistry = playerControllerRegistry;
             _boundsManager = boundsManager;
             _pauseSystem = pauseSystem;
             _gameplaySessionManager = gameplaySessionManager;
@@ -127,7 +125,7 @@ namespace Asteroids.Scripts.Player
         private void SpawnActivePlayers(NetworkRunner runner)
         {
             int index = 0;
-            foreach (var player in runner.ActivePlayers)
+            foreach (PlayerRef player in runner.ActivePlayers)
             {
                 if (_spawnedPlayers.ContainsKey(player))
                     continue;
@@ -212,6 +210,8 @@ namespace Asteroids.Scripts.Player
             _pauseSystem.Register(playerController);
             _weaponsInitializer.Initialize(
                 playerGo, _collisionService, playerWeapons, laserGun.GetComponentInChildren<ILineRenderer>());
+            
+            _playerControllerRegistry.Register(playerController);
         }
 
         private void InitializeLocalPlayer(GameObject playerGo)
@@ -222,10 +222,11 @@ namespace Asteroids.Scripts.Player
             if (playerController == null || laserGun == null)
                 return;
 
-            _gameStateController.Initialize(playerController);
             _gameplaySessionManager.Initialize(playerController);
             _playerParamsService.Initialize(
                 playerGo.transform, playerGo.GetComponent<Rigidbody2D>(), laserGun);
+            
+            _playerControllerRegistry.Register(playerController);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Asteroids.Scripts.Player
 {
     public class PlayerController : NetworkBehaviour, IPlayerController
     {
-        public event Action OnKilled;
+        public event Action<IPlayerController> OnKilled;
 
         [Networked] private Vector2 NetPosition { get; set; }
         [Networked] private float NetRotation { get; set; }
@@ -19,6 +19,8 @@ namespace Asteroids.Scripts.Player
         private float _moveInput;
         private float _rotateInput;
         private Rigidbody2D _rigidbody;
+        private bool _isDead;
+        private bool _deathHandled;
         
         public Transform Transform => transform;
 
@@ -32,6 +34,8 @@ namespace Asteroids.Scripts.Player
         {
             if (!Object.HasStateAuthority)
                 return;
+
+            _rigidbody.angularVelocity = 0f;
 
             if (GetInput(out _Project.Scripts.Multiplayer.Input.PlayerNetInput input))
             {
@@ -83,7 +87,32 @@ namespace Asteroids.Scripts.Player
 
         public void TakeDamage(DamageInfo damageInfo)
         {
-            OnKilled?.Invoke();
+            if (!Object.HasStateAuthority)
+                return;
+
+            if (_isDead)
+                return;
+
+            _isDead = true;
+            RpcNotifyKilled();
+        }
+
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+        private void RpcNotifyKilled()
+        {
+            if (_deathHandled)
+                return;
+
+            _deathHandled = true;
+            _isDead = true;
+            OnKilled?.Invoke(this);
+            ApplyDeathState();
+        }
+
+        private void ApplyDeathState()
+        {
+            gameObject.SetActive(false);
+            _rigidbody.linearVelocity = Vector2.zero;
         }
 
         public DamageInfo GetDamageInfo()

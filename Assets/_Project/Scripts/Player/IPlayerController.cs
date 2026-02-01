@@ -10,7 +10,7 @@ namespace Asteroids.Scripts.Player
 {
     public interface IPlayerController : ITransformProvider, IDamageable, IDamageSource, IWarpable, IPausable
     {
-        public event Action OnKilled;
+        public event Action<IPlayerController> OnKilled;
         
         public void Initialize(IPlayerMovement movement, IWeaponHandler weaponHandler);
         public void SetInputs(float move, float rotate);
