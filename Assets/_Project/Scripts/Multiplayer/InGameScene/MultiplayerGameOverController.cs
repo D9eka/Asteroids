@@ -6,6 +6,7 @@ using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Player;
 using Cysharp.Threading.Tasks;
 using Fusion;
+using UnityEngine.SceneManagement;
 using Zenject;
 using Random = UnityEngine.Random;
 
@@ -105,7 +106,8 @@ namespace _Project.Scripts.Multiplayer.InGameScene
                 return;
 
             DespawnAllPlayers(runner);
-            await runner.LoadScene(_lobbySceneRef);
+            await runner.Shutdown();
+            SceneManager.LoadScene(_lobbySceneRef.AsIndex);
         }
 
         private void DespawnAllPlayers(NetworkRunner runner)
