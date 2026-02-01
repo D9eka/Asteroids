@@ -1,8 +1,10 @@
 ﻿using System;
+using _Project.Scripts.Multiplayer;
 using Asteroids.Scripts.Damage;
 using Asteroids.Scripts.Player.Movement;
 using Asteroids.Scripts.Player.Weapons;
 using Fusion;
+using UniRx;
 using UnityEngine;
 
 namespace Asteroids.Scripts.Player
@@ -13,7 +15,9 @@ namespace Asteroids.Scripts.Player
 
         [Networked] private Vector2 NetPosition { get; set; }
         [Networked] private float NetRotation { get; set; }
-        
+        [Networked] private int NetScore { get; set; }
+        [Networked] private NetworkString<_32> NetNickname { get; set; }
+
         private IPlayerMovement _movement;
         private IWeaponHandler _weaponHandler;
         private float _moveInput;
@@ -21,17 +25,33 @@ namespace Asteroids.Scripts.Player
         private Rigidbody2D _rigidbody;
         private bool _isDead;
         private bool _deathHandled;
+        private NetworkPlayer _networkPlayer;
+        private int _lastScore;
+        private string _lastNickname;
         
         public Transform Transform => transform;
+        public int Score => NetScore;
+        public string Nickname => NetNickname.ToString();
 
         public override void Spawned()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _rigidbody.simulated = Object.HasStateAuthority;
+            _lastScore = NetScore;
+            _lastNickname = NetNickname.ToString();
+
         }
 
         public override void FixedUpdateNetwork()
         {
+            if (Object.HasStateAuthority)
+            {
+                if (_networkPlayer != null && string.IsNullOrEmpty(NetNickname.ToString()))
+                    NetNickname = _networkPlayer.GetNickname();
+
+                UpdateStatsIfChanged();
+            }
+
             if (!Object.HasStateAuthority)
                 return;
 
@@ -61,6 +81,7 @@ namespace Asteroids.Scripts.Player
                 return;
 
             transform.SetPositionAndRotation(NetPosition, Quaternion.Euler(0f, 0f, NetRotation));
+            UpdateStatsIfChanged();
         }
 
         public void Initialize(IPlayerMovement movement, IWeaponHandler weaponHandler)
@@ -68,6 +89,14 @@ namespace Asteroids.Scripts.Player
             _movement = movement;
             _weaponHandler = weaponHandler;
         }
+
+        public void SetNetworkPlayer(NetworkPlayer networkPlayer)
+        {
+            _networkPlayer = networkPlayer;
+            if (Object.HasStateAuthority && networkPlayer != null && string.IsNullOrEmpty(NetNickname.ToString()))
+                NetNickname = networkPlayer.GetNickname();
+        }
+
 
         public void SetInputs(float move, float rotate)
         {
@@ -97,6 +126,17 @@ namespace Asteroids.Scripts.Player
             RpcNotifyKilled();
         }
 
+        public void AddScore(int points)
+        {
+            if (!Object.HasStateAuthority)
+                return;
+
+            if (points <= 0)
+                return;
+
+            NetScore += points;
+        }
+
         [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
         private void RpcNotifyKilled()
         {
@@ -107,6 +147,16 @@ namespace Asteroids.Scripts.Player
             _isDead = true;
             OnKilled?.Invoke(this);
             ApplyDeathState();
+        }
+
+        private void UpdateStatsIfChanged()
+        {
+            string nickname = NetNickname.ToString();
+            if (_lastScore == NetScore && _lastNickname == nickname)
+                return;
+
+            _lastScore = NetScore;
+            _lastNickname = nickname;
         }
 
         private void ApplyDeathState()

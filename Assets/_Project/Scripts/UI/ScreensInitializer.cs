@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using _Project.Scripts.Multiplayer.PlayerHud;
 using Asteroids.Scripts.Addressable;
 using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.GameState.GameplaySession;
@@ -73,6 +74,12 @@ namespace Asteroids.Scripts.UI
                 .WithId(screenId)
                 .FromInstance(screen)
                 .AsCached();
+
+            if (screen is GameplayScreenView gameplayScreenView)
+            {
+                PlayersStatsView statsView = gameplayScreenView.PlayersStatsView;
+                _container.BindInstance(statsView);
+            }
             
             screenGo.GetComponent<Canvas>().worldCamera = _camera;
         }

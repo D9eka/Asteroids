@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using _Project.Scripts.Multiplayer.PlayerHud;
+using DG.Tweening;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -9,13 +10,14 @@ namespace Asteroids.Scripts.UI.Screens.GameplayScreen
 {
     public class GameplayScreenView : BaseView
     {
-        [SerializeField] private TMP_Text _scoreText;
         [SerializeField] private TMP_Text _paramsText;
         [SerializeField] private Button _restartButton;
         [SerializeField] private Button _exitButton;
 
         private GameplayScreenViewModel _screenViewModel;
         private readonly CompositeDisposable _disposables = new CompositeDisposable();
+
+        [field:SerializeField] public PlayersStatsView PlayersStatsView { get; private set; }
 
         [Inject]
         public void Construct(GameplayScreenViewModel screenViewModel)
@@ -26,10 +28,6 @@ namespace Asteroids.Scripts.UI.Screens.GameplayScreen
         protected override void Awake()
         {
             base.Awake();
-            
-            _screenViewModel.CurrentScore
-                .Subscribe(UpdateScoreText)
-                .AddTo(_disposables);
             
             _screenViewModel.PlayerParams
                 .Subscribe(UpdateParamsText)
@@ -54,11 +52,6 @@ namespace Asteroids.Scripts.UI.Screens.GameplayScreen
         {
             _disposables.Dispose();
             _restartButton.onClick.RemoveAllListeners();
-        }
-
-        private void UpdateScoreText(int score)
-        {
-            _scoreText.text = score.ToString();
         }
 
         private void UpdateParamsText(string parameters)

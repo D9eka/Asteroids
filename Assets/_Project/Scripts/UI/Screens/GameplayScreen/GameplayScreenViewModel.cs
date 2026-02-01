@@ -9,24 +9,20 @@ namespace Asteroids.Scripts.UI.Screens.GameplayScreen
 {
     public class GameplayScreenViewModel : IViewModel, IInitializable, IDisposable
     {
-        private readonly IScoreService _scoreService;
         private readonly IPlayerParamsService _paramsService;
         private readonly IGameStateController _gameStateController;
         private readonly IUIController _uiController;
 
         private readonly CompositeDisposable _disposables = new CompositeDisposable();
 
-        public ReactiveProperty<int> CurrentScore { get; } = new ReactiveProperty<int>(0);
         public ReactiveProperty<string> PlayerParams { get; } = new ReactiveProperty<string>("");
         public IReactiveCommand<bool> ShowRestartButtonCommand { get; } = new ReactiveCommand<bool>();
 
         public GameplayScreenViewModel(
-            IScoreService scoreService,
             IPlayerParamsService paramsService,
             IGameStateController gameStateController,
             IUIController uiController)
         {
-            _scoreService = scoreService;
             _paramsService = paramsService;
             _gameStateController = gameStateController;
             _uiController = uiController;
@@ -34,10 +30,6 @@ namespace Asteroids.Scripts.UI.Screens.GameplayScreen
 
         public void Initialize()
         {
-            _scoreService.TotalScore
-                .Subscribe(score => CurrentScore.Value = score)
-                .AddTo(_disposables);
-        
             _gameStateController.PlayerDeath
                 .Subscribe(_ => ShowRestartButtonCommand.Execute(true))
                 .AddTo(_disposables);

@@ -26,6 +26,8 @@ namespace _Project.Scripts.Multiplayer
             _networkEventsRouter.SceneLoadDoneEvent += OnSceneLoadDone;
             _networkEventsRouter.PlayerJoinedEvent += OnPlayerChanged;
             _networkEventsRouter.PlayerLeftEvent += OnPlayerChanged;
+            _networkEventsRouter.ObjectEnterAOIEvent += OnObjectEnterAoi;
+            _networkEventsRouter.ObjectExitAOIEvent += OnObjectExitAoi;
         }
 
         public void Dispose()
@@ -34,6 +36,8 @@ namespace _Project.Scripts.Multiplayer
             _networkEventsRouter.SceneLoadDoneEvent -= OnSceneLoadDone;
             _networkEventsRouter.PlayerJoinedEvent -= OnPlayerChanged;
             _networkEventsRouter.PlayerLeftEvent -= OnPlayerChanged;
+            _networkEventsRouter.ObjectEnterAOIEvent -= OnObjectEnterAoi;
+            _networkEventsRouter.ObjectExitAOIEvent -= OnObjectExitAoi;
             _players.Clear();
         }
 
@@ -46,8 +50,24 @@ namespace _Project.Scripts.Multiplayer
         {
             if (player == null || player.Object == null)
                 return;
-            
-            _players[player.Object.InputAuthority] = player;
+
+            PlayerRef playerRef = player.Object.InputAuthority;
+            if (_players.TryGetValue(playerRef, out IPlayerController existing) && ReferenceEquals(existing, player))
+                return;
+
+            _players[playerRef] = player;
+            OnPlayerAdded?.Invoke(player);
+        }
+
+        public void Register(PlayerRef playerRef, PlayerController player)
+        {
+            if (player == null)
+                return;
+
+            if (_players.TryGetValue(playerRef, out IPlayerController existing) && ReferenceEquals(existing, player))
+                return;
+
+            _players[playerRef] = player;
             OnPlayerAdded?.Invoke(player);
         }
 
@@ -61,6 +81,7 @@ namespace _Project.Scripts.Multiplayer
 
         private void OnSceneLoadDone(NetworkRunner runner)
         {
+            SyncPlayersFromRunner(runner);
             PruneMissingPlayers(runner);
         }
 
@@ -75,6 +96,7 @@ namespace _Project.Scripts.Multiplayer
                 return;
             }
 
+            SyncPlayersFromRunner(runner);
             if (!IsActivePlayer(runner, player))
                 _players.Remove(player);
         }
@@ -115,6 +137,39 @@ namespace _Project.Scripts.Multiplayer
         private void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
         {
             _players.Clear();
+        }
+
+        private void OnObjectEnterAoi(NetworkRunner runner, NetworkObject obj, PlayerRef player)
+        {
+            if (obj == null)
+                return;
+
+            if (obj.TryGetComponent(out PlayerController controller))
+                Register(obj.InputAuthority, controller);
+        }
+
+        private void OnObjectExitAoi(NetworkRunner runner, NetworkObject obj, PlayerRef player)
+        {
+            if (obj == null)
+                return;
+
+            if (obj.TryGetComponent(out PlayerController controller))
+                Unregister(controller);
+        }
+
+        private void SyncPlayersFromRunner(NetworkRunner runner)
+        {
+            if (runner == null)
+                return;
+
+            foreach (PlayerRef playerRef in runner.ActivePlayers)
+            {
+                if (!runner.TryGetPlayerObject(playerRef, out NetworkObject playerObject) || playerObject == null)
+                    continue;
+
+                if (playerObject.TryGetComponent(out PlayerController controller))
+                    Register(playerRef, controller);
+            }
         }
     }
 }

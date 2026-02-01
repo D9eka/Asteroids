@@ -13,13 +13,10 @@ namespace Asteroids.Scripts.Score
 {
     public class ScoreService : IScoreService, IInitializable, IDisposable
     {
-        private readonly ReactiveProperty<int> _totalScore = new ReactiveProperty<int>(0);
         private readonly IEnemyLifecycleManager _enemyLifecycleManager;
 
         private IReadOnlyDictionary<EnemyType, int> _config;
         
-        public IReadOnlyReactiveProperty<int> TotalScore => _totalScore;
-
         public ScoreService(IEnemyLifecycleManager enemyLifecycleManager)
         {
             _enemyLifecycleManager = enemyLifecycleManager;
@@ -41,16 +38,12 @@ namespace Asteroids.Scripts.Score
         }
 
         public void AddScore(GameObject killer, IEnemy enemy)
-         {
-            if (!CanAddScoreToKiller(killer)) return;
-            
-            int points = CalculatePoints(enemy);
-            _totalScore.Value += points;
-        }
-
-        public void ResetScore()
         {
-            _totalScore.Value = 0;
+            if (!TryGetPlayerController(killer, out PlayerController playerController))
+                return;
+
+            int points = CalculatePoints(enemy);
+            playerController.AddScore(points);
         }
 
         private int CalculatePoints(IEnemy enemy)
@@ -58,11 +51,36 @@ namespace Asteroids.Scripts.Score
             return _config[enemy.Type];
         }
 
-        private bool CanAddScoreToKiller(GameObject killer)
+        private bool TryGetPlayerController(GameObject killer, out PlayerController playerController)
         {
-            return killer.TryGetComponent<IPlayerController>(out _) ||
-                   (killer.TryGetComponent(out Projectile projectile) &&
-                    projectile.TryGetComponent<IPlayerController>(out _));
+            playerController = null;
+            if (killer == null)
+                return false;
+
+            if (killer.TryGetComponent(out PlayerController directPlayer))
+            {
+                playerController = directPlayer;
+                return true;
+            }
+
+            PlayerController parentPlayer = killer.GetComponentInParent<PlayerController>();
+            if (parentPlayer != null)
+            {
+                playerController = parentPlayer;
+                return true;
+            }
+
+            if (killer.TryGetComponent(out Projectile projectile))
+            {
+                PlayerController projectileOwner = projectile.GetComponentInParent<PlayerController>();
+                if (projectileOwner != null)
+                {
+                    playerController = projectileOwner;
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

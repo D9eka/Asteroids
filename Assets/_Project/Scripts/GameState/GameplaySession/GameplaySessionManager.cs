@@ -16,7 +16,6 @@ namespace Asteroids.Scripts.GameState.GameplaySession
     public class GameplaySessionManager : IGameplaySessionManager
     {
         private readonly Vector2 _playerStartPosition;
-        private readonly IScoreService _score;
         private readonly IPauseSystem _pauseSystem;
         private readonly IPoolableLifecycleManager<Pooling_IPoolable> _lifecycleManager;
         private readonly IUIController _uiController;
@@ -30,13 +29,11 @@ namespace Asteroids.Scripts.GameState.GameplaySession
         [Inject]
         public GameplaySessionManager(
             [Inject(Id = Vector2InjectId.PlayerStartPos)] Vector2 playerStartPosition,
-            IScoreService score,
             IPauseSystem pauseSystem,
             IPoolableLifecycleManager<Pooling_IPoolable> lifecycleManager, 
             IUIController uiController)
         {
             _playerStartPosition = playerStartPosition;
-            _score = score;
             _pauseSystem = pauseSystem;
             _lifecycleManager = lifecycleManager;
             _uiController = uiController;
@@ -54,7 +51,6 @@ namespace Asteroids.Scripts.GameState.GameplaySession
 
         public void Start()
         {
-            _score.ResetScore();
             _pauseSystem.Resume();
             if (_gameplayView != null)
             {

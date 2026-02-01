@@ -36,6 +36,8 @@ using Asteroids.Scripts.Weapons.Projectile;
 using Asteroids.Scripts.Weapons.Services.Raycast;
 using _Project.Scripts.Multiplayer;
 using _Project.Scripts.Multiplayer.InGameScene;
+using _Project.Scripts.Multiplayer.PlayerHud;
+using _Project.Scripts.Multiplayer.PlayerStats;
 using Fusion;
 using UnityEngine;
 using Zenject;
@@ -192,7 +194,7 @@ namespace Asteroids.Scripts.Installers
 
         private void InstallScoreSystem()
         {
-            Container.BindInterfacesTo<ScoreService>().AsSingle();
+            Container.BindInterfacesTo<ScoreService>().AsSingle().NonLazy();
             Container.BindInterfacesTo<ScoreConfigRuntime>().AsSingle().NonLazy();
         }
 
@@ -211,6 +213,7 @@ namespace Asteroids.Scripts.Installers
             Container.BindInterfacesTo<UIController>().AsSingle();
             Container.BindInterfacesTo<PlayerParamsService>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<GameplayScreenViewModel>().AsSingle();
+            Container.BindInterfacesAndSelfTo<PlayersStatsViewModel>().AsSingle();
             
             Container
                 .BindInterfacesTo<ScreensInitializer>()

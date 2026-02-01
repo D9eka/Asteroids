@@ -140,6 +140,11 @@ namespace Asteroids.Scripts.Player
             int index = indexOverride ?? _spawnedPlayers.Count;
             Vector3 spawnPosition = GetSpawnPosition(index);
 
+            NetworkPlayer networkPlayer = null;
+            NetworkObject existingPlayerObject = runner.GetPlayerObject(player);
+            if (existingPlayerObject != null)
+                existingPlayerObject.TryGetComponent(out networkPlayer);
+
             NetworkObject playerObject = runner.Spawn(
                 _networkPlayerPrefab,
                 spawnPosition,
@@ -148,7 +153,13 @@ namespace Asteroids.Scripts.Player
                 OnBeforePlayerSpawned);
 
             _spawnedPlayers[player] = playerObject;
+            if (playerObject != null && playerObject.TryGetComponent(out PlayerController playerController))
+            {
+                playerController.SetNetworkPlayer(networkPlayer);
+                _playerControllerRegistry.Register(player, playerController);
+            }
             runner.SetPlayerObject(player, playerObject);
+            Debug.Log($"[PlayerControllerInitializer] SetPlayerObject for {player} -> {playerObject}");
         }
 
         private void OnBeforePlayerSpawned(NetworkRunner runner, NetworkObject obj)
@@ -176,6 +187,8 @@ namespace Asteroids.Scripts.Player
                 return;
 
             _localInitialized.Add(player);
+            if (playerObject.TryGetComponent(out PlayerController playerController))
+                _playerControllerRegistry.Register(player, playerController);
             InitializeLocalPlayer(playerObject.gameObject);
         }
 
@@ -210,8 +223,6 @@ namespace Asteroids.Scripts.Player
             _pauseSystem.Register(playerController);
             _weaponsInitializer.Initialize(
                 playerGo, _collisionService, playerWeapons, laserGun.GetComponentInChildren<ILineRenderer>());
-            
-            _playerControllerRegistry.Register(playerController);
         }
 
         private void InitializeLocalPlayer(GameObject playerGo)
@@ -226,7 +237,6 @@ namespace Asteroids.Scripts.Player
             _playerParamsService.Initialize(
                 playerGo.transform, playerGo.GetComponent<Rigidbody2D>(), laserGun);
             
-            _playerControllerRegistry.Register(playerController);
         }
     }
 }
