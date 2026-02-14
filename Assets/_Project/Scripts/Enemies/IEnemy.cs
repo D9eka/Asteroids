@@ -8,14 +8,15 @@ using UnityEngine;
 
 namespace Asteroids.Scripts.Enemies
 {
-    public interface IEnemy : ITransformProvider, IDamageable, IDamageSource, IPoolable, IPausable
+    public interface IEnemy : ITransformProvider, IDamageable, IDamageSource, IPoolable
     {
         public event Action<GameObject, IEnemy> OnKilled;
         
         EnemyType Type { get; }
+        int Id { get; }
         CollisionHandler CollisionHandler { get; }
-        Movement.Core.Movement Movement { get; }
 
         public void SetType(EnemyType type);
+        public void SetId(int id);
     }
 }

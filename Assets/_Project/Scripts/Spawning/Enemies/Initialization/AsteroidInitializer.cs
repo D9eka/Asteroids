@@ -5,6 +5,7 @@ using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Spawning.Common.Core;
 using Asteroids.Scripts.Spawning.Enemies.Fragments;
 using Asteroids.Scripts.Spawning.Enemies.Movement;
+using Leopotam.EcsLite;
 using Zenject;
 
 namespace Asteroids.Scripts.Spawning.Enemies.Initialization
@@ -14,10 +15,10 @@ namespace Asteroids.Scripts.Spawning.Enemies.Initialization
         private readonly IAsteroidFragmentFactory _fragmentsFactory;
 
         [Inject]
-        public AsteroidInitializer(ICollisionService collisionService, IEnemyMovementConfigurator movementConfigurator, 
+        public AsteroidInitializer(EcsWorld ecsWorld, ICollisionService collisionService, IEnemyMovementConfigurator movementConfigurator, 
             ISpawnBoundaryTracker spawnBoundaryTracker, IPauseSystem pauseSystem, 
             IAsteroidFragmentFactory fragmentsFactory)
-            : base(collisionService, movementConfigurator, spawnBoundaryTracker, pauseSystem)
+            : base(ecsWorld, collisionService, movementConfigurator, spawnBoundaryTracker, pauseSystem)
         {
             _fragmentsFactory = fragmentsFactory;
         }

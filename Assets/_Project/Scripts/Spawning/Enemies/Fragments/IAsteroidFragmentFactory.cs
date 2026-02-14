@@ -5,7 +5,7 @@ namespace Asteroids.Scripts.Spawning.Enemies.Fragments
 {
     public interface IAsteroidFragmentFactory
     {
-        void SpawnFragments(Vector2 center, Vector2 hitDirection, float asteroidSpeed, 
+        void SpawnFragments(Vector2 center, Vector2 hitDirection, int asteroidId, 
             AsteroidFragmentTypeSpawnConfig spawnConfig);
     }
 }

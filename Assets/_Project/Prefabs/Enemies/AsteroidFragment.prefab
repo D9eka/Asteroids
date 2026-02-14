@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 6742866115990662809}
   - component: {fileID: 8114734311106011773}
   - component: {fileID: 8843063650002593441}
-  - component: {fileID: 1912700377609693690}
+  - component: {fileID: 2089152339856286206}
   - component: {fileID: 3879494569353995316}
   - component: {fileID: 7069502434313256706}
   m_Layer: 0
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Enemies.AsteroidFragment
   <CollisionHandler>k__BackingField: {fileID: 8843063650002593441}
-  <Movement>k__BackingField: {fileID: 1912700377609693690}
+  <Movement>k__BackingField: {fileID: 0}
 --- !u!114 &8843063650002593441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dba098b4b64481192bac26472ef530b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Collision.CollisionHandler
---- !u!114 &1912700377609693690
+--- !u!114 &2089152339856286206
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -162,9 +162,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3022016801730663401}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 457671c8942b434bb76c6ee96713e004, type: 3}
+  m_Script: {fileID: 11500000, guid: 4376714cbc5a428791633115d5d1ee53, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Core.Movement
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Ecs.Views.EnemyMovementView
 --- !u!50 &3879494569353995316
 Rigidbody2D:
   serializedVersion: 5

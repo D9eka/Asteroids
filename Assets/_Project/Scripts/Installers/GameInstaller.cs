@@ -1,5 +1,5 @@
 ﻿using System;
-using _Project.Scripts.Ecs;
+using Asteroids.Scripts.Ecs;
 using Asteroids.Scripts.Effects;
 using Asteroids.Scripts.Effects.Explosion;
 using Asteroids.Scripts.Audio.Sounds;

@@ -1,11 +1,11 @@
-﻿using Asteroids.Scripts.Configs.Snapshot.Enemies.SpawnConfig;
+﻿using Asteroids.Scripts.Ecs.Components;
+using Asteroids.Scripts.Configs.Snapshot.Enemies.SpawnConfig;
 using Asteroids.Scripts.Enemies;
-using Asteroids.Scripts.Movement.DirectionProviders;
-using Asteroids.Scripts.Movement.RotationProviders;
 using Asteroids.Scripts.Spawning.Common.Core;
 using Asteroids.Scripts.Spawning.Enemies.Initialization;
 using Asteroids.Scripts.Spawning.Enemies.Movement;
 using Asteroids.Scripts.Spawning.Enemies.Providers;
+using Leopotam.EcsLite;
 using UnityEngine;
 using Zenject;
 
@@ -13,6 +13,7 @@ namespace Asteroids.Scripts.Spawning.Enemies.Fragments
 {
     public class AsteroidFragmentFactory : IAsteroidFragmentFactory
     {
+        private readonly EcsWorld _ecsWorld;
         private readonly IPooledEnemyProvider<AsteroidFragment, EnemyTypeSpawnConfig> _enemyProvider;
         private readonly IEnemyMovementConfigurator _movementConfigurator;
         private readonly ISpawnBoundaryTracker _boundaryTracker;
@@ -20,20 +21,24 @@ namespace Asteroids.Scripts.Spawning.Enemies.Fragments
 
         [Inject]
         public AsteroidFragmentFactory(
+            EcsWorld ecsWorld,
             IPooledEnemyProvider<AsteroidFragment, EnemyTypeSpawnConfig> provider,
             IEnemyMovementConfigurator movementConfigurator,
             ISpawnBoundaryTracker boundaryTracker,
             DefaultEnemyInitializer initializer)
         {
+            _ecsWorld = ecsWorld;
             _enemyProvider = provider;
             _movementConfigurator = movementConfigurator;
             _boundaryTracker = boundaryTracker;
             _initializer = initializer;
         }
 
-        public void SpawnFragments(Vector2 center, Vector2 hitDirection, float asteroidSpeed, 
+        public void SpawnFragments(Vector2 center, Vector2 hitDirection, int asteroidId, 
             AsteroidFragmentTypeSpawnConfig spawnConfig)
         {
+            EcsPool<VelocityMovementComponent> velocityMovementComponentPool = _ecsWorld.GetPool<VelocityMovementComponent>();
+            float asteroidSpeed = velocityMovementComponentPool.Get(asteroidId).Velocity;
             int count = Random.Range(spawnConfig.MinFragments, spawnConfig.MaxFragments + 1);
             for (int i = 0; i < count; i++)
             {
@@ -53,17 +58,14 @@ namespace Asteroids.Scripts.Spawning.Enemies.Fragments
             Vector2 pos = center + randomOffset * spawnConfig.FragmentPositionOffsetModifier;
             AsteroidFragment fragment = _enemyProvider.Spawn(pos);
             _initializer.Initialize(fragment, spawnConfig.Config);
-
-            IDirectionProvider directionProvider =
-                _movementConfigurator.CreateDirectionProvider(spawnConfig.Config.DirectionProviderConfig, direction);
-            fragment.Movement.SetDirectionProvider(directionProvider);
             
-            IRotationProvider rotationProvider = 
-                _movementConfigurator.CreateRotationProvider(spawnConfig.Config.RotationProviderConfig, fragment.Transform);
-            fragment.Movement.SetRotationProvider(rotationProvider);
-            fragment.Movement.SetVelocity(speed);
+            EcsPool<LinearDirectionComponent> linearDirectionComponentPool = _ecsWorld.GetPool<LinearDirectionComponent>();
+            ref LinearDirectionComponent linearDirectionComponent = ref linearDirectionComponentPool.Get(fragment.Id);
+            linearDirectionComponent.Direction = direction;
 
-            _boundaryTracker.RegisterObject(fragment.Transform);
+            EcsPool<VelocityMovementComponent> velocityMovementComponentPool = _ecsWorld.GetPool<VelocityMovementComponent>();
+            ref VelocityMovementComponent velocityMovementComponent = ref velocityMovementComponentPool.Get(fragment.Id);
+            velocityMovementComponent.Velocity = speed;
         }
     }
 }

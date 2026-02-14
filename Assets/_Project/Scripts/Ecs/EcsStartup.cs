@@ -1,13 +1,13 @@
 ﻿using System;
-using _Project.Scripts.Ecs.Systems;
 using Asteroids.Scripts.Configs.Runtime;
+using Asteroids.Scripts.Ecs.Systems;
 using Asteroids.Scripts.Input;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Ecs
+namespace Asteroids.Scripts.Ecs
 {
     public class EcsStartup : IInitializable, IFixedTickable, IDisposable
     {
@@ -32,6 +32,10 @@ namespace _Project.Scripts.Ecs
                 .Add(new InputWriteSystem(_container.Resolve<IPlayerInput>()))
                 .Add(new ConfigSyncSystem(_container.Resolve<IPlayerConfigProvider>()))
                 .Add(new PlayerMovementSystem())
+                .Add(new TargetDirectionSystem())
+                .Add(new LinearMovementSystem())
+                .Add(new VelocityRotationSystem())
+                .Add(new TargetRotationSystem())
                 .Init();
         }
         

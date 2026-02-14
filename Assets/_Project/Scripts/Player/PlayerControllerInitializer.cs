@@ -1,6 +1,6 @@
 ﻿using System;
-using _Project.Scripts.Ecs.Components;
-using _Project.Scripts.Ecs.Views;
+using Asteroids.Scripts.Ecs.Components;
+using Asteroids.Scripts.Ecs.Views;
 using Asteroids.Scripts.Addressable;
 using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Configs.Runtime;
@@ -82,7 +82,6 @@ namespace Asteroids.Scripts.Player
                 playerController.GetComponent<CollisionHandler>().Initialize(_collisionService);
             
                 playerController.Initialize(new PlayerWeaponsHandler(playerWeapons));
-                _enemyMovementConfigurator.Initialize(playerGo.transform);
                 _gameStateController.Initialize(playerController);
                 _boundsManager.RegisterObject(playerGo.transform);
                 _gameplaySessionManager.Initialize(playerController);
@@ -110,20 +109,23 @@ namespace Asteroids.Scripts.Player
         private void InstallEcs(GameObject playerGo)
         {
             int playerEntity = _ecsWorld.NewEntity();
+            EcsPool<PositionComponent> positionsPool = _ecsWorld.GetPool<PositionComponent>();
+            positionsPool.Add(playerEntity);
             EcsPool<PlayerInputComponent> inputPool = _ecsWorld.GetPool<PlayerInputComponent>();
             inputPool.Add(playerEntity);
-            EcsPool<MovementStatsComponent> movementStatsPool = _ecsWorld.GetPool<MovementStatsComponent>();
+            EcsPool<PlayerMovementStatsComponent> movementStatsPool = _ecsWorld.GetPool<PlayerMovementStatsComponent>();
             movementStatsPool.Add(playerEntity);
             FillMovementStats(ref movementStatsPool.Get(playerEntity));
-            EcsPool<TransformDataComponent> transformDataPool = _ecsWorld.GetPool<TransformDataComponent>();
+            EcsPool<PlayerTransformDataComponent> transformDataPool = _ecsWorld.GetPool<PlayerTransformDataComponent>();
             transformDataPool.Add(playerEntity);
-            EcsPool<MovementResultComponent> movementResultPool = _ecsWorld.GetPool<MovementResultComponent>();
+            EcsPool<PlayerMovementResultComponent> movementResultPool = _ecsWorld.GetPool<PlayerMovementResultComponent>();
             movementResultPool.Add(playerEntity);
             PlayerMovementView playerMovementView = playerGo.GetComponent<PlayerMovementView>();
             playerMovementView.Initialize(_ecsWorld, playerEntity);
             _pauseSystem.Register(playerMovementView);
+            _enemyMovementConfigurator.Initialize(playerEntity);
         }
-        private void FillMovementStats(ref MovementStatsComponent stats)
+        private void FillMovementStats(ref PlayerMovementStatsComponent stats)
         {
             stats.ThrustForce = _playerConfigProvider.PlayerConfig.MovementConfig.ThrustForce;
             stats.RotationSpeed =  _playerConfigProvider.PlayerConfig.MovementConfig.RotationSpeed;

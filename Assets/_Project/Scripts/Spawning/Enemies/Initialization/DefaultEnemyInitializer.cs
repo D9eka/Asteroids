@@ -4,14 +4,15 @@ using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Spawning.Common.Core;
 using Asteroids.Scripts.Spawning.Enemies.Movement;
+using Leopotam.EcsLite;
 
 namespace Asteroids.Scripts.Spawning.Enemies.Initialization
 {
     public class DefaultEnemyInitializer : EnemyInitializer<IEnemy, EnemyTypeConfig>
     {
-        public DefaultEnemyInitializer(ICollisionService collisionService,
+        public DefaultEnemyInitializer(EcsWorld ecsWorld, ICollisionService collisionService,
             IEnemyMovementConfigurator movementConfigurator, ISpawnBoundaryTracker spawnBoundaryTracker, 
-            IPauseSystem pauseSystem) : base( collisionService, movementConfigurator, spawnBoundaryTracker, pauseSystem)
+            IPauseSystem pauseSystem) : base(ecsWorld, collisionService, movementConfigurator, spawnBoundaryTracker, pauseSystem)
         {
         }
     }

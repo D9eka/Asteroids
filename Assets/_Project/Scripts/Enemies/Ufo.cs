@@ -1,17 +1,17 @@
 ﻿using System;
 using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Damage;
+using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Weapons.Types.BulletGun;
 using UnityEngine;
 
 namespace Asteroids.Scripts.Enemies
 {
-    public class Ufo : MonoBehaviour, IEnemy
+    public class Ufo : MonoBehaviour, IEnemy, IPausable
     {
         public event Action<GameObject, IEnemy> OnKilled;
         
         [field: SerializeField] public CollisionHandler CollisionHandler { get; private set; }
-        [field: SerializeField] public Movement.Core.Movement Movement { get; private set; }
         [field: SerializeField] public BulletGun BulletGun { get; private set; }
 
         private bool _isPaused; 
@@ -20,6 +20,7 @@ namespace Asteroids.Scripts.Enemies
         public bool Enabled => gameObject.activeSelf;
         public bool Initialized { get; set; }
         public EnemyType Type { get; private set; }
+        public int Id { get; private set; }
 
         private void Update()
         {
@@ -32,6 +33,10 @@ namespace Asteroids.Scripts.Enemies
         public void SetType(EnemyType type)
         {
             Type = type;
+        }
+        public void SetId(int id)
+        {
+            Id = id;
         }
 
         public void OnSpawned()
@@ -59,13 +64,11 @@ namespace Asteroids.Scripts.Enemies
         public void Pause()
         {
             _isPaused = true;
-            Movement.Pause();
         }
 
         public void Resume()
         {
             _isPaused  = false;
-            Movement.Resume();
         }
     }
 }

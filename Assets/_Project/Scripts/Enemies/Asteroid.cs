@@ -14,7 +14,6 @@ namespace Asteroids.Scripts.Enemies
         public event Action<GameObject, IEnemy> OnKilled;
 
         [field: SerializeField] public CollisionHandler CollisionHandler { get; private set; }
-        [field: SerializeField] public Movement.Core.Movement Movement { get; private set; }
         private IAsteroidFragmentFactory _fragmentsFactory;
         private AsteroidFragmentTypeSpawnConfig _fragmentSpawnConfig;
         
@@ -22,10 +21,16 @@ namespace Asteroids.Scripts.Enemies
         public bool Enabled => gameObject.activeSelf;
         public bool Initialized { get; set; }
         public EnemyType Type { get; private set; }
+        public int Id  { get; private set; }
         
         public void SetType(EnemyType type)
         {
             Type = type;
+        }
+        
+        public void SetId(int id)
+        {
+            Id = id;
         }
 
         public void OnSpawned() => gameObject.SetActive(true);
@@ -50,22 +55,12 @@ namespace Asteroids.Scripts.Enemies
         private void SpawnFragments(GameObject damageInstigator)
         {
             Vector2 hitDirection = (transform.position - damageInstigator.transform.position).normalized;
-            _fragmentsFactory.SpawnFragments(transform.position, hitDirection, Movement.Velocity, _fragmentSpawnConfig);
+            _fragmentsFactory.SpawnFragments(transform.position, hitDirection, Id, _fragmentSpawnConfig);
         }
 
         public DamageInfo GetDamageInfo()
         {
             return new DamageInfo(DamageType.Collide, gameObject);
-        }
-
-        public void Pause()
-        {
-            Movement.Pause();
-        }
-
-        public void Resume()
-        {
-            Movement.Resume();
         }
     }
 }

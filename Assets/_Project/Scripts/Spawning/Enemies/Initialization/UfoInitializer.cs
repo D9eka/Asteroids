@@ -9,6 +9,7 @@ using Asteroids.Scripts.Spawning.Common.Core;
 using Asteroids.Scripts.Spawning.Enemies.Movement;
 using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Projectile;
+using Leopotam.EcsLite;
 using Zenject;
 
 namespace Asteroids.Scripts.Spawning.Enemies.Initialization
@@ -21,11 +22,11 @@ namespace Asteroids.Scripts.Spawning.Enemies.Initialization
         private readonly BulletGunEffectSpawner _bulletGunEffectSpawner;
 
         [Inject]
-        public UfoInitializer(ICollisionService collisionService, IEnemyMovementConfigurator movementConfigurator,
+        public UfoInitializer(EcsWorld ecsWorld, ICollisionService collisionService, IEnemyMovementConfigurator movementConfigurator,
             ISpawnBoundaryTracker spawnBoundaryTracker, IPauseSystem pauseSystem, IProjectileFactory projectileFactory, 
             IWeaponUpdater weaponUpdater, WeaponShotAudioSpawner weaponShotAudioSpawner,
             BulletGunEffectSpawner bulletGunEffectSpawner)
-            : base(collisionService, movementConfigurator, spawnBoundaryTracker, pauseSystem)
+            : base(ecsWorld, collisionService, movementConfigurator, spawnBoundaryTracker, pauseSystem)
         {
             _projectileFactory = projectileFactory;
             _weaponUpdater = weaponUpdater;

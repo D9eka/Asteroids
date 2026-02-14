@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6328515334721024391}
   - component: {fileID: 7491166219005679333}
   - component: {fileID: 6420356292477153062}
-  - component: {fileID: 2980452885365267006}
+  - component: {fileID: 1561219572128155776}
   - component: {fileID: 4105476867462061688}
   - component: {fileID: 1660797521701246277}
   m_Layer: 0
@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Enemies.Ufo
   <CollisionHandler>k__BackingField: {fileID: 6420356292477153062}
-  <Movement>k__BackingField: {fileID: 2980452885365267006}
+  <Movement>k__BackingField: {fileID: 0}
   <BulletGun>k__BackingField: {fileID: 8291279037066572702}
 --- !u!114 &6420356292477153062
 MonoBehaviour:
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dba098b4b64481192bac26472ef530b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Collision.CollisionHandler
---- !u!114 &2980452885365267006
+--- !u!114 &1561219572128155776
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -74,11 +74,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3168299500087637745}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 457671c8942b434bb76c6ee96713e004, type: 3}
+  m_Script: {fileID: 11500000, guid: 4376714cbc5a428791633115d5d1ee53, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Core.Movement
-  _maxVelocity: 10
-  _speed: 5
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Ecs.Views.EnemyMovementView
 --- !u!50 &4105476867462061688
 Rigidbody2D:
   serializedVersion: 5
