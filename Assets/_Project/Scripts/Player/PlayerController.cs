@@ -10,29 +10,13 @@ namespace Asteroids.Scripts.Player
     {
         public event Action OnKilled;
         
-        private IPlayerMovement _movement;
         private IWeaponHandler _weaponHandler;
-        private float _moveInput;
-        private float _rotateInput;
         
         public Transform Transform => transform;
 
-        private void FixedUpdate()
+        public void Initialize(IWeaponHandler weaponHandler)
         {
-            _movement.Move(_moveInput);
-            _movement.Rotate(_rotateInput);
-        }
-
-        public void Initialize(IPlayerMovement movement, IWeaponHandler weaponHandler)
-        {
-            _movement = movement;
             _weaponHandler = weaponHandler;
-        }
-
-        public void SetInputs(float move, float rotate)
-        {
-            _moveInput = move;
-            _rotateInput = rotate;
         }
 
         public void Attack()
@@ -53,16 +37,6 @@ namespace Asteroids.Scripts.Player
         public DamageInfo GetDamageInfo()
         {
             return new DamageInfo(DamageType.Collide, gameObject);
-        }
-
-        public void Pause()
-        {
-            _movement.Pause();
-        }
-
-        public void Resume()
-        {
-            _movement.Resume();
         }
     }
 }

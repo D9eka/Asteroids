@@ -1,4 +1,5 @@
 ﻿using System;
+using _Project.Scripts.Ecs;
 using Asteroids.Scripts.Effects;
 using Asteroids.Scripts.Effects.Explosion;
 using Asteroids.Scripts.Audio.Sounds;
@@ -41,6 +42,7 @@ using Asteroids.Scripts.WarpSystem;
 using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Projectile;
 using Asteroids.Scripts.Weapons.Services.Raycast;
+using Leopotam.EcsLite;
 using UnityEngine;
 using Zenject;
 using Pooling_IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
@@ -72,6 +74,8 @@ namespace Asteroids.Scripts.Installers
         public override void InstallBindings()
         {
             Container.Bind<UnityEngine.Camera>().FromInstance(_camera).AsSingle();
+            Container.Bind<EcsWorld>().FromNew().AsSingle();
+            Container.BindInterfacesTo<EcsStartup>().AsSingle().NonLazy();
 
             Container.BindInterfacesTo<UnityAddressableLoader>().AsSingle();
             

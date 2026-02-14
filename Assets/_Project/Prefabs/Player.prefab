@@ -101,10 +101,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3489348642441802899}
   - component: {fileID: 633740740848931753}
-  - component: {fileID: 5514399308950288731}
   - component: {fileID: 2612859403997204978}
   - component: {fileID: 4295972642309461138}
   - component: {fileID: 6682084088492791607}
+  - component: {fileID: 1523726328999548709}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -142,18 +142,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cd6f2ae55eb4b1db2f66043b5288a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Player.PlayerController
---- !u!114 &5514399308950288731
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2544020770345947505}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6593cf04dc744ac1adbddb09f1c961a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Player.PlayerMovement
 --- !u!114 &2612859403997204978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,6 +227,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.4, y: 0.4}
   m_EdgeRadius: 0
+--- !u!114 &1523726328999548709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2544020770345947505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50852568d1114b4cb76f1a38853b7944, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Ecs.Views.PlayerMovementView
 --- !u!1 &7929454136179512321
 GameObject:
   m_ObjectHideFlags: 0

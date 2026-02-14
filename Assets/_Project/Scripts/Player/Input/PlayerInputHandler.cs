@@ -1,5 +1,4 @@
 ﻿using Asteroids.Scripts.Input;
-using UnityEngine;
 using Zenject;
 
 namespace Asteroids.Scripts.Player.Input
@@ -9,7 +8,6 @@ namespace Asteroids.Scripts.Player.Input
         private readonly IPlayerInput _input;
         
         private IPlayerController _playerController;
-        private Vector2 _lastMove;
 
         public PlayerInputHandler(IPlayerInput input)
         {
@@ -24,15 +22,6 @@ namespace Asteroids.Scripts.Player.Input
         public void Tick()
         {
             if (_playerController == null) return;
-            
-            Vector2 move = _input.Move;
-            
-            Vector2 currentMove = new Vector2(move.x, Mathf.Max(0f, move.y));
-            if (currentMove != _lastMove)
-            {
-                _playerController.SetInputs(currentMove.y, currentMove.x);
-                _lastMove = currentMove;
-            }
 
             if (_input.IsFiring)
                 _playerController.Attack();
