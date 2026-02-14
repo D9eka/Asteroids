@@ -1,6 +1,7 @@
 ﻿using System;
 using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Damage;
+using Asteroids.Scripts.Ecs;
 using Asteroids.Scripts.Spawning.Enemies.Core;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace Asteroids.Scripts.Enemies
 {
     public class AsteroidFragment : MonoBehaviour, IEnemy
     {
-        public event Action<GameObject, IEnemy> OnKilled;
+        public event Action<IEcsEntity, IEnemy> OnKilled;
         
         [field: SerializeField] public CollisionHandler CollisionHandler { get; private set; }
         
@@ -34,12 +35,7 @@ namespace Asteroids.Scripts.Enemies
 
         public void TakeDamage(DamageInfo damageInfo)
         {
-            OnKilled?.Invoke(damageInfo.Instigator, this);
-        }
-
-        public DamageInfo GetDamageInfo()
-        {
-            return new DamageInfo(DamageType.Collide, gameObject);
+            OnKilled?.Invoke(damageInfo.InstigatorEntity, this);
         }
     }
 }

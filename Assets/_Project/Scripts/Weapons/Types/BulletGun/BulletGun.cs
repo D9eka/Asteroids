@@ -2,6 +2,7 @@
 using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Configs.Snapshot.Weapons.BulletGun;
 using Asteroids.Scripts.Damage;
+using Asteroids.Scripts.Ecs;
 using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Projectile;
 using UnityEngine;
@@ -19,19 +20,18 @@ namespace Asteroids.Scripts.Weapons.Types.BulletGun
         private IProjectileFactory _projectileFactory;
         private DamageInfo _damageInfo;
         private float _cooldown;
-
         
         public Transform Transform => transform;
         public bool CanShoot => _cooldown <= 0f;
         
-        public void Initialize(GameObject damageInstigator,
+        public void Initialize(IEcsEntity instigatorEntity,
             ICollisionService collisionService, BulletGunConfig config, IProjectileFactory projectileFactory)
         {
             _collisionService = collisionService;
             _config = config;
             _projectileFactory = projectileFactory;
             
-            _damageInfo = new DamageInfo(_config.DamageType, damageInstigator);
+            _damageInfo = new DamageInfo(_config.DamageType, instigatorEntity);
         }
 
         public void Shoot()
@@ -47,11 +47,6 @@ namespace Asteroids.Scripts.Weapons.Types.BulletGun
         {
             if (_cooldown > 0)
                 _cooldown -= deltaTime;
-        }
-
-        public DamageInfo GetDamageInfo()
-        {
-            return _damageInfo;
         }
 
         public void ApplyConfig(BulletGunConfig config)

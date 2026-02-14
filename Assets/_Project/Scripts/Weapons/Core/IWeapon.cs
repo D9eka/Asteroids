@@ -1,10 +1,9 @@
 ﻿using System;
 using Asteroids.Scripts.Core;
-using Asteroids.Scripts.Damage;
 
 namespace Asteroids.Scripts.Weapons.Core
 {
-    public interface IWeapon : IDamageSource, ITransformProvider
+    public interface IWeapon : ITransformProvider
     {
         public event Action<IWeapon> OnShoot;
         

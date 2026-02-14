@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Asteroids.Scripts.Ecs;
 using Asteroids.Scripts.Enemies;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -33,7 +34,7 @@ namespace Asteroids.Scripts.Effects.Explosion
             }
         }
         
-        private void PlayExplosionEffect(GameObject killer, IEnemy enemy)
+        private void PlayExplosionEffect(IEcsEntity instigatorEntity, IEnemy enemy)
         {
             int soundsIndex = Random.Range(0, _explosionSoundData.ExplosionSounds.Length);
             _factory.Create(enemy.Transform.position, _explosionSoundData.ExplosionSounds[soundsIndex]);

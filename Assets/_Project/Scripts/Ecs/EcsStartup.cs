@@ -1,5 +1,7 @@
 ﻿using System;
 using Asteroids.Scripts.Configs.Runtime;
+using Asteroids.Scripts.Ecs.Colliders.Services;
+using Asteroids.Scripts.Ecs.Collision.Systems;
 using Asteroids.Scripts.Ecs.Systems;
 using Asteroids.Scripts.Input;
 using Leopotam.EcsLite;
@@ -36,6 +38,8 @@ namespace Asteroids.Scripts.Ecs
                 .Add(new LinearMovementSystem())
                 .Add(new VelocityRotationSystem())
                 .Add(new TargetRotationSystem())
+                .Add(new DamageSystem())
+                .Add(new DestroySystem(_container.Resolve<EntityViewRegistry>()))
                 .Init();
         }
         

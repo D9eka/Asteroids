@@ -140,7 +140,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Enemies.AsteroidFragment
   <CollisionHandler>k__BackingField: {fileID: 8843063650002593441}
-  <Movement>k__BackingField: {fileID: 0}
 --- !u!114 &8843063650002593441
 MonoBehaviour:
   m_ObjectHideFlags: 0

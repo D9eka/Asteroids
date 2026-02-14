@@ -6,6 +6,7 @@ using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Configs.Runtime;
 using Asteroids.Scripts.Configs.Snapshot.Weapons.BulletGun;
 using Asteroids.Scripts.Configs.Snapshot.Weapons.LaserGun;
+using Asteroids.Scripts.Ecs;
 using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Projectile;
 using Asteroids.Scripts.Weapons.Services.Raycast;
@@ -39,7 +40,7 @@ namespace Asteroids.Scripts.Player.Weapons
             _bulletGunEffectSpawner = bulletGunEffectSpawner;
         }
 
-        public void Initialize(GameObject damageInstigator, ICollisionService playerCollisionService, IWeapon[] weapons, 
+        public void Initialize(IEcsEntity instigatorEntity, ICollisionService playerCollisionService, IWeapon[] weapons, 
             ILineRenderer laserGunLineRenderer)
         {
             foreach (IWeapon weapon in weapons)
@@ -51,7 +52,7 @@ namespace Asteroids.Scripts.Player.Weapons
                     _bulletGunEffectSpawner.AddWeapon(bulletGun);
                     BulletGunConfig bulletGunConfig =
                         _playerConfigProvider.PlayerConfig.BulletGunConfig;
-                    bulletGun.Initialize(damageInstigator, playerCollisionService, bulletGunConfig, _projectileFactory);
+                    bulletGun.Initialize(instigatorEntity, playerCollisionService, bulletGunConfig, _projectileFactory);
                     bulletGun.ApplyConfig(_playerConfigProvider.PlayerConfig.BulletGunConfig);
                     _analyticsCollector.Initialize(bulletGun);
                 }
@@ -59,7 +60,7 @@ namespace Asteroids.Scripts.Player.Weapons
                 {
                     LaserGunConfig laserGunConfig = _playerConfigProvider.PlayerConfig.LaserGunConfig;
                     _raycastService.Initialize(laserGun.gameObject);
-                    laserGun.Initialize(damageInstigator, laserGunConfig, laserGunLineRenderer, _raycastService,
+                    laserGun.Initialize(instigatorEntity, laserGunConfig, laserGunLineRenderer, _raycastService,
                         playerCollisionService);
                     laserGun.ApplyConfig(_playerConfigProvider.PlayerConfig.LaserGunConfig);
                     _analyticsCollector.Initialize(laserGun);

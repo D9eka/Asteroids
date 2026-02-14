@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Asteroids.Scripts.Configs.Snapshot.Score;
+using Asteroids.Scripts.Ecs;
+using Asteroids.Scripts.Ecs.Colliders.Components;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Player;
 using Asteroids.Scripts.Spawning.Enemies.Pooling;
 using Asteroids.Scripts.Weapons.Projectile;
+using Leopotam.EcsLite;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -13,20 +16,28 @@ namespace Asteroids.Scripts.Score
 {
     public class ScoreService : IScoreService, IInitializable, IDisposable
     {
-        private readonly ReactiveProperty<int> _totalScore = new ReactiveProperty<int>(0);
+        private readonly EcsWorld _ecsWorld;
         private readonly IEnemyLifecycleManager _enemyLifecycleManager;
+        private readonly ReactiveProperty<int> _totalScore = new ReactiveProperty<int>(0);
 
         private IReadOnlyDictionary<EnemyType, int> _config;
         
+        private EcsPool<PlayerTag> _playerTagPool;
+        private EcsPool<OwnerComponent> _ownerComponentPool;
+        
         public IReadOnlyReactiveProperty<int> TotalScore => _totalScore;
 
-        public ScoreService(IEnemyLifecycleManager enemyLifecycleManager)
+        public ScoreService(EcsWorld ecsWorld, IEnemyLifecycleManager enemyLifecycleManager)
         {
+            _ecsWorld = ecsWorld;
             _enemyLifecycleManager = enemyLifecycleManager;
         }
 
         public void Initialize()
         {
+            _playerTagPool = _ecsWorld.GetPool<PlayerTag>();
+            _ownerComponentPool = _ecsWorld.GetPool<OwnerComponent>();
+            
             _enemyLifecycleManager.OnEnemyKilled += AddScore;
         }
 
@@ -40,9 +51,9 @@ namespace Asteroids.Scripts.Score
             _config = scoreConfig.ScoreByConfig;
         }
 
-        public void AddScore(GameObject killer, IEnemy enemy)
+        public void AddScore(IEcsEntity instigatorEntity, IEnemy enemy)
          {
-            if (!CanAddScoreToKiller(killer)) return;
+            if (!CanAddScoreToKiller(instigatorEntity)) return;
             
             int points = CalculatePoints(enemy);
             _totalScore.Value += points;
@@ -58,11 +69,12 @@ namespace Asteroids.Scripts.Score
             return _config[enemy.Type];
         }
 
-        private bool CanAddScoreToKiller(GameObject killer)
+        private bool CanAddScoreToKiller(IEcsEntity instigatorEntity)
         {
-            return killer.TryGetComponent<IPlayerController>(out _) ||
-                   (killer.TryGetComponent(out Projectile projectile) &&
-                    projectile.TryGetComponent<IPlayerController>(out _));
+            if (instigatorEntity == null) return false;
+            int entityId = instigatorEntity.Id;
+            return _playerTagPool.Has(entityId) || _ownerComponentPool.Has(entityId) && 
+                _playerTagPool.Has(_ownerComponentPool.Get(entityId).OwnerEntity);
         }
     }
 }

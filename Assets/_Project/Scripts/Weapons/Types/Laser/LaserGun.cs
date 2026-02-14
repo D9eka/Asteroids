@@ -2,6 +2,7 @@
 using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Configs.Snapshot.Weapons.LaserGun;
 using Asteroids.Scripts.Damage;
+using Asteroids.Scripts.Ecs;
 using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Services.Raycast;
 using Asteroids.Scripts.Weapons.Types.Laser.LineRenderer;
@@ -15,11 +16,11 @@ namespace Asteroids.Scripts.Weapons.Types.Laser
         
         [SerializeField] private Transform _laserStartPoint;
         
+        private IEcsEntity _instigatorEntity;
         private LaserGunConfig _config;
         private ILineRenderer _lineRenderer;
         private IRaycastService _raycastService;
         private ICollisionService _collisionService;
-        private DamageInfo _damageInfo;
         private float _chargesCooldown;
         private float _laserTime;
         private bool _isShooting;
@@ -30,15 +31,15 @@ namespace Asteroids.Scripts.Weapons.Types.Laser
         public Transform Transform => transform;
         public bool CanShoot => CurrentCharges > 0 && ShootCooldown <= 0 && !_isShooting;
         
-        public void Initialize(GameObject damageInstigator, LaserGunConfig config, ILineRenderer lineRenderer, 
+        public void Initialize(IEcsEntity instigatorEntity, LaserGunConfig config, ILineRenderer lineRenderer, 
             IRaycastService raycastService, ICollisionService collisionService)
         {
+            _instigatorEntity = instigatorEntity;
             _config = config;
             _lineRenderer = lineRenderer;
             _raycastService = raycastService;
             _collisionService = collisionService;
             
-            _damageInfo = new DamageInfo(_config.DamageType, damageInstigator);
             CurrentCharges = _config.MaxCharges;
             _lineRenderer.Disable();
         }
@@ -73,11 +74,6 @@ namespace Asteroids.Scripts.Weapons.Types.Laser
                 }
             }
         }
-        
-        public DamageInfo GetDamageInfo()
-        {
-            return _damageInfo;
-        }
 
         public void ApplyConfig(LaserGunConfig config)
         {
@@ -95,7 +91,7 @@ namespace Asteroids.Scripts.Weapons.Types.Laser
             {
                 endPosition = hit.transform.position;
                 Debug.DrawRay(origin, direction * hit.distance, Color.red);
-                _collisionService.OnHit(gameObject, hit.collider.gameObject);
+                _collisionService.OnHit(_instigatorEntity.Transform.gameObject, hit.collider.gameObject);
             }
 
             _lineRenderer.UpdateLine(origin, endPosition);

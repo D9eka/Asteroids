@@ -1,8 +1,10 @@
 ﻿using System;
+using Asteroids.Scripts.Ecs;
+using Asteroids.Scripts.Ecs.Colliders.Services;
 using Asteroids.Scripts.Effects.Explosion;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Spawning.Common.Pooling;
-using UnityEngine;
+using Leopotam.EcsLite;
 using Zenject;
 using Pooling_IPoolable = Asteroids.Scripts.Spawning.Common.Pooling.IPoolable;
 
@@ -10,15 +12,20 @@ namespace Asteroids.Scripts.Spawning.Enemies.Pooling
 {
     public class EnemyLifecycleManager : IEnemyLifecycleManager, IInitializable, IDisposable
     {
-        public event Action<GameObject, IEnemy> OnEnemyKilled; 
+        public event Action<IEcsEntity, IEnemy> OnEnemyKilled; 
         
         private readonly IPoolableLifecycleManager<Pooling_IPoolable> _poolLifecycle;
+        private readonly EcsWorld _ecsWorld;
+        private readonly EntityViewRegistry _entityViewRegistry;
         private readonly ExplosionEffectSpawner _explosionEffectSpawner;
 
         public EnemyLifecycleManager(IPoolableLifecycleManager<Pooling_IPoolable> poolLifecycle,
+            EntityViewRegistry entityViewRegistry, EcsWorld ecsWorld,
             ExplosionEffectSpawner explosionEffectSpawner)
         {
             _poolLifecycle = poolLifecycle;
+            _entityViewRegistry = entityViewRegistry;
+            _ecsWorld = ecsWorld;
             _explosionEffectSpawner = explosionEffectSpawner;
         }
 
@@ -40,10 +47,10 @@ namespace Asteroids.Scripts.Spawning.Enemies.Pooling
             _explosionEffectSpawner.AddEnemy(enemy);
         }
 
-        private void HandleEnemyKilled(GameObject killer, IEnemy enemy)
+        private void HandleEnemyKilled(IEcsEntity instigatorEntity, IEnemy enemy)
         {
             _poolLifecycle.Despawn(enemy);
-            OnEnemyKilled?.Invoke(killer, enemy);
+            OnEnemyKilled?.Invoke(instigatorEntity, enemy);
         }
 
         private void OnPoolableDespawned(Pooling_IPoolable poolable)
@@ -51,6 +58,9 @@ namespace Asteroids.Scripts.Spawning.Enemies.Pooling
             if (poolable is IEnemy enemy)
             {
                 enemy.OnKilled -= HandleEnemyKilled;
+                _entityViewRegistry.Unregister(enemy.Id);
+                _ecsWorld.DelEntity(enemy.Id);
+                enemy.SetId(-1);
             }
         }
 

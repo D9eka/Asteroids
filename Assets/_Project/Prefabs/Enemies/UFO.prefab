@@ -51,7 +51,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Enemies.Ufo
   <CollisionHandler>k__BackingField: {fileID: 6420356292477153062}
-  <Movement>k__BackingField: {fileID: 0}
   <BulletGun>k__BackingField: {fileID: 8291279037066572702}
 --- !u!114 &6420356292477153062
 MonoBehaviour:

@@ -5,11 +5,13 @@ using Asteroids.Scripts.Addressable;
 using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Configs.Runtime;
 using Asteroids.Scripts.Core.InjectIds;
+using Asteroids.Scripts.Damage;
+using Asteroids.Scripts.Ecs.Colliders.Components;
+using Asteroids.Scripts.Ecs.Colliders.Services;
 using Asteroids.Scripts.GameState;
 using Asteroids.Scripts.GameState.GameplaySession;
 using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Player.Input;
-using Asteroids.Scripts.Player.Movement;
 using Asteroids.Scripts.Player.Weapons;
 using Asteroids.Scripts.Spawning.Enemies.Movement;
 using Asteroids.Scripts.WarpSystem;
@@ -39,16 +41,17 @@ namespace Asteroids.Scripts.Player
         private readonly IPlayerParamsService _playerParamsService;
         private readonly PlayerInputHandler _playerInputHandler;
         private readonly PlayerWeaponsInitializer _weaponsInitializer;
-        private EcsWorld _ecsWorld;
+        private readonly EcsWorld _ecsWorld;
+        private readonly EntityViewRegistry _entityViewRegistry;
 
         public PlayerControllerInitializer(DiContainer container, IAddressableLoader addressableLoader, 
             [Inject(Id = Vector2InjectId.PlayerStartPos)] Vector2 playerSpawnPosition, 
-            [Inject(Id = CollisionServiceInjectId.Player)] ICollisionService collisionService,
+            PlayerCollisionService collisionService,
             IPlayerConfigProvider playerConfigProvider, IEnemyMovementConfigurator enemyMovementConfigurator, 
             IGameStateController gameStateController, IBoundsManager boundsManager, IPauseSystem pauseSystem, 
             IGameplaySessionManager gameplaySessionManager, IPlayerParamsService playerParamsService, 
             PlayerInputHandler playerInputHandler, PlayerWeaponsInitializer weaponsInitializer,
-            EcsWorld ecsWorld)
+            EcsWorld ecsWorld, EntityViewRegistry entityViewRegistry)
         {
             _container = container;
             _addressableLoader = addressableLoader;
@@ -64,6 +67,7 @@ namespace Asteroids.Scripts.Player
             _playerInputHandler = playerInputHandler;
             _weaponsInitializer = weaponsInitializer;
             _ecsWorld = ecsWorld;
+            _entityViewRegistry = entityViewRegistry;
         }
 
         public async void Initialize()
@@ -88,10 +92,10 @@ namespace Asteroids.Scripts.Player
                 _playerParamsService.Initialize(
                     playerGo.transform, playerGo.GetComponent<Rigidbody2D>(), laserGun);
                 _playerInputHandler.Initialize(playerController);
-                _weaponsInitializer.Initialize(
-                    playerGo, _collisionService, playerWeapons, laserGun.GetComponentInChildren<ILineRenderer>());
+                _weaponsInitializer.Initialize(playerController, _collisionService, playerWeapons, 
+                    laserGun.GetComponentInChildren<ILineRenderer>());
 
-                InstallEcs(playerGo);
+                InstallEcs(playerGo, playerController);
             }
             catch (Exception e)
             {
@@ -106,13 +110,12 @@ namespace Asteroids.Scripts.Player
             return playerGo;
         }
         
-        private void InstallEcs(GameObject playerGo)
+        private void InstallEcs(GameObject playerGo, PlayerController playerController)
         {
             int playerEntity = _ecsWorld.NewEntity();
-            EcsPool<PositionComponent> positionsPool = _ecsWorld.GetPool<PositionComponent>();
-            positionsPool.Add(playerEntity);
-            EcsPool<PlayerInputComponent> inputPool = _ecsWorld.GetPool<PlayerInputComponent>();
-            inputPool.Add(playerEntity);
+            playerController.SetId(playerEntity);
+            _ecsWorld.GetPool<PositionComponent>().Add(playerEntity);
+            _ecsWorld.GetPool<PlayerInputComponent>().Add(playerEntity);
             EcsPool<PlayerMovementStatsComponent> movementStatsPool = _ecsWorld.GetPool<PlayerMovementStatsComponent>();
             movementStatsPool.Add(playerEntity);
             FillMovementStats(ref movementStatsPool.Get(playerEntity));
@@ -124,6 +127,12 @@ namespace Asteroids.Scripts.Player
             playerMovementView.Initialize(_ecsWorld, playerEntity);
             _pauseSystem.Register(playerMovementView);
             _enemyMovementConfigurator.Initialize(playerEntity);
+            _ecsWorld.GetPool<PlayerTag>().Add(playerEntity);
+            _ecsWorld.GetPool<DestroyOnHitTag>().Add(playerEntity);
+            EcsPool<DamageSourceComponent> damageSourcesPool = _ecsWorld.GetPool<DamageSourceComponent>();
+            ref DamageSourceComponent damageSourceComponent = ref damageSourcesPool.Add(playerEntity);
+            damageSourceComponent.Type = DamageType.Collide;
+            _entityViewRegistry.Register(playerEntity, playerController);
         }
         private void FillMovementStats(ref PlayerMovementStatsComponent stats)
         {

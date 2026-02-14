@@ -1,5 +1,6 @@
 ﻿using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Configs.Snapshot.Enemies;
+using Asteroids.Scripts.Ecs.Colliders.Services;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Spawning.Common.Core;
@@ -10,9 +11,10 @@ namespace Asteroids.Scripts.Spawning.Enemies.Initialization
 {
     public class DefaultEnemyInitializer : EnemyInitializer<IEnemy, EnemyTypeConfig>
     {
-        public DefaultEnemyInitializer(EcsWorld ecsWorld, ICollisionService collisionService,
+        public DefaultEnemyInitializer(EcsWorld ecsWorld, EnemyCollisionService collisionService,
             IEnemyMovementConfigurator movementConfigurator, ISpawnBoundaryTracker spawnBoundaryTracker, 
-            IPauseSystem pauseSystem) : base(ecsWorld, collisionService, movementConfigurator, spawnBoundaryTracker, pauseSystem)
+            IPauseSystem pauseSystem, EntityViewRegistry entityViewRegistry) 
+            : base(ecsWorld, collisionService, movementConfigurator, spawnBoundaryTracker, pauseSystem, entityViewRegistry)
         {
         }
     }

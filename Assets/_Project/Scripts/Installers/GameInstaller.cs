@@ -16,6 +16,7 @@ using Asteroids.Scripts.Configs.Runtime;
 using Asteroids.Scripts.Configs.Snapshot.Enemies;
 using Asteroids.Scripts.Core.GameExit;
 using Asteroids.Scripts.Core.InjectIds;
+using Asteroids.Scripts.Ecs.Colliders.Services;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.GameState;
 using Asteroids.Scripts.GameState.GameplaySession;
@@ -76,6 +77,7 @@ namespace Asteroids.Scripts.Installers
             Container.Bind<UnityEngine.Camera>().FromInstance(_camera).AsSingle();
             Container.Bind<EcsWorld>().FromNew().AsSingle();
             Container.BindInterfacesTo<EcsStartup>().AsSingle().NonLazy();
+            Container.Bind<EntityViewRegistry>().AsSingle();
 
             Container.BindInterfacesTo<UnityAddressableLoader>().AsSingle();
             
@@ -140,11 +142,7 @@ namespace Asteroids.Scripts.Installers
         {
             Container.BindInterfacesTo<PlayerInputReader>().AsSingle();
             Container.BindInterfacesAndSelfTo<PlayerInputHandler>().AsSingle();
-            
-            Container.Bind<ICollisionService>()
-                .WithId(CollisionServiceInjectId.Player)
-                .To<PlayerCollisionService>()
-                .AsCached();
+            Container.BindInterfacesAndSelfTo<PlayerCollisionService>().AsSingle();
             
             Container.Bind<Vector2>()
                 .WithId(Vector2InjectId.PlayerStartPos)
@@ -173,7 +171,7 @@ namespace Asteroids.Scripts.Installers
 
         private void InstallEnemies()
         {
-            Container.Bind<ICollisionService>().To<EnemyCollisionService>().AsSingle();
+            Container.BindInterfacesAndSelfTo<EnemyCollisionService>().AsSingle();
 
             Container.BindInterfacesTo<PoolableLifecycleManager<Pooling_IPoolable>>().AsSingle();
             Container.BindInterfacesTo<EnemyLifecycleManager>().AsSingle();

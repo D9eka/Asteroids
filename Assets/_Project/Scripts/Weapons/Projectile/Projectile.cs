@@ -17,6 +17,8 @@ namespace Asteroids.Scripts.Weapons.Projectile
         private Rigidbody2D _rb;
         private CollisionHandler _collisionHandler;
         
+        public Transform Transform => transform;
+        public int Id { get; private set; }
         public bool Enabled => gameObject.activeSelf;
 
         private void Awake()
@@ -34,10 +36,11 @@ namespace Asteroids.Scripts.Weapons.Projectile
                 _pool.Despawn(this);
         }
 
-        public void Initialize(ProjectilePool pool,
+        public void Initialize(ProjectilePool pool, int id,
             ProjectileConfig config, DamageInfo damageInfo, ICollisionService collisionService)
         {
             _pool = pool;
+            Id = id;
             _speed = config.Speed;
             _lifeTime = config.LifeTime;
             _damageInfo = damageInfo;
@@ -47,6 +50,11 @@ namespace Asteroids.Scripts.Weapons.Projectile
             gameObject.SetActive(true);
             _isEnabled = true;
         }
+        
+        public void SetId(int id)
+        {
+            Id = id;
+        }
 
         public void OnSpawned() => gameObject.SetActive(true);
         public void OnDespawned() => gameObject.SetActive(false);
@@ -54,11 +62,6 @@ namespace Asteroids.Scripts.Weapons.Projectile
         public void TakeDamage(DamageInfo damageInfo)
         {
             _pool.Despawn(this);
-        }
-
-        public DamageInfo GetDamageInfo()
-        {
-            return _damageInfo;
         }
 
         public void Pause()

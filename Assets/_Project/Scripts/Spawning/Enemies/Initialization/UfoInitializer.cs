@@ -3,6 +3,7 @@ using Asteroids.Scripts.Audio.Sounds.Weapon;
 using Asteroids.Scripts.Audio;
 using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Configs.Snapshot.Enemies;
+using Asteroids.Scripts.Ecs.Colliders.Services;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Spawning.Common.Core;
@@ -22,11 +23,11 @@ namespace Asteroids.Scripts.Spawning.Enemies.Initialization
         private readonly BulletGunEffectSpawner _bulletGunEffectSpawner;
 
         [Inject]
-        public UfoInitializer(EcsWorld ecsWorld, ICollisionService collisionService, IEnemyMovementConfigurator movementConfigurator,
+        public UfoInitializer(EcsWorld ecsWorld, EnemyCollisionService collisionService, IEnemyMovementConfigurator movementConfigurator,
             ISpawnBoundaryTracker spawnBoundaryTracker, IPauseSystem pauseSystem, IProjectileFactory projectileFactory, 
             IWeaponUpdater weaponUpdater, WeaponShotAudioSpawner weaponShotAudioSpawner,
-            BulletGunEffectSpawner bulletGunEffectSpawner)
-            : base(ecsWorld, collisionService, movementConfigurator, spawnBoundaryTracker, pauseSystem)
+            BulletGunEffectSpawner bulletGunEffectSpawner, EntityViewRegistry entityViewRegistry)
+            : base(ecsWorld, collisionService, movementConfigurator, spawnBoundaryTracker, pauseSystem, entityViewRegistry)
         {
             _projectileFactory = projectileFactory;
             _weaponUpdater = weaponUpdater;
@@ -38,7 +39,7 @@ namespace Asteroids.Scripts.Spawning.Enemies.Initialization
         {
             base.Initialize(ufo, config);
             if (ufo.Initialized) return;
-            ufo.BulletGun.Initialize(ufo.gameObject, CollisionService, config.BulletGunConfig, _projectileFactory);
+            ufo.BulletGun.Initialize(ufo, CollisionService, config.BulletGunConfig, _projectileFactory);
             _weaponUpdater.AddWeapon(ufo.BulletGun);
             _weaponShotAudioSpawner.AddWeapon(ufo.BulletGun);
             _bulletGunEffectSpawner.AddWeapon(ufo.BulletGun);
