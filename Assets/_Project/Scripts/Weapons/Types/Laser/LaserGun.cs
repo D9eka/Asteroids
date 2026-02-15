@@ -1,16 +1,17 @@
 ﻿using System;
 using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Configs.Snapshot.Weapons.LaserGun;
-using Asteroids.Scripts.Damage;
 using Asteroids.Scripts.Ecs;
+using Asteroids.Scripts.Ecs.Weapons.Components;
 using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Services.Raycast;
 using Asteroids.Scripts.Weapons.Types.Laser.LineRenderer;
+using Leopotam.EcsLite;
 using UnityEngine;
 
 namespace Asteroids.Scripts.Weapons.Types.Laser
 {
-    public class LaserGun : MonoBehaviour, ILaserGun
+    public class LaserGun : MonoBehaviour, IWeapon
     {
         public event Action<IWeapon> OnShoot;
         
@@ -21,58 +22,45 @@ namespace Asteroids.Scripts.Weapons.Types.Laser
         private ILineRenderer _lineRenderer;
         private IRaycastService _raycastService;
         private ICollisionService _collisionService;
-        private float _chargesCooldown;
-        private float _laserTime;
-        private bool _isShooting;
+        private EcsPool<LaserGunComponent> _laserGunComponentsPool;
         
-        public int CurrentCharges { get; private set; }
-        public float ShootCooldown { get; private set; }
+        public int Id { get; private set; }
 
         public Transform Transform => transform;
-        public bool CanShoot => CurrentCharges > 0 && ShootCooldown <= 0 && !_isShooting;
         
-        public void Initialize(IEcsEntity instigatorEntity, LaserGunConfig config, ILineRenderer lineRenderer, 
+        public void Initialize(int id, EcsWorld ecsWorld, IEcsEntity instigatorEntity, 
+            LaserGunConfig config, ILineRenderer lineRenderer, 
             IRaycastService raycastService, ICollisionService collisionService)
         {
+            Id = id;
+            _laserGunComponentsPool = ecsWorld.GetPool<LaserGunComponent>();
             _instigatorEntity = instigatorEntity;
             _config = config;
             _lineRenderer = lineRenderer;
             _raycastService = raycastService;
             _collisionService = collisionService;
             
-            CurrentCharges = _config.MaxCharges;
             _lineRenderer.Disable();
+        }
+
+        private void FixedUpdate()
+        {
+            if (_laserGunComponentsPool == null) return;
+            LaserGunComponent laserGunComponent = _laserGunComponentsPool.Get(Id);
+            if (laserGunComponent.IsActive)
+            {
+                UpdateLaser();
+            }
+            else
+            {
+                _lineRenderer.Disable();
+            }
         }
 
         public void Shoot()
         {
-            if (!CanShoot) return;
-            CurrentCharges--;
-            ShootCooldown = _config.FireRate;
-            _chargesCooldown = _config.RechargeRate;
-            _isShooting = true;
-            _laserTime = _config.LaserDuration;
             _lineRenderer.Enable();
             OnShoot?.Invoke(this);
-        }
-
-        public void Recharge(float deltaTime)
-        {
-            if (_isShooting)
-            {
-                UpdateLaser(deltaTime);
-                return;
-            }
-            if (ShootCooldown > 0) ShootCooldown -= deltaTime;
-            if (CurrentCharges < _config.MaxCharges)
-            {
-                _chargesCooldown -= deltaTime;
-                if (_chargesCooldown <= 0)
-                {
-                    CurrentCharges++;
-                    _chargesCooldown = _config.RechargeRate;
-                }
-            }
         }
 
         public void ApplyConfig(LaserGunConfig config)
@@ -80,9 +68,8 @@ namespace Asteroids.Scripts.Weapons.Types.Laser
             _config = config;
         }
 
-        private void UpdateLaser(float deltaTime)
+        private void UpdateLaser()
         {
-            _laserTime -= deltaTime;
             Vector2 origin = _laserStartPoint.position;
             Vector2 direction = transform.up;
             Vector2 endPosition = origin + direction * _config.MaxDistance;
@@ -95,12 +82,6 @@ namespace Asteroids.Scripts.Weapons.Types.Laser
             }
 
             _lineRenderer.UpdateLine(origin, endPosition);
-
-            if (_laserTime <= 0)
-            {
-                _isShooting = false;
-                _lineRenderer.Disable();
-            }
         }
 
     }

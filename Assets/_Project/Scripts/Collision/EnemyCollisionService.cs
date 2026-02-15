@@ -1,4 +1,5 @@
-﻿using Asteroids.Scripts.Ecs.Colliders.Components;
+﻿using Asteroids.Scripts.Ecs;
+using Asteroids.Scripts.Ecs.Colliders.Components;
 using Leopotam.EcsLite;
 
 namespace Asteroids.Scripts.Collision
@@ -22,11 +23,12 @@ namespace Asteroids.Scripts.Collision
             _ownerComponentsPool = EcsWorld.GetPool<OwnerComponent>();
         }
         
-        public override bool CanDestroy(int targetEntityId)
+        public override bool CanDestroy(IEcsEntity targetEntity)
         {
-            return _playerTagPool.Has(targetEntityId) || 
-                _projectileTagPool.Has(targetEntityId) && _ownerComponentsPool.Has(targetEntityId) 
-                && _playerTagPool.Has(_ownerComponentsPool.Get(targetEntityId).OwnerEntity);
+            if (_playerTagPool.Has(targetEntity.Id)) return true;
+            if (!_projectileTagPool.Has(targetEntity.Id) || !_ownerComponentsPool.Has(targetEntity.Id)) return false;
+            int ownerEntity = _ownerComponentsPool.Get(targetEntity.Id).OwnerEntity;
+            return IsEntityAlive(ownerEntity) && _playerTagPool.Has(ownerEntity);
         }
 
         public override bool ShouldTakeDamageOnHit(int sourceEntityId)

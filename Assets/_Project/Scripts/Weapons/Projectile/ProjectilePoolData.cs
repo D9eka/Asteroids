@@ -1,8 +1,5 @@
 ﻿using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Configs.Snapshot.Weapons.Projectile;
-using Asteroids.Scripts.Damage;
-using Asteroids.Scripts.Ecs.Colliders.Services;
-using Leopotam.EcsLite;
 using UnityEngine;
 
 namespace Asteroids.Scripts.Weapons.Projectile

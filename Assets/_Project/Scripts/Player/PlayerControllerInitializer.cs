@@ -8,10 +8,10 @@ using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Damage;
 using Asteroids.Scripts.Ecs.Colliders.Components;
 using Asteroids.Scripts.Ecs.Colliders.Services;
+using Asteroids.Scripts.Ecs.Weapons.Components;
 using Asteroids.Scripts.GameState;
 using Asteroids.Scripts.GameState.GameplaySession;
 using Asteroids.Scripts.Pause;
-using Asteroids.Scripts.Player.Input;
 using Asteroids.Scripts.Player.Weapons;
 using Asteroids.Scripts.Spawning.Enemies.Movement;
 using Asteroids.Scripts.WarpSystem;
@@ -39,7 +39,6 @@ namespace Asteroids.Scripts.Player
         private readonly IPauseSystem _pauseSystem;
         private readonly IGameplaySessionManager _gameplaySessionManager;
         private readonly IPlayerParamsService _playerParamsService;
-        private readonly PlayerInputHandler _playerInputHandler;
         private readonly PlayerWeaponsInitializer _weaponsInitializer;
         private readonly EcsWorld _ecsWorld;
         private readonly EntityViewRegistry _entityViewRegistry;
@@ -50,8 +49,7 @@ namespace Asteroids.Scripts.Player
             IPlayerConfigProvider playerConfigProvider, IEnemyMovementConfigurator enemyMovementConfigurator, 
             IGameStateController gameStateController, IBoundsManager boundsManager, IPauseSystem pauseSystem, 
             IGameplaySessionManager gameplaySessionManager, IPlayerParamsService playerParamsService, 
-            PlayerInputHandler playerInputHandler, PlayerWeaponsInitializer weaponsInitializer,
-            EcsWorld ecsWorld, EntityViewRegistry entityViewRegistry)
+            PlayerWeaponsInitializer weaponsInitializer, EcsWorld ecsWorld, EntityViewRegistry entityViewRegistry)
         {
             _container = container;
             _addressableLoader = addressableLoader;
@@ -64,7 +62,6 @@ namespace Asteroids.Scripts.Player
             _pauseSystem = pauseSystem;
             _gameplaySessionManager = gameplaySessionManager;
             _playerParamsService = playerParamsService;
-            _playerInputHandler = playerInputHandler;
             _weaponsInitializer = weaponsInitializer;
             _ecsWorld = ecsWorld;
             _entityViewRegistry = entityViewRegistry;
@@ -82,20 +79,17 @@ namespace Asteroids.Scripts.Player
                 IWeapon[] playerWeapons = { bulletGun, laserGun };
             
                 PlayerController playerController = playerGo.GetComponent<PlayerController>();
-            
                 playerController.GetComponent<CollisionHandler>().Initialize(_collisionService);
-            
-                playerController.Initialize(new PlayerWeaponsHandler(playerWeapons));
+                InstallEcs(playerGo, playerController);
+                _weaponsInitializer.Initialize(playerController, _collisionService, playerWeapons, 
+                    laserGun.GetComponentInChildren<ILineRenderer>());
+                
                 _gameStateController.Initialize(playerController);
                 _boundsManager.RegisterObject(playerGo.transform);
                 _gameplaySessionManager.Initialize(playerController);
                 _playerParamsService.Initialize(
-                    playerGo.transform, playerGo.GetComponent<Rigidbody2D>(), laserGun);
-                _playerInputHandler.Initialize(playerController);
-                _weaponsInitializer.Initialize(playerController, _collisionService, playerWeapons, 
-                    laserGun.GetComponentInChildren<ILineRenderer>());
-
-                InstallEcs(playerGo, playerController);
+                    playerGo.transform, playerGo.GetComponent<Rigidbody2D>(),
+                    _ecsWorld.GetPool<LaserGunComponent>().Get(laserGun.Id));
             }
             catch (Exception e)
             {

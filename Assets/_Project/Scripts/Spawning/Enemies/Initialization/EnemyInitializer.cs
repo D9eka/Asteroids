@@ -45,10 +45,6 @@ namespace Asteroids.Scripts.Spawning.Enemies.Initialization
             enemy.SetType(config.Type);
             enemy.CollisionHandler.Initialize(CollisionService);
             SpawnBoundaryTracker.RegisterObject(enemy.Transform);
-            if (enemy is IPausable pausable)
-            {
-                PauseSystem.Register(pausable);
-            }
             
             int enemyEntity = EcsWorld.NewEntity();
             GameObject enemyGo = enemy.Transform.gameObject;

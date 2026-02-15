@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using Asteroids.Scripts.Weapons.Types.Laser;
+using Asteroids.Scripts.Ecs.Weapons.Components;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -12,20 +12,20 @@ namespace Asteroids.Scripts.Player
         
         private Transform _transform;
         private Rigidbody2D _rigidbody;
-        private ILaserGun _laserGun;
+        private LaserGunComponent _laserGunComponent;
         
         public IReadOnlyReactiveProperty<string> Params => _params;
 
-        public void Initialize(Transform playerTransform, Rigidbody2D playerRigidbody, ILaserGun laserGun)
+        public void Initialize(Transform playerTransform, Rigidbody2D playerRigidbody, LaserGunComponent laserGunComponent)
         {
             _transform = playerTransform;
             _rigidbody = playerRigidbody;
-            _laserGun = laserGun;
+            _laserGunComponent = laserGunComponent;
         }
 
         public void Tick()
         {
-            if (_transform == null || _rigidbody == null || _laserGun == null) return;
+            if (_transform == null || _rigidbody == null) return;
             
             string newText = GenerateText();
             if (_params.Value != newText)
@@ -40,8 +40,8 @@ namespace Asteroids.Scripts.Player
             stringBuilder.AppendLine($"Position: {_transform.position}");
             stringBuilder.AppendLine($"Rotation: {_transform.rotation.eulerAngles}");
             stringBuilder.AppendLine($"Velocity: {_rigidbody.linearVelocity}");
-            stringBuilder.AppendLine($"Laser charges: {_laserGun.CurrentCharges}");
-            stringBuilder.AppendLine($"Laser cooldown: {_laserGun.ShootCooldown}");
+            stringBuilder.AppendLine($"Laser charges: {_laserGunComponent.CurrentCharges}");
+            stringBuilder.AppendLine($"Laser cooldown: {_laserGunComponent.ShootCooldown}");
             return stringBuilder.ToString();
         }
     }

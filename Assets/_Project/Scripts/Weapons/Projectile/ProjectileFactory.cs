@@ -1,9 +1,7 @@
 ﻿using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Configs.Snapshot.Weapons.Projectile;
 using Asteroids.Scripts.Damage;
-using Asteroids.Scripts.Ecs;
 using Asteroids.Scripts.Ecs.Colliders.Components;
-using Asteroids.Scripts.Ecs.Colliders.Services;
 using Asteroids.Scripts.Ecs.Components;
 using Asteroids.Scripts.Ecs.Views;
 using Asteroids.Scripts.Pause;

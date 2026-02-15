@@ -1,10 +1,8 @@
 ﻿using System;
 using Asteroids.Scripts.Collision;
-using Asteroids.Scripts.Core;
 using Asteroids.Scripts.Damage;
 using Asteroids.Scripts.Ecs;
 using Asteroids.Scripts.Spawning.Common.Pooling;
-using UnityEngine;
 
 namespace Asteroids.Scripts.Enemies
 {

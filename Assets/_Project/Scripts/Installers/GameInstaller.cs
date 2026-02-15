@@ -17,13 +17,13 @@ using Asteroids.Scripts.Configs.Snapshot.Enemies;
 using Asteroids.Scripts.Core.GameExit;
 using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Ecs.Colliders.Services;
+using Asteroids.Scripts.Ecs.Weapons.Services;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.GameState;
 using Asteroids.Scripts.GameState.GameplaySession;
 using Asteroids.Scripts.Input;
 using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Player;
-using Asteroids.Scripts.Player.Input;
 using Asteroids.Scripts.Player.Weapons;
 using Asteroids.Scripts.RemoteConfigs;
 using Asteroids.Scripts.SaveService;
@@ -40,7 +40,6 @@ using Asteroids.Scripts.UI.Screens.GameplayScreen;
 using Asteroids.Scripts.UI.Screens.MainScreen;
 using Asteroids.Scripts.UI.Screens.ReviveScreen;
 using Asteroids.Scripts.WarpSystem;
-using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Projectile;
 using Asteroids.Scripts.Weapons.Services.Raycast;
 using Leopotam.EcsLite;
@@ -75,14 +74,10 @@ namespace Asteroids.Scripts.Installers
         public override void InstallBindings()
         {
             Container.Bind<UnityEngine.Camera>().FromInstance(_camera).AsSingle();
-            Container.Bind<EcsWorld>().FromNew().AsSingle();
-            Container.BindInterfacesTo<EcsStartup>().AsSingle().NonLazy();
-            Container.Bind<EntityViewRegistry>().AsSingle();
-
             Container.BindInterfacesTo<UnityAddressableLoader>().AsSingle();
-            
             Container.BindInterfacesTo<UnityPurchasesService>().AsSingle();
 
+            InstallEcs();
             InstallRemoteConfigService();
             InstallAdvertisementService();
             InstallBoundsSystem();
@@ -96,6 +91,14 @@ namespace Asteroids.Scripts.Installers
             InstallGameplaySystems();
             InstallUI();
             InstallAudioSystem();
+        }
+
+        private void InstallEcs()
+        {
+            Container.Bind<EcsWorld>().FromNew().AsSingle();
+            Container.BindInterfacesTo<EcsStartup>().AsSingle().NonLazy();
+            Container.Bind<EntityViewRegistry>().AsSingle();
+            Container.Bind<WeaponViewRegistry>().AsSingle();
         }
 
         private void InstallRemoteConfigService()
@@ -141,7 +144,6 @@ namespace Asteroids.Scripts.Installers
         private void InstallPlayer()
         {
             Container.BindInterfacesTo<PlayerInputReader>().AsSingle();
-            Container.BindInterfacesAndSelfTo<PlayerInputHandler>().AsSingle();
             Container.BindInterfacesAndSelfTo<PlayerCollisionService>().AsSingle();
             
             Container.Bind<Vector2>()
@@ -156,7 +158,6 @@ namespace Asteroids.Scripts.Installers
 
         private void BindPlayerWeapons()
         {
-            Container.BindInterfacesTo<WeaponUpdater>().AsSingle();
             BindBulletGunEffects();
             Container.BindInterfacesAndSelfTo<RaycastService>().AsSingle();
             Container.Bind<PlayerWeaponsInitializer>().AsSingle();

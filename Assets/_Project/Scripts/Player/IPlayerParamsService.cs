@@ -1,4 +1,4 @@
-﻿using Asteroids.Scripts.Weapons.Types.Laser;
+﻿using Asteroids.Scripts.Ecs.Weapons.Components;
 using UniRx;
 using UnityEngine;
 
@@ -8,6 +8,6 @@ namespace Asteroids.Scripts.Player
     {
         public IReadOnlyReactiveProperty<string> Params { get; }
 
-        public void Initialize(Transform playerTransform, Rigidbody2D playerRigidbody, ILaserGun laserGun);
+        public void Initialize(Transform playerTransform, Rigidbody2D playerRigidbody, LaserGunComponent laserGunComponent);
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using Asteroids.Scripts.Ecs;
 using Asteroids.Scripts.Enemies;
-using UnityEngine;
 using Zenject;
 
 namespace Asteroids.Scripts.Spawning.Enemies.Pooling

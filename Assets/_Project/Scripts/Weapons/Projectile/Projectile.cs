@@ -1,5 +1,4 @@
 ﻿using Asteroids.Scripts.Collision;
-using Asteroids.Scripts.Configs.Snapshot.Weapons.Projectile;
 using Asteroids.Scripts.Damage;
 using UnityEngine;
 

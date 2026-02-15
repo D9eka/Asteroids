@@ -1,6 +1,4 @@
 ﻿using Asteroids.Scripts.Configs.Snapshot.Enemies;
-using Asteroids.Scripts.Configs.Snapshot.Movement.Direction;
-using Asteroids.Scripts.Configs.Snapshot.Movement.Rotation;
 using Asteroids.Scripts.Enemies;
 using UnityEngine;
 

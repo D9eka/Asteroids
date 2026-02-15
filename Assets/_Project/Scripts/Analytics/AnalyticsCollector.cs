@@ -5,7 +5,6 @@ using Asteroids.Scripts.Spawning.Enemies.Pooling;
 using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Types.BulletGun;
 using Asteroids.Scripts.Weapons.Types.Laser;
-using UnityEngine;
 using Zenject;
 
 namespace Asteroids.Scripts.Analytics

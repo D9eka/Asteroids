@@ -3,11 +3,11 @@ using Asteroids.Scripts.Configs.Runtime;
 using Asteroids.Scripts.Ecs.Colliders.Services;
 using Asteroids.Scripts.Ecs.Collision.Systems;
 using Asteroids.Scripts.Ecs.Systems;
+using Asteroids.Scripts.Ecs.Weapons.Services;
+using Asteroids.Scripts.Ecs.Weapons.Systems;
 using Asteroids.Scripts.Input;
 using Asteroids.Scripts.Pause;
 using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
-using UnityEngine;
 using Zenject;
 
 namespace Asteroids.Scripts.Ecs
@@ -29,6 +29,8 @@ namespace Asteroids.Scripts.Ecs
         
         public void Initialize()
         {
+            WeaponViewRegistry weaponViewRegistry = _container.Resolve<WeaponViewRegistry>();
+            
             _coreSystems = new EcsSystems(_world);
             _gameplaySystems = new EcsSystems(_world);
 #if UNITY_EDITOR
@@ -43,12 +45,16 @@ namespace Asteroids.Scripts.Ecs
             _gameplaySystems
                 .Add(new InputWriteSystem(_container.Resolve<IPlayerInput>()))
                 .Add(new PlayerMovementSystem())
+                .Add(new PlayerWeaponSwitchSystem())
+                .Add(new PlayerWeaponWantsToShootSystem())
                 .Add(new TargetDirectionSystem())
                 .Add(new LinearMovementSystem())
                 .Add(new VelocityRotationSystem())
                 .Add(new TargetRotationSystem())
                 .Add(new DamageSystem())
                 .Add(new LifeTimeSystem())
+                .Add(new BulletGunSystem(weaponViewRegistry))
+                .Add(new LaserGunSystem(weaponViewRegistry))
                 .Init();
         }
         

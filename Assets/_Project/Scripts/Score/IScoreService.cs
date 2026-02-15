@@ -2,7 +2,6 @@
 using Asteroids.Scripts.Ecs;
 using Asteroids.Scripts.Enemies;
 using UniRx;
-using UnityEngine;
 
 namespace Asteroids.Scripts.Score
 {

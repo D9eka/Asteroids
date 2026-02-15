@@ -4,12 +4,9 @@ using Asteroids.Scripts.Configs.Snapshot.Score;
 using Asteroids.Scripts.Ecs;
 using Asteroids.Scripts.Ecs.Colliders.Components;
 using Asteroids.Scripts.Enemies;
-using Asteroids.Scripts.Player;
 using Asteroids.Scripts.Spawning.Enemies.Pooling;
-using Asteroids.Scripts.Weapons.Projectile;
 using Leopotam.EcsLite;
 using UniRx;
-using UnityEngine;
 using Zenject;
 
 namespace Asteroids.Scripts.Score

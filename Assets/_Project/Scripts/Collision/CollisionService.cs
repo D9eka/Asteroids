@@ -30,9 +30,8 @@ namespace Asteroids.Scripts.Collision
             var originDamageSource = origin.GetComponent<IEcsEntity>();
             var targetDestroyable = target.GetComponent<IEcsEntity>();
 
-            if (originDamageSource == null || targetDestroyable == null) return;
-            if (originDamageSource.Id < 0 || targetDestroyable.Id < 0) return;
-            if (!CanDestroy(targetDestroyable.Id)) return;
+            if (!IsEntityAlive(originDamageSource) || !IsEntityAlive(targetDestroyable)) return;
+            if (!CanDestroy(targetDestroyable)) return;
 
             DamageType damageType = _damageSourcePool.Get(originDamageSource.Id).Type;
             AddDamageEvent(targetDestroyable.Id, originDamageSource.Id, damageType);
@@ -43,8 +42,18 @@ namespace Asteroids.Scripts.Collision
             }
         }
 
-        public abstract bool CanDestroy(int targetEntityId);
+        public abstract bool CanDestroy(IEcsEntity targetEntity);
         public abstract bool ShouldTakeDamageOnHit(int sourceEntityId);
+
+        protected bool IsEntityAlive(int entityId)
+        {
+            return entityId >= 0 && EcsWorld.GetEntityGen(entityId) > 0;
+        }
+
+        private bool IsEntityAlive(IEcsEntity entity)
+        {
+            return entity != null && IsEntityAlive(entity.Id);
+        }
 
         private void AddDamageEvent(int targetId, int originId, DamageType damageType)
         {

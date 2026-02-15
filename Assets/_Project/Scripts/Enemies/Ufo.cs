@@ -2,32 +2,36 @@
 using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Damage;
 using Asteroids.Scripts.Ecs;
-using Asteroids.Scripts.Pause;
+using Asteroids.Scripts.Ecs.Weapons.Components;
 using Asteroids.Scripts.Weapons.Types.BulletGun;
+using Leopotam.EcsLite;
 using UnityEngine;
 
 namespace Asteroids.Scripts.Enemies
 {
-    public class Ufo : MonoBehaviour, IEnemy, IPausable
+    public class Ufo : MonoBehaviour, IEnemy
     {
         public event Action<IEcsEntity, IEnemy> OnKilled;
         
         [field: SerializeField] public CollisionHandler CollisionHandler { get; private set; }
         [field: SerializeField] public BulletGun BulletGun { get; private set; }
 
-        private bool _isPaused; 
+        private EcsPool<WantsToShootTag> _wantToShootTagsPool;
+        private int _bulletGunEntity;
         
         public Transform Transform => transform;
-        public bool Enabled => gameObject.activeSelf;
+        public bool Enabled => this != null && gameObject.activeSelf;
         public bool Initialized { get; set; }
         public EnemyType Type { get; private set; }
         public int Id { get; private set; }
 
-        private void Update()
+        public void Initialize(EcsWorld ecsWorld, int bulletGunEntity)
         {
-            if (!_isPaused && BulletGun.CanShoot)
+            _wantToShootTagsPool = ecsWorld.GetPool<WantsToShootTag>();
+            _bulletGunEntity = bulletGunEntity;
+            if (!_wantToShootTagsPool.Has(_bulletGunEntity))
             {
-                BulletGun.Shoot();
+                _wantToShootTagsPool.Add(_bulletGunEntity);
             }
         }
 
@@ -42,29 +46,22 @@ namespace Asteroids.Scripts.Enemies
 
         public void OnSpawned()
         {
-            Resume();
             gameObject.SetActive(true);
+            if (_wantToShootTagsPool != null && !_wantToShootTagsPool.Has(_bulletGunEntity))
+            {
+                _wantToShootTagsPool.Add(_bulletGunEntity);
+            }
         }
 
         public void OnDespawned()
         {
-            Pause();
+            _wantToShootTagsPool.Del(_bulletGunEntity);
             gameObject.SetActive(false);
         }
 
         public void TakeDamage(DamageInfo damageInfo)
         {
             OnKilled?.Invoke(damageInfo.InstigatorEntity, this);
-        }
-
-        public void Pause()
-        {
-            _isPaused = true;
-        }
-
-        public void Resume()
-        {
-            _isPaused  = false;
         }
     }
 }

@@ -8,6 +8,5 @@ namespace Asteroids.Scripts.Weapons.Core
         public event Action<IWeapon> OnShoot;
         
         public void Shoot();
-        public void Recharge(float deltaTime);
     }
 }

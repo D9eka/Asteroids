@@ -1,5 +1,4 @@
-﻿using System;
-using Asteroids.Scripts.Ecs.Colliders.Components;
+﻿using Asteroids.Scripts.Ecs.Colliders.Components;
 using Leopotam.EcsLite;
 
 namespace Asteroids.Scripts.Ecs.Collision.Systems
