@@ -5,6 +5,7 @@
         Bullet,
         Laser,
         Collide,
-        Timeout
+        Timeout,
+        OutOfBounds
     }
 }

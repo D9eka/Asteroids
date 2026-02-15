@@ -3,7 +3,6 @@ using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Configs.Snapshot.Weapons.BulletGun;
 using Asteroids.Scripts.Damage;
 using Asteroids.Scripts.Ecs;
-using Asteroids.Scripts.Ecs.Weapons.Components;
 using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Projectile;
 using UnityEngine;

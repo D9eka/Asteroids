@@ -1,4 +1,5 @@
 ﻿using Asteroids.Scripts.Ecs.Components;
+using Asteroids.Scripts.Ecs.Warp.Components;
 using Asteroids.Scripts.Movement;
 using Leopotam.EcsLite;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace Asteroids.Scripts.Ecs.Views
         private EcsPool<PlayerMovementStatsComponent> _movementStatsPool;
         private EcsPool<PlayerTransformDataComponent> _transformDataPool;
         private EcsPool<PlayerMovementResultComponent> _movementResultPool;
+        private EcsPool<WarpEventComponent> _warpEventPool;
 
         public void Initialize(EcsWorld world, int entityId)
         {
@@ -21,10 +23,16 @@ namespace Asteroids.Scripts.Ecs.Views
             _movementStatsPool = world.GetPool<PlayerMovementStatsComponent>();
             _transformDataPool = world.GetPool<PlayerTransformDataComponent>();
             _movementResultPool = world.GetPool<PlayerMovementResultComponent>();
+            _warpEventPool = world.GetPool<WarpEventComponent>();
         }
-        
+
         private void FixedUpdate()
         {
+            if (_warpEventPool.Has(_entityId))
+            {
+                Rigidbody.position = _warpEventPool.Get(_entityId).NewPosition;
+            }
+
             ref PositionComponent positionComponent = ref _positionsPool.Get(_entityId);
             positionComponent.Position = transform.position;
             

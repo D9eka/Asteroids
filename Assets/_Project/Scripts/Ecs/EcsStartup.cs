@@ -3,10 +3,12 @@ using Asteroids.Scripts.Configs.Runtime;
 using Asteroids.Scripts.Ecs.Colliders.Services;
 using Asteroids.Scripts.Ecs.Collision.Systems;
 using Asteroids.Scripts.Ecs.Systems;
+using Asteroids.Scripts.Ecs.Warp.Systems;
 using Asteroids.Scripts.Ecs.Weapons.Services;
 using Asteroids.Scripts.Ecs.Weapons.Systems;
 using Asteroids.Scripts.Input;
 using Asteroids.Scripts.Pause;
+using Asteroids.Scripts.Ecs.Warp.Services;
 using Leopotam.EcsLite;
 using Zenject;
 
@@ -30,6 +32,7 @@ namespace Asteroids.Scripts.Ecs
         public void Initialize()
         {
             WeaponViewRegistry weaponViewRegistry = _container.Resolve<WeaponViewRegistry>();
+            IBoundsWarp boundsWarp = _container.Resolve<IBoundsWarp>();
             
             _coreSystems = new EcsSystems(_world);
             _gameplaySystems = new EcsSystems(_world);
@@ -51,6 +54,8 @@ namespace Asteroids.Scripts.Ecs
                 .Add(new LinearMovementSystem())
                 .Add(new VelocityRotationSystem())
                 .Add(new TargetRotationSystem())
+                .Add(new SpawnProtectionSystem(boundsWarp))
+                .Add(new Warp.Systems.WarpSystem(boundsWarp))
                 .Add(new DamageSystem())
                 .Add(new LifeTimeSystem())
                 .Add(new BulletGunSystem(weaponViewRegistry))

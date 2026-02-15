@@ -8,13 +8,13 @@ using Asteroids.Scripts.Core.InjectIds;
 using Asteroids.Scripts.Damage;
 using Asteroids.Scripts.Ecs.Colliders.Components;
 using Asteroids.Scripts.Ecs.Colliders.Services;
+using Asteroids.Scripts.Ecs.Warp.Components;
 using Asteroids.Scripts.Ecs.Weapons.Components;
 using Asteroids.Scripts.GameState;
 using Asteroids.Scripts.GameState.GameplaySession;
 using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Player.Weapons;
 using Asteroids.Scripts.Spawning.Enemies.Movement;
-using Asteroids.Scripts.WarpSystem;
 using Asteroids.Scripts.Weapons.Core;
 using Asteroids.Scripts.Weapons.Types.BulletGun;
 using Asteroids.Scripts.Weapons.Types.Laser;
@@ -35,7 +35,6 @@ namespace Asteroids.Scripts.Player
         private readonly IPlayerConfigProvider _playerConfigProvider;
         private readonly IEnemyMovementConfigurator _enemyMovementConfigurator;
         private readonly IGameStateController _gameStateController;
-        private readonly IBoundsManager _boundsManager;
         private readonly IPauseSystem _pauseSystem;
         private readonly IGameplaySessionManager _gameplaySessionManager;
         private readonly IPlayerParamsService _playerParamsService;
@@ -47,7 +46,7 @@ namespace Asteroids.Scripts.Player
             [Inject(Id = Vector2InjectId.PlayerStartPos)] Vector2 playerSpawnPosition, 
             PlayerCollisionService collisionService,
             IPlayerConfigProvider playerConfigProvider, IEnemyMovementConfigurator enemyMovementConfigurator, 
-            IGameStateController gameStateController, IBoundsManager boundsManager, IPauseSystem pauseSystem, 
+            IGameStateController gameStateController, IPauseSystem pauseSystem, 
             IGameplaySessionManager gameplaySessionManager, IPlayerParamsService playerParamsService, 
             PlayerWeaponsInitializer weaponsInitializer, EcsWorld ecsWorld, EntityViewRegistry entityViewRegistry)
         {
@@ -58,7 +57,6 @@ namespace Asteroids.Scripts.Player
             _playerConfigProvider = playerConfigProvider;
             _enemyMovementConfigurator = enemyMovementConfigurator;
             _gameStateController = gameStateController;
-            _boundsManager = boundsManager;
             _pauseSystem = pauseSystem;
             _gameplaySessionManager = gameplaySessionManager;
             _playerParamsService = playerParamsService;
@@ -85,7 +83,6 @@ namespace Asteroids.Scripts.Player
                     laserGun.GetComponentInChildren<ILineRenderer>());
                 
                 _gameStateController.Initialize(playerController);
-                _boundsManager.RegisterObject(playerGo.transform);
                 _gameplaySessionManager.Initialize(playerController);
                 _playerParamsService.Initialize(
                     playerGo.transform, playerGo.GetComponent<Rigidbody2D>(),
@@ -110,13 +107,12 @@ namespace Asteroids.Scripts.Player
             playerController.SetId(playerEntity);
             _ecsWorld.GetPool<PositionComponent>().Add(playerEntity);
             _ecsWorld.GetPool<PlayerInputComponent>().Add(playerEntity);
-            EcsPool<PlayerMovementStatsComponent> movementStatsPool = _ecsWorld.GetPool<PlayerMovementStatsComponent>();
-            movementStatsPool.Add(playerEntity);
-            FillMovementStats(ref movementStatsPool.Get(playerEntity));
-            EcsPool<PlayerTransformDataComponent> transformDataPool = _ecsWorld.GetPool<PlayerTransformDataComponent>();
-            transformDataPool.Add(playerEntity);
-            EcsPool<PlayerMovementResultComponent> movementResultPool = _ecsWorld.GetPool<PlayerMovementResultComponent>();
-            movementResultPool.Add(playerEntity);
+            ref PlayerMovementStatsComponent movementStatsComponent = ref 
+                _ecsWorld.GetPool<PlayerMovementStatsComponent>().Add(playerEntity);
+            FillMovementStats(ref movementStatsComponent);
+            _ecsWorld.GetPool<PlayerTransformDataComponent>().Add(playerEntity);
+            _ecsWorld.GetPool<PlayerMovementResultComponent>().Add(playerEntity);
+            _ecsWorld.GetPool<WarpTag>().Add(playerEntity);
             PlayerMovementView playerMovementView = playerGo.GetComponent<PlayerMovementView>();
             playerMovementView.Initialize(_ecsWorld, playerEntity);
             _pauseSystem.Register(playerMovementView);

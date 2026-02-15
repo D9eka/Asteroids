@@ -30,7 +30,7 @@ namespace Asteroids.Scripts.Ecs.Collision.Systems
             {
                 DestroyRequestComponent request = _destroyRequestPool.Get(entity);
                 _destroyRequestPool.Del(entity);
-    
+
                 if (_entityViewRegistry.TryGet(entity, out IDamageable damageable))
                 {
                     _entityViewRegistry.TryGet(request.KillerEntity, out IDamageable killer);

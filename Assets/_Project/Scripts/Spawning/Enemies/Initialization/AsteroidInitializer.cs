@@ -1,9 +1,9 @@
 ﻿using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Configs.Snapshot.Enemies;
 using Asteroids.Scripts.Ecs.Colliders.Services;
+using Asteroids.Scripts.Ecs.Warp.Components;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Pause;
-using Asteroids.Scripts.Spawning.Common.Core;
 using Asteroids.Scripts.Spawning.Enemies.Fragments;
 using Asteroids.Scripts.Spawning.Enemies.Movement;
 using Leopotam.EcsLite;
@@ -17,9 +17,8 @@ namespace Asteroids.Scripts.Spawning.Enemies.Initialization
 
         [Inject]
         public AsteroidInitializer(EcsWorld ecsWorld, EnemyCollisionService collisionService, IEnemyMovementConfigurator movementConfigurator, 
-            ISpawnBoundaryTracker spawnBoundaryTracker, IPauseSystem pauseSystem, 
-            IAsteroidFragmentFactory fragmentsFactory, EntityViewRegistry entityViewRegistry)
-            : base(ecsWorld, collisionService, movementConfigurator, spawnBoundaryTracker, pauseSystem, entityViewRegistry)
+            IPauseSystem pauseSystem, IAsteroidFragmentFactory fragmentsFactory, EntityViewRegistry entityViewRegistry)
+            : base(ecsWorld, collisionService, movementConfigurator, pauseSystem, entityViewRegistry)
         {
             _fragmentsFactory = fragmentsFactory;
         }
@@ -27,6 +26,7 @@ namespace Asteroids.Scripts.Spawning.Enemies.Initialization
         public override void Initialize(Asteroid asteroid, AsteroidTypeConfig config)
         {
             base.Initialize(asteroid, config);
+            EcsWorld.GetPool<WarpTag>().Add(asteroid.Id);
             if (asteroid.Initialized) return;
             asteroid.Initialize(_fragmentsFactory, config);
         }

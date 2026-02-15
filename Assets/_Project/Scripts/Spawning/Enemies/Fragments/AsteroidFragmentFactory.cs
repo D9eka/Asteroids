@@ -1,9 +1,8 @@
 ﻿using Asteroids.Scripts.Ecs.Components;
 using Asteroids.Scripts.Configs.Snapshot.Enemies.SpawnConfig;
+using Asteroids.Scripts.Ecs.Warp.Components;
 using Asteroids.Scripts.Enemies;
-using Asteroids.Scripts.Spawning.Common.Core;
 using Asteroids.Scripts.Spawning.Enemies.Initialization;
-using Asteroids.Scripts.Spawning.Enemies.Movement;
 using Asteroids.Scripts.Spawning.Enemies.Providers;
 using Leopotam.EcsLite;
 using UnityEngine;
@@ -15,22 +14,16 @@ namespace Asteroids.Scripts.Spawning.Enemies.Fragments
     {
         private readonly EcsWorld _ecsWorld;
         private readonly IPooledEnemyProvider<AsteroidFragment, EnemyTypeSpawnConfig> _enemyProvider;
-        private readonly IEnemyMovementConfigurator _movementConfigurator;
-        private readonly ISpawnBoundaryTracker _boundaryTracker;
         private readonly DefaultEnemyInitializer _initializer;
 
         [Inject]
         public AsteroidFragmentFactory(
             EcsWorld ecsWorld,
             IPooledEnemyProvider<AsteroidFragment, EnemyTypeSpawnConfig> provider,
-            IEnemyMovementConfigurator movementConfigurator,
-            ISpawnBoundaryTracker boundaryTracker,
             DefaultEnemyInitializer initializer)
         {
             _ecsWorld = ecsWorld;
             _enemyProvider = provider;
-            _movementConfigurator = movementConfigurator;
-            _boundaryTracker = boundaryTracker;
             _initializer = initializer;
         }
 
@@ -58,6 +51,7 @@ namespace Asteroids.Scripts.Spawning.Enemies.Fragments
             Vector2 pos = center + randomOffset * spawnConfig.FragmentPositionOffsetModifier;
             AsteroidFragment fragment = _enemyProvider.Spawn(pos);
             _initializer.Initialize(fragment, spawnConfig.Config);
+            _ecsWorld.GetPool<DestroyOnOutOfBoundsTag>().Add(fragment.Id);
             
             EcsPool<LinearDirectionComponent> linearDirectionComponentPool = _ecsWorld.GetPool<LinearDirectionComponent>();
             ref LinearDirectionComponent linearDirectionComponent = ref linearDirectionComponentPool.Get(fragment.Id);

@@ -4,9 +4,9 @@ using Asteroids.Scripts.Configs.Snapshot.Enemies;
 using Asteroids.Scripts.Damage;
 using Asteroids.Scripts.Ecs.Colliders.Components;
 using Asteroids.Scripts.Ecs.Colliders.Services;
+using Asteroids.Scripts.Ecs.Warp.Components;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Pause;
-using Asteroids.Scripts.Spawning.Common.Core;
 using Asteroids.Scripts.Spawning.Enemies.Movement;
 using Leopotam.EcsLite;
 using UnityEngine;
@@ -18,10 +18,11 @@ namespace Asteroids.Scripts.Spawning.Enemies.Initialization
         where TEnemy : IEnemy
         where TConfig : EnemyTypeConfig
     {
+        private const float MAX_REGISTRATION_TIME_SECONDS = 5f;
+        
         protected readonly EcsWorld EcsWorld;
         protected readonly ICollisionService CollisionService;
         protected readonly IEnemyMovementConfigurator MovementConfigurator;
-        protected readonly ISpawnBoundaryTracker SpawnBoundaryTracker;
         protected readonly IPauseSystem PauseSystem;
         protected readonly EntityViewRegistry EntityViewRegistry;
 
@@ -29,13 +30,11 @@ namespace Asteroids.Scripts.Spawning.Enemies.Initialization
         public EnemyInitializer(EcsWorld ecsWorld,
             EnemyCollisionService collisionService,
             IEnemyMovementConfigurator movementConfigurator,
-            ISpawnBoundaryTracker spawnBoundaryTracker,
             IPauseSystem pauseSystem, EntityViewRegistry entityViewRegistry)
         {
             EcsWorld = ecsWorld;
             CollisionService = collisionService;
             MovementConfigurator = movementConfigurator;
-            SpawnBoundaryTracker = spawnBoundaryTracker;
             PauseSystem = pauseSystem;
             EntityViewRegistry = entityViewRegistry;
         }
@@ -44,7 +43,6 @@ namespace Asteroids.Scripts.Spawning.Enemies.Initialization
         {
             enemy.SetType(config.Type);
             enemy.CollisionHandler.Initialize(CollisionService);
-            SpawnBoundaryTracker.RegisterObject(enemy.Transform);
             
             int enemyEntity = EcsWorld.NewEntity();
             GameObject enemyGo = enemy.Transform.gameObject;
@@ -56,9 +54,10 @@ namespace Asteroids.Scripts.Spawning.Enemies.Initialization
             
             EcsWorld.GetPool<EnemyTag>().Add(enemyEntity);
             EcsWorld.GetPool<DestroyOnHitTag>().Add(enemyEntity);
-            EcsPool<DamageSourceComponent> damageSourcesPool = EcsWorld.GetPool<DamageSourceComponent>();
-            ref DamageSourceComponent damageSourceComponent = ref damageSourcesPool.Add(enemyEntity);
+            ref DamageSourceComponent damageSourceComponent = ref EcsWorld.GetPool<DamageSourceComponent>().Add(enemyEntity);
             damageSourceComponent.Type = DamageType.Collide;
+            ref SpawnProtectionComponent spawnProtectionComponent = ref EcsWorld.GetPool<SpawnProtectionComponent>().Add(enemyEntity);
+            spawnProtectionComponent.RemainingTime = MAX_REGISTRATION_TIME_SECONDS;
             EntityViewRegistry.Register(enemyEntity, enemy);
         }
     }

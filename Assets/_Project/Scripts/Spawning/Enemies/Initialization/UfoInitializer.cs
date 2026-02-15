@@ -4,11 +4,11 @@ using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Configs.Snapshot.Enemies;
 using Asteroids.Scripts.Configs.Snapshot.Weapons.BulletGun;
 using Asteroids.Scripts.Ecs.Colliders.Services;
+using Asteroids.Scripts.Ecs.Warp.Components;
 using Asteroids.Scripts.Ecs.Weapons.Components;
 using Asteroids.Scripts.Ecs.Weapons.Services;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Pause;
-using Asteroids.Scripts.Spawning.Common.Core;
 using Asteroids.Scripts.Spawning.Enemies.Movement;
 using Asteroids.Scripts.Weapons.Projectile;
 using Asteroids.Scripts.Weapons.Types.BulletGun;
@@ -25,10 +25,12 @@ namespace Asteroids.Scripts.Spawning.Enemies.Initialization
         private readonly WeaponViewRegistry _weaponViewRegistry;
 
         [Inject]
-        public UfoInitializer(EcsWorld ecsWorld, EnemyCollisionService collisionService, IEnemyMovementConfigurator movementConfigurator,
-            ISpawnBoundaryTracker spawnBoundaryTracker, IPauseSystem pauseSystem, EntityViewRegistry entityViewRegistry, IProjectileFactory projectileFactory, 
-            WeaponShotAudioSpawner weaponShotAudioSpawner, BulletGunEffectSpawner bulletGunEffectSpawner, WeaponViewRegistry weaponViewRegistry)
-            : base(ecsWorld, collisionService, movementConfigurator, spawnBoundaryTracker, pauseSystem, entityViewRegistry)
+        public UfoInitializer(EcsWorld ecsWorld, EnemyCollisionService collisionService, 
+            IEnemyMovementConfigurator movementConfigurator, IPauseSystem pauseSystem, 
+            EntityViewRegistry entityViewRegistry, IProjectileFactory projectileFactory, 
+            WeaponShotAudioSpawner weaponShotAudioSpawner, BulletGunEffectSpawner bulletGunEffectSpawner, 
+            WeaponViewRegistry weaponViewRegistry)
+            : base(ecsWorld, collisionService, movementConfigurator, pauseSystem, entityViewRegistry)
         {
             _projectileFactory = projectileFactory;
             _weaponShotAudioSpawner = weaponShotAudioSpawner;
@@ -39,8 +41,8 @@ namespace Asteroids.Scripts.Spawning.Enemies.Initialization
         public override void Initialize(Ufo ufo, UfoTypeConfig config)
         {
             base.Initialize(ufo, config);
+            EcsWorld.GetPool<DestroyOnOutOfBoundsTag>().Add(ufo.Id);
             if (ufo.Initialized) return;
-
             BulletGun bulletGun = ufo.BulletGun;
             BulletGunConfig bulletGunConfig = config.BulletGunConfig;
             

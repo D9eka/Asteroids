@@ -39,7 +39,7 @@ using Asteroids.Scripts.UI;
 using Asteroids.Scripts.UI.Screens.GameplayScreen;
 using Asteroids.Scripts.UI.Screens.MainScreen;
 using Asteroids.Scripts.UI.Screens.ReviveScreen;
-using Asteroids.Scripts.WarpSystem;
+using Asteroids.Scripts.Ecs.Warp.Services;
 using Asteroids.Scripts.Weapons.Projectile;
 using Asteroids.Scripts.Weapons.Services.Raycast;
 using Leopotam.EcsLite;
@@ -126,7 +126,6 @@ namespace Asteroids.Scripts.Installers
             Container.Bind<float>().WithId(FloatInjectId.BoundsMargin).FromInstance(_boundsMargin).AsCached();
             Container.Bind<ICameraBoundsUpdater>().To<CameraBoundsUpdater>().AsSingle().NonLazy();
             Container.Bind<IBoundsWarp>().To<CameraBoundsWarp>().AsSingle().NonLazy();
-            Container.BindInterfacesTo<BoundsManager>().AsSingle().NonLazy();
         }
 
         private void InstallProjectilePool()
@@ -176,7 +175,6 @@ namespace Asteroids.Scripts.Installers
 
             Container.BindInterfacesTo<PoolableLifecycleManager<Pooling_IPoolable>>().AsSingle();
             Container.BindInterfacesTo<EnemyLifecycleManager>().AsSingle();
-            Container.BindInterfacesTo<SpawnBoundaryTracker>().AsSingle();
             Container.Bind<SpawnPointGenerator>().AsSingle();
             Container.Bind<IEnemyMovementConfigurator>()
                 .To<EnemyMovementConfigurator>()

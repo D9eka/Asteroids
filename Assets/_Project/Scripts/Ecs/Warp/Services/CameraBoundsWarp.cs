@@ -3,13 +3,13 @@ using Asteroids.Scripts.Core.InjectIds;
 using UnityEngine;
 using Zenject;
 
-namespace Asteroids.Scripts.WarpSystem
+namespace Asteroids.Scripts.Ecs.Warp.Services
 {
     public class CameraBoundsWarp : IBoundsWarp
     {
         private readonly ICameraBoundsUpdater _boundsUpdater;
-        private readonly float _boundsMargin;
-
+        
+        public float BoundsMargin { get; private set; }
         public Vector2 MinBounds => _boundsUpdater.MinBounds;
         public Vector2 MaxBounds => _boundsUpdater.MaxBounds;
 
@@ -18,22 +18,22 @@ namespace Asteroids.Scripts.WarpSystem
             [Inject(Id = FloatInjectId.BoundsMargin)] float boundsMargin)
         {
             _boundsUpdater = boundsUpdater;
-            _boundsMargin = boundsMargin;
+            BoundsMargin = boundsMargin;
         }
 
         public void WarpObject(Transform obj)
         {
             Vector3 pos = obj.position;
 
-            if (pos.x < MinBounds.x - _boundsMargin)
-                pos.x = MaxBounds.x + _boundsMargin;
-            else if (pos.x > MaxBounds.x + _boundsMargin)
-                pos.x = MinBounds.x - _boundsMargin;
+            if (pos.x < MinBounds.x - BoundsMargin)
+                pos.x = MaxBounds.x + BoundsMargin;
+            else if (pos.x > MaxBounds.x + BoundsMargin)
+                pos.x = MinBounds.x - BoundsMargin;
 
-            if (pos.y < MinBounds.y - _boundsMargin)
-                pos.y = MaxBounds.y + _boundsMargin;
-            else if (pos.y > MaxBounds.y + _boundsMargin)
-                pos.y = MinBounds.y - _boundsMargin;
+            if (pos.y < MinBounds.y - BoundsMargin)
+                pos.y = MaxBounds.y + BoundsMargin;
+            else if (pos.y > MaxBounds.y + BoundsMargin)
+                pos.y = MinBounds.y - BoundsMargin;
 
             obj.position = pos;
         }
