@@ -4,6 +4,7 @@
     {
         Bullet,
         Laser,
-        Collide
+        Collide,
+        Timeout
     }
 }

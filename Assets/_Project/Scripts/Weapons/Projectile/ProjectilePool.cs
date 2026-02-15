@@ -1,7 +1,5 @@
-﻿using Asteroids.Scripts.Collision;
-using Asteroids.Scripts.Configs.Snapshot.Weapons.Projectile;
-using Asteroids.Scripts.Damage;
-using Asteroids.Scripts.Ecs.Colliders.Services;
+﻿using Asteroids.Scripts.Ecs.Colliders.Services;
+using Asteroids.Scripts.Ecs.Views;
 using Leopotam.EcsLite;
 using UnityEngine;
 using Zenject;
@@ -30,7 +28,8 @@ namespace Asteroids.Scripts.Weapons.Projectile
             item.transform.position = data.Position;
             item.transform.rotation = data.Rotation;
             _entityViewRegistry.Register(data.Id, item);
-            item.Initialize(this, data.Id, data.Config, data.DamageInfo, data.CollisionService);
+            item.Initialize(this, data.Id, data.CollisionService);
+            item.GetComponent<ProjectileMovementView>().Initialize(_ecsWorld, data.Id);
         }
 
         protected override void OnDespawned(Projectile item)

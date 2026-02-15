@@ -13,17 +13,15 @@ namespace Asteroids.Scripts.Weapons.Projectile
         public Vector3 Position { get; private set; }
         public Quaternion Rotation { get; private set; }
         public ProjectileConfig Config { get; private set; }
-        public DamageInfo DamageInfo { get; private set; }
         public ICollisionService CollisionService { get; private set; }
 
         public ProjectilePoolData(int id, Vector3 position, Quaternion rotation, 
-            ProjectileConfig config, DamageInfo damageInfo, ICollisionService collisionService)
+            ProjectileConfig config, ICollisionService collisionService)
         {
             Id = id;
             Position = position;
             Rotation = rotation;
             Config = config;
-            DamageInfo = damageInfo;
             CollisionService = collisionService;
         }
     }

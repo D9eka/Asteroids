@@ -39,6 +39,7 @@ namespace Asteroids.Scripts.Ecs
                 .Add(new VelocityRotationSystem())
                 .Add(new TargetRotationSystem())
                 .Add(new DamageSystem())
+                .Add(new LifeTimeSystem())
                 .Add(new DestroySystem(_container.Resolve<EntityViewRegistry>()))
                 .Init();
         }

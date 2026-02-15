@@ -55,7 +55,7 @@ namespace Asteroids.Scripts.Spawning.Enemies.Pooling
 
         private void OnPoolableDespawned(Pooling_IPoolable poolable)
         {
-            if (poolable is IEnemy enemy)
+            if (poolable is IEnemy enemy && enemy.Id >= 0)
             {
                 enemy.OnKilled -= HandleEnemyKilled;
                 _entityViewRegistry.Unregister(enemy.Id);

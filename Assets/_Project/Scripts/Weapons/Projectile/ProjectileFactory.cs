@@ -5,6 +5,7 @@ using Asteroids.Scripts.Ecs;
 using Asteroids.Scripts.Ecs.Colliders.Components;
 using Asteroids.Scripts.Ecs.Colliders.Services;
 using Asteroids.Scripts.Ecs.Components;
+using Asteroids.Scripts.Ecs.Views;
 using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Spawning.Common.Pooling;
 using Leopotam.EcsLite;
@@ -50,7 +51,7 @@ namespace Asteroids.Scripts.Weapons.Projectile
             
             int projectileEntity = _ecsWorld.NewEntity();
             ProjectilePoolData data = new ProjectilePoolData(
-                projectileEntity, position, rotation, config, damageInfo, collisionService);
+                projectileEntity, position, rotation, config, collisionService);
             Projectile projectile = _pool.Spawn(data);
             
             ref LinearDirectionComponent linearDirectionComponent = ref _linearDirectionPool.Add(projectileEntity);
@@ -59,7 +60,6 @@ namespace Asteroids.Scripts.Weapons.Projectile
             velocityMovementComponent.Velocity = config.Speed;
             _velocityResultPool.Add(projectileEntity);
             
-            _pauseSystem.Register(projectile);
             _lifecycleManager.Register(projectile, _pool);
             
             _ecsWorld.GetPool<ProjectileTag>().Add(projectileEntity);
@@ -70,6 +70,10 @@ namespace Asteroids.Scripts.Weapons.Projectile
             EcsPool<OwnerComponent> ownerComponentsPool = _ecsWorld.GetPool<OwnerComponent>();
             ref OwnerComponent ownerComponent = ref ownerComponentsPool.Add(projectileEntity);
             ownerComponent.OwnerEntity = damageInfo.InstigatorEntity.Id;
+            _pauseSystem.Register(projectile.GetComponent<ProjectileMovementView>());
+            EcsPool<LifeTimeComponent> lifeTimesPool = _ecsWorld.GetPool<LifeTimeComponent>();
+            ref LifeTimeComponent lifeTimeComponent = ref lifeTimesPool.Add(projectileEntity);
+            lifeTimeComponent.RemainingTime = config.LifeTime;
         }
     }
 }

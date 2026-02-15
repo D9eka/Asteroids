@@ -5,50 +5,29 @@ using UnityEngine;
 
 namespace Asteroids.Scripts.Weapons.Projectile
 {
-    [RequireComponent(typeof(Rigidbody2D), typeof(CollisionHandler))]
+    [RequireComponent(typeof(CollisionHandler))]
     public class Projectile : MonoBehaviour, IProjectile, IDamageable
     {
         private ProjectilePool _pool;
-        private float _speed;
-        private float _lifeTime;
-        private bool _isEnabled;
-        private DamageInfo _damageInfo;
         
-        private Rigidbody2D _rb;
         private CollisionHandler _collisionHandler;
         
         public Transform Transform => transform;
         public int Id { get; private set; }
-        public bool Enabled => gameObject.activeSelf;
+        public bool Enabled => this != null && gameObject.activeSelf;
 
         private void Awake()
         {
-            _rb = GetComponent<Rigidbody2D>();
             _collisionHandler = GetComponent<CollisionHandler>();
         }
 
-        private void Update()
-        {
-            if (!_isEnabled) return;
-            
-            _lifeTime -= Time.deltaTime;
-            if (_lifeTime <= 0)
-                _pool.Despawn(this);
-        }
-
-        public void Initialize(ProjectilePool pool, int id,
-            ProjectileConfig config, DamageInfo damageInfo, ICollisionService collisionService)
+        public void Initialize(ProjectilePool pool, int id, ICollisionService collisionService)
         {
             _pool = pool;
             Id = id;
-            _speed = config.Speed;
-            _lifeTime = config.LifeTime;
-            _damageInfo = damageInfo;
             _collisionHandler.Initialize(collisionService);
             
-            _rb.linearVelocity = transform.up * _speed;
             gameObject.SetActive(true);
-            _isEnabled = true;
         }
         
         public void SetId(int id)
@@ -62,19 +41,6 @@ namespace Asteroids.Scripts.Weapons.Projectile
         public void TakeDamage(DamageInfo damageInfo)
         {
             _pool.Despawn(this);
-        }
-
-        public void Pause()
-        {
-            _isEnabled = false;
-            _rb.linearVelocity = Vector2.zero;
-            _rb.angularVelocity = 0f;
-        }
-
-        public void Resume()
-        {
-            _rb.linearVelocity = transform.up * _speed;
-            _isEnabled = true;
         }
     }
 }

@@ -9,9 +9,8 @@ using Leopotam.EcsLite;
 
 namespace Asteroids.Scripts.Weapons.Projectile
 {
-    public interface IProjectile : IPoolable, IPausable, IEcsEntity
+    public interface IProjectile : IPoolable, IEcsEntity
     {
-        public void Initialize(ProjectilePool pool, int id,
-            ProjectileConfig config, DamageInfo damageInfo, ICollisionService collisionService);
+        public void Initialize(ProjectilePool pool, int id, ICollisionService collisionService);
     }
 }
