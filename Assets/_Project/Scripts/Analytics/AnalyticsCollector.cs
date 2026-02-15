@@ -1,5 +1,5 @@
 ﻿using System;
-using Asteroids.Scripts.Ecs;
+using Asteroids.Scripts.Damage;
 using Asteroids.Scripts.Enemies;
 using Asteroids.Scripts.Spawning.Enemies.Pooling;
 using Asteroids.Scripts.Weapons.Core;
@@ -53,7 +53,7 @@ namespace Asteroids.Scripts.Analytics
         {
             Analytics = new AnalyticsData();
         }
-        private void EnemyLifecycleManagerOnEnemyKilled(IEcsEntity instigatorEntity, IEnemy enemy)
+        private void EnemyLifecycleManagerOnEnemyKilled(DamageInfo damageInfo, IEnemy enemy)
         {
             switch (enemy)
             {

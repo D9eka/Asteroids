@@ -1,5 +1,5 @@
 ﻿using System;
-using Asteroids.Scripts.Ecs;
+using Asteroids.Scripts.Damage;
 using Asteroids.Scripts.Ecs.Colliders.Services;
 using Asteroids.Scripts.Effects.Explosion;
 using Asteroids.Scripts.Enemies;
@@ -12,7 +12,7 @@ namespace Asteroids.Scripts.Spawning.Enemies.Pooling
 {
     public class EnemyLifecycleManager : IEnemyLifecycleManager, IInitializable, IDisposable
     {
-        public event Action<IEcsEntity, IEnemy> OnEnemyKilled; 
+        public event Action<DamageInfo, IEnemy> OnEnemyKilled;
         
         private readonly IPoolableLifecycleManager<Pooling_IPoolable> _poolLifecycle;
         private readonly EcsWorld _ecsWorld;
@@ -47,10 +47,10 @@ namespace Asteroids.Scripts.Spawning.Enemies.Pooling
             _explosionEffectSpawner.AddEnemy(enemy);
         }
 
-        private void HandleEnemyKilled(IEcsEntity instigatorEntity, IEnemy enemy)
+        private void HandleEnemyKilled(DamageInfo damageInfo, IEnemy enemy)
         {
             _poolLifecycle.Despawn(enemy);
-            OnEnemyKilled?.Invoke(instigatorEntity, enemy);
+            OnEnemyKilled?.Invoke(damageInfo, enemy);
         }
 
         private void OnPoolableDespawned(Pooling_IPoolable poolable)
@@ -58,6 +58,7 @@ namespace Asteroids.Scripts.Spawning.Enemies.Pooling
             if (poolable is IEnemy enemy && enemy.Id >= 0)
             {
                 enemy.OnKilled -= HandleEnemyKilled;
+                _explosionEffectSpawner.RemoveEnemy(enemy);
                 _entityViewRegistry.Unregister(enemy.Id);
                 _ecsWorld.DelEntity(enemy.Id);
                 enemy.SetId(-1);

@@ -1,7 +1,6 @@
 ﻿using System;
 using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Damage;
-using Asteroids.Scripts.Ecs;
 using Asteroids.Scripts.Ecs.Weapons.Components;
 using Asteroids.Scripts.Weapons.Types.BulletGun;
 using Leopotam.EcsLite;
@@ -11,7 +10,7 @@ namespace Asteroids.Scripts.Enemies
 {
     public class Ufo : MonoBehaviour, IEnemy
     {
-        public event Action<IEcsEntity, IEnemy> OnKilled;
+        public event Action<DamageInfo, IEnemy> OnKilled;
         
         [field: SerializeField] public CollisionHandler CollisionHandler { get; private set; }
         [field: SerializeField] public BulletGun BulletGun { get; private set; }
@@ -61,7 +60,7 @@ namespace Asteroids.Scripts.Enemies
 
         public void TakeDamage(DamageInfo damageInfo)
         {
-            OnKilled?.Invoke(damageInfo.InstigatorEntity, this);
+            OnKilled?.Invoke(damageInfo, this);
         }
     }
 }

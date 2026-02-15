@@ -5,14 +5,13 @@ using Asteroids.Scripts.Configs.Snapshot.Enemies.SpawnConfig;
 using Asteroids.Scripts.Damage;
 using Asteroids.Scripts.Ecs;
 using Asteroids.Scripts.Spawning.Enemies.Fragments;
-using Asteroids.Scripts.WarpSystem;
 using UnityEngine;
 
 namespace Asteroids.Scripts.Enemies
 {
-    public class Asteroid : MonoBehaviour, IEnemy, IWarpable
+    public class Asteroid : MonoBehaviour, IEnemy
     {
-        public event Action<IEcsEntity, IEnemy> OnKilled;
+        public event Action<DamageInfo, IEnemy> OnKilled;
 
         [field: SerializeField] public CollisionHandler CollisionHandler { get; private set; }
         private IAsteroidFragmentFactory _fragmentsFactory;
@@ -50,7 +49,7 @@ namespace Asteroids.Scripts.Enemies
             {
                 SpawnFragments(damageInfo.InstigatorEntity);
             }
-            OnKilled?.Invoke(damageInfo.InstigatorEntity, this);
+            OnKilled?.Invoke(damageInfo, this);
         }
 
         private void SpawnFragments(IEcsEntity instigatorEntity)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Asteroids.Scripts.Configs.Snapshot.Score;
+using Asteroids.Scripts.Damage;
 using Asteroids.Scripts.Ecs;
 using Asteroids.Scripts.Ecs.Colliders.Components;
 using Asteroids.Scripts.Enemies;
@@ -48,10 +49,10 @@ namespace Asteroids.Scripts.Score
             _config = scoreConfig.ScoreByConfig;
         }
 
-        public void AddScore(IEcsEntity instigatorEntity, IEnemy enemy)
-         {
-            if (!CanAddScoreToKiller(instigatorEntity)) return;
-            
+        public void AddScore(DamageInfo damageInfo, IEnemy enemy)
+        {
+            if (!CanAddScoreToKiller(damageInfo.InstigatorEntity)) return;
+
             int points = CalculatePoints(enemy);
             _totalScore.Value += points;
         }
@@ -70,8 +71,16 @@ namespace Asteroids.Scripts.Score
         {
             if (instigatorEntity == null) return false;
             int entityId = instigatorEntity.Id;
-            return _playerTagPool.Has(entityId) || _ownerComponentPool.Has(entityId) && 
-                _playerTagPool.Has(_ownerComponentPool.Get(entityId).OwnerEntity);
+            if (!IsEntityAlive(entityId)) return false;
+            if (_playerTagPool.Has(entityId)) return true;
+            if (!_ownerComponentPool.Has(entityId)) return false;
+            int ownerEntity = _ownerComponentPool.Get(entityId).OwnerEntity;
+            return IsEntityAlive(ownerEntity) && _playerTagPool.Has(ownerEntity);
+        }
+
+        private bool IsEntityAlive(int entityId)
+        {
+            return entityId >= 0 && _ecsWorld.GetEntityGen(entityId) > 0;
         }
     }
 }
