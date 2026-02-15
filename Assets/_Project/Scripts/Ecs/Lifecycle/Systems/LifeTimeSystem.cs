@@ -1,10 +1,10 @@
 ﻿using Asteroids.Scripts.Damage;
 using Asteroids.Scripts.Ecs.Colliders.Components;
-using Asteroids.Scripts.Ecs.Components;
+using Asteroids.Scripts.Ecs.Lifecycle.Components;
 using Leopotam.EcsLite;
 using UnityEngine;
 
-namespace Asteroids.Scripts.Ecs.Systems
+namespace Asteroids.Scripts.Ecs.Lifecycle.Systems
 {
     public class LifeTimeSystem : IEcsInitSystem, IEcsRunSystem
     {

@@ -1,4 +1,4 @@
-﻿namespace Asteroids.Scripts.Ecs.Components
+﻿namespace Asteroids.Scripts.Ecs.Player.Components
 {
     public struct PlayerInputComponent
     {

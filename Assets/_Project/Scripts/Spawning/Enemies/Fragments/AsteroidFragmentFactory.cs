@@ -1,4 +1,4 @@
-﻿using Asteroids.Scripts.Ecs.Components;
+﻿using Asteroids.Scripts.Ecs.Movement.Components;
 using Asteroids.Scripts.Configs.Snapshot.Enemies.SpawnConfig;
 using Asteroids.Scripts.Ecs.Warp.Components;
 using Asteroids.Scripts.Enemies;

@@ -2,7 +2,9 @@
 using Asteroids.Scripts.Configs.Runtime;
 using Asteroids.Scripts.Ecs.Colliders.Services;
 using Asteroids.Scripts.Ecs.Collision.Systems;
-using Asteroids.Scripts.Ecs.Systems;
+using Asteroids.Scripts.Ecs.Lifecycle.Systems;
+using Asteroids.Scripts.Ecs.Movement.Systems;
+using Asteroids.Scripts.Ecs.Player.Systems;
 using Asteroids.Scripts.Ecs.Warp.Systems;
 using Asteroids.Scripts.Ecs.Weapons.Services;
 using Asteroids.Scripts.Ecs.Weapons.Systems;
@@ -55,7 +57,7 @@ namespace Asteroids.Scripts.Ecs
                 .Add(new VelocityRotationSystem())
                 .Add(new TargetRotationSystem())
                 .Add(new SpawnProtectionSystem(boundsWarp))
-                .Add(new Warp.Systems.WarpSystem(boundsWarp))
+                .Add(new WarpSystem(boundsWarp))
                 .Add(new DamageSystem())
                 .Add(new LifeTimeSystem())
                 .Add(new BulletGunSystem(weaponViewRegistry))

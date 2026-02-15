@@ -1,4 +1,4 @@
-﻿using Asteroids.Scripts.Ecs.Views;
+﻿using Asteroids.Scripts.Ecs.Movement.Views;
 using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Configs.Snapshot.Enemies;
 using Asteroids.Scripts.Damage;

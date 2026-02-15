@@ -1,6 +1,7 @@
 ﻿using System;
-using Asteroids.Scripts.Ecs.Components;
-using Asteroids.Scripts.Ecs.Views;
+using Asteroids.Scripts.Ecs.Movement.Components;
+using Asteroids.Scripts.Ecs.Player.Components;
+using Asteroids.Scripts.Ecs.Player.Views;
 using Asteroids.Scripts.Addressable;
 using Asteroids.Scripts.Collision;
 using Asteroids.Scripts.Configs.Runtime;

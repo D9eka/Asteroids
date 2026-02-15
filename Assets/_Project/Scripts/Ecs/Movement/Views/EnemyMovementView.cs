@@ -1,9 +1,9 @@
-﻿using Asteroids.Scripts.Ecs.Components;
+﻿using Asteroids.Scripts.Ecs.Movement.Components;
 using Asteroids.Scripts.Ecs.Warp.Components;
 using Asteroids.Scripts.Movement;
 using Leopotam.EcsLite;
 
-namespace Asteroids.Scripts.Ecs.Views
+namespace Asteroids.Scripts.Ecs.Movement.Views
 {
     public class EnemyMovementView : MovementBase
     {

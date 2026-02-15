@@ -1,6 +1,5 @@
 ﻿using Asteroids.Scripts.Configs.Snapshot.Score;
 using Asteroids.Scripts.Damage;
-using Asteroids.Scripts.Ecs;
 using Asteroids.Scripts.Enemies;
 using UniRx;
 

@@ -1,8 +1,8 @@
-﻿using Asteroids.Scripts.Ecs.Components;
+﻿using Asteroids.Scripts.Ecs.Movement.Components;
 using Leopotam.EcsLite;
 using UnityEngine;
 
-namespace Asteroids.Scripts.Ecs.Systems
+namespace Asteroids.Scripts.Ecs.Movement.Systems
 {
     public class TargetDirectionSystem : IEcsInitSystem, IEcsRunSystem
     {

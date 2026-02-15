@@ -1,10 +1,11 @@
-﻿using Asteroids.Scripts.Ecs.Components;
+﻿using Asteroids.Scripts.Ecs.Movement.Components;
+using Asteroids.Scripts.Ecs.Player.Components;
 using Asteroids.Scripts.Ecs.Warp.Components;
 using Asteroids.Scripts.Movement;
 using Leopotam.EcsLite;
 using UnityEngine;
 
-namespace Asteroids.Scripts.Ecs.Views
+namespace Asteroids.Scripts.Ecs.Player.Views
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerMovementView : MovementBase

@@ -1,4 +1,4 @@
-﻿using Asteroids.Scripts.Ecs.Components;
+﻿using Asteroids.Scripts.Ecs.Player.Components;
 using Asteroids.Scripts.Ecs.Weapons.Components;
 using Leopotam.EcsLite;
 

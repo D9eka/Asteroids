@@ -1,6 +1,6 @@
 using Asteroids.Scripts.Damage;
 using Asteroids.Scripts.Ecs.Colliders.Components;
-using Asteroids.Scripts.Ecs.Components;
+using Asteroids.Scripts.Ecs.Movement.Components;
 using Asteroids.Scripts.Ecs.Warp.Components;
 using Asteroids.Scripts.Ecs.Warp.Services;
 using Leopotam.EcsLite;

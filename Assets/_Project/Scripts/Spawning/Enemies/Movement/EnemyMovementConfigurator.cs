@@ -1,5 +1,5 @@
 ﻿using System;
-using Asteroids.Scripts.Ecs.Components;
+using Asteroids.Scripts.Ecs.Movement.Components;
 using Asteroids.Scripts.Camera;
 using Asteroids.Scripts.Configs.Snapshot.Enemies;
 using Asteroids.Scripts.Configs.Snapshot.Movement.Direction;

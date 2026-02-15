@@ -2,8 +2,9 @@
 using Asteroids.Scripts.Configs.Snapshot.Weapons.Projectile;
 using Asteroids.Scripts.Damage;
 using Asteroids.Scripts.Ecs.Colliders.Components;
-using Asteroids.Scripts.Ecs.Components;
-using Asteroids.Scripts.Ecs.Views;
+using Asteroids.Scripts.Ecs.Lifecycle.Components;
+using Asteroids.Scripts.Ecs.Movement.Components;
+using Asteroids.Scripts.Ecs.Movement.Views;
 using Asteroids.Scripts.Pause;
 using Asteroids.Scripts.Spawning.Common.Pooling;
 using Leopotam.EcsLite;

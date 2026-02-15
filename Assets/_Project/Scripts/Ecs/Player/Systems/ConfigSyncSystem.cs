@@ -1,9 +1,9 @@
 ﻿using Asteroids.Scripts.Configs.Runtime;
 using Asteroids.Scripts.Configs.Snapshot.Player;
-using Asteroids.Scripts.Ecs.Components;
+using Asteroids.Scripts.Ecs.Player.Components;
 using Leopotam.EcsLite;
 
-namespace Asteroids.Scripts.Ecs.Systems
+namespace Asteroids.Scripts.Ecs.Player.Systems
 {
     public class ConfigSyncSystem : IEcsInitSystem
     {

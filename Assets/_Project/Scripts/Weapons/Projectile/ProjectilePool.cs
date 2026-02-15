@@ -1,5 +1,5 @@
 ﻿using Asteroids.Scripts.Ecs.Colliders.Services;
-using Asteroids.Scripts.Ecs.Views;
+using Asteroids.Scripts.Ecs.Movement.Views;
 using Leopotam.EcsLite;
 using UnityEngine;
 using Zenject;
